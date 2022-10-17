@@ -19,6 +19,7 @@
 			<li><a class="copyfile">复制到</a></li>
 			<li><a class="menurename">重命名</a></li>
 			<li><a onclick="{return confirm('文件将放入回收站，确定删除吗？');};" class="delete">删除</a></li>
+			<li><a class="submits">提交</a></li>
 		</#if>
 	</ul>
 </div>

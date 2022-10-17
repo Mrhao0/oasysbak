@@ -92,7 +92,6 @@ a:hover {
 							<#if isread??>
 								<table class="table table-hover table-striped">
 									<tr>
-										
 										<th scope="col">&nbsp;</th>
 										<th scope="col">真实姓名</th>
 										<th scope="col">用户名</th>

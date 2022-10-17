@@ -58,7 +58,7 @@ public class InformRelationService {
 			map.put("statusColor", statusDao.findOne((Long) map.get("status_id")).getStatusColor());
 			map.put("userName", uDao.findOne((Long) map.get("user_id")).getUserName());
 			map.put("deptName", uDao.findOne((Long) map.get("user_id")).getDept().getDeptName());
-			map.put("contain",this.isForward((Long)map.get("relatin_notice_id"), (Long)map.get("relatin_user_id")));
+			map.put("contain",this.isForward((Long)map.get("notice_id"), (Long)map.get("user_id")));
 		}
 		return list;
 	}

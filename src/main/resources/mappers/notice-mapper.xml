@@ -10,6 +10,26 @@
 		n.notice_id=u.relatin_notice_id WHERE u.relatin_user_id=#{userId} ORDER BY
 		n.is_top DESC,u.is_read ASC ,n.modify_time DESC
 	</select>
+
+	<select id="findMyNotices1" resultType="java.util.Map">
+		SELECT * FROM aoa_notice_list n
+						  LEFT JOIN aoa_user u ON n.user_id = u.user_id
+						  LEFT JOIN aoa_dept d ON u.dept_id = d.dept_id
+						  LEFT JOIN aoa_type_list t on n.type_id=t.type_id
+						  LEFT JOIN aoa_status_list s on n.status_id=s.status_id
+						  LEFT JOIN aoa_position p on u.position_id=p.position_id
+		WHERE n.status_id = 6 AND n.user_id = #{userId}
+	</select>
+
+	<select id="findMyNotices2" resultType="java.util.Map">
+		SELECT * FROM aoa_notice_list n
+						  LEFT JOIN aoa_user u ON n.user_id = u.user_id
+						  LEFT JOIN aoa_dept d ON u.dept_id = d.dept_id
+						  LEFT JOIN aoa_type_list t on n.type_id=t.type_id
+						  LEFT JOIN aoa_status_list s on n.status_id=s.status_id
+						  LEFT JOIN aoa_position p on u.position_id=p.position_id
+		WHERE n.status_id = 6
+	</select>
 	
 	<!-- 在控制面板限制条数为5 -->
 	<select id="findMyNoticeLimit" resultType="java.util.Map">

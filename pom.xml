@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>cn.gson</groupId>
 	<artifactId>oasys</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-<!--	<packaging>war</packaging>-->
+	<!--	<packaging>war</packaging>-->
 
 	<name>oasys</name>
 	<description>Demo project for Spring Boot</description>
@@ -64,21 +64,21 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 			<!-- 移除嵌入式tomcat插件 -->
-<!--			<exclusions>-->
-<!--				<exclusion>-->
-<!--					<groupId>org.springframework.boot</groupId>-->
-<!--					<artifactId>spring-boot-starter-tomcat</artifactId>-->
-<!--				</exclusion>-->
-<!--			</exclusions>-->
+			<!--			<exclusions>-->
+			<!--				<exclusion>-->
+			<!--					<groupId>org.springframework.boot</groupId>-->
+			<!--					<artifactId>spring-boot-starter-tomcat</artifactId>-->
+			<!--				</exclusion>-->
+			<!--			</exclusions>-->
 		</dependency>
 
 		<!--  移除嵌入式tomcat插件 ，加入tocat-serlet 依赖		-->
-<!--		<dependency>-->
-<!--			<groupId>org.apache.tomcat</groupId>-->
-<!--			<artifactId>tomcat-servlet-api</artifactId>-->
-<!--			<version>8.0.36</version>-->
-<!--			<scope>provided</scope>-->
-<!--		</dependency>-->
+		<!--		<dependency>-->
+		<!--			<groupId>org.apache.tomcat</groupId>-->
+		<!--			<artifactId>tomcat-servlet-api</artifactId>-->
+		<!--			<version>8.0.36</version>-->
+		<!--			<scope>provided</scope>-->
+		<!--		</dependency>-->
 
 		<dependency>
 			<groupId>mysql</groupId>
@@ -140,10 +140,10 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <!-- 如果不设置fork,那么不会restart,devtools热部署不会起作用-->
-                    <fork>true</fork>
-                </configuration>
+				<configuration>
+					<!-- 如果不设置fork,那么不会restart,devtools热部署不会起作用-->
+					<fork>true</fork>
+				</configuration>
 				<!--热加载 -->
 				<dependencies>
 					<dependency>

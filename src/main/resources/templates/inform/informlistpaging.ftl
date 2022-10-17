@@ -20,70 +20,92 @@
 	<div class="box-body no-padding">
 		<div class="table-responsive">
 			<table class="table table-hover">
-				<tr>
-					<th scope="col"><span class="paixu thistype">类型
+				<tr >
+					<th style="text-align: center" scope="col"><span class="paixu thistype">类型
 						<#if type?? && icon??>
 						<span class="glyphicon ${icon}"></span>
 						</#if>
 						</span></th>
-					<th scope="col"><span class="paixu thisstatus">状态
+					<th style="text-align: center" scope="col"><span class="paixu thisstatus">状态
 						<#if status?? && icon??>
 							<span class="glyphicon ${icon}"></span>
 						</#if>
 						</span></th>
-					<th scope="col">标题</th>
-					<th scope="col"><span class="paixu thistime">发布时间
+					<th style="text-align: center" scope="col">标题</th>
+					<th style="text-align: center" scope="col"><span class="paixu thistime">发布时间
 						<#if time?? && icon??>
 							<span class="glyphicon ${icon}"></span>
 						</#if>
 						</span></th>
-					<th scope="col">发布人</th>
-					<th scope="col">部门</th>
-					<th scope="col">置顶</th>
-					<th scope="col">链接</th>
-					<th scope="col">操作</th>
+					<th style="text-align: center" scope="col">发布人</th>
+					<th style="text-align: center" scope="col">部门</th>
+					<th style="text-align: center" scope="col">置顶</th>
+					<th style="text-align: center" scope="col">链接</th>
+					<th style="text-align: center" scope="col">操作</th>
 				</tr>
+
+
 				<#list list as this>
 				<tr>
-					
-					<td>${this.type}</td>
-					<td><span class="label ${(this.statusColor)!''}">${this.status}</span></td>
-					<#if this.is_read==0>
-					<td class="c"><span>${(this.title)!''}</span></td>
-					<#else>
-					<td><span>${(this.title)!''}</span></td>
-					</#if>
-					<td><span>${this.notice_time}</span></td>
-					<td><span>${this.userName}</span></td>
-					<td><span>${this.deptName}</span></td>
-					<#if this.is_top==1>
-					<td><span class="labels"><label><input
-								type="checkbox" checked disabled><i>✓</i></label></span></td>
-					<#else>
-					<td><span class="labels"><label><input
-								type="checkbox" disabled><i>✓</i></label></span></td></#if>
-					<#if this.url!=''>
-					<td><span class="glyphicon glyphicon-link"></span></td>
-					<#else>
-					<td><span class="labels"></span></td></#if>
-					<td><a href="informshow?id=${this.notice_id}&read=${this.is_read}&relationid=${this.relatin_id}"
-						class="label xiugai chakan"><span class="glyphicon glyphicon-search"></span>
-							查看</a> 
-							<#if this.contain!=1>
-								<#if this.contain==3>
-									<a href="forwardother?noticeId=${this.notice_id}" onclick="{return confirm('确定转发给自己的下属吗？');};" class="label xinzeng chakan forwardthis"><span class="glyphicon glyphicon-log-out"></span>
-									转发</a> 
-								<#else>
-									<a href="javascript:void(0);" class="label sheding chakan"><span class="glyphicon glyphicon-log-out"></span>
-									已转发</a> 
-								</#if>
-							</#if>
-							<#if this.is_read==0> 
-							<#else> 
-							<a onclick="{return confirm('删除该记录将不能恢复，确定删除吗？');};"
-							href="informlistdelete?id=${this.notice_id}" class="label shanchu"> 
-							<span class="glyphicon glyphicon-remove"></span> 删除
-						</a></#if></td>
+					<td style="text-align: center"><span class="label ${(this.statusColor)!''}" style="background: #ccc;color: black">${this.status}</span></td>
+					<td style="text-align: center"><span class="label ${(this.statusColor)!''}">待审核</span></td>
+					<td style="text-align: center"><span>${this.title}</span></td>
+					<td style="text-align: center"><span>${this.modify_time}</span></td>
+					<td style="text-align: center"><span>${this.userName}</span></td>
+					<td style="text-align: center"><span>${this.deptName}</span></td>
+
+					<td style="text-align: center"><span></span></td>
+					<td style="text-align: center"><span></span></td>
+
+					<td style="text-align: center">
+						<a onclick="{console.log(${this.notice_id});};" href="" class="label xiugai chakan" style="font-size: 13px" id="${this.notice_id}">查看</a>
+						<#if positionid?if_exists?number==1>
+<#--							<a onclick="{console.log(${this.notice_id},$(this).parents('tr'));return confirm('删除该记录将不能恢复，确定删除吗？');};" href="" class="label shanchu"  style="font-size: 13px" id="${this.notice_id}">删除</a>-->
+							<a onclick="{console.log(${this.notice_id},$(this).parents('tr'));};" href="" class="label xinzeng chakan forwardthis" style="font-size: 13px">审核</a>
+						</#if>
+					</td>
+
+
+
+
+                                                <#--<td>${this}</td>-->
+<#--					<td><span class="label ${(this.statusColor)!''}">${this.status}</span></td>-->
+<#--					<#if this.is_read==0>-->
+<#--					<td class="c"><span>${(this.title)!''}</span></td>-->
+<#--					<#else>-->
+<#--					<td><span>${(this.title)!''}</span></td>-->
+<#--					</#if>-->
+<#--					<td><span>${this.notice_time}</span></td>-->
+<#--					<td><span>${this.userName}</span></td>-->
+<#--					<td><span>${this.deptName}</span></td>-->
+<#--					<#if this.is_top==1>-->
+<#--					<td><span class="labels"><label><input-->
+<#--								type="checkbox" checked disabled><i>✓</i></label></span></td>-->
+<#--					<#else>-->
+<#--					<td><span class="labels"><label><input-->
+<#--								type="checkbox" disabled><i>✓</i></label></span></td></#if>-->
+<#--					<#if this.url!=''>-->
+<#--					<td><span class="glyphicon glyphicon-link"></span></td>-->
+<#--					<#else>-->
+<#--					<td><span class="labels"></span></td></#if>-->
+<#--					<td><a href="informshow?id=${this.notice_id}&read=${this.is_read}&relationid=${this.relatin_id}"-->
+<#--						class="label xiugai chakan"><span class="glyphicon glyphicon-search"></span>-->
+<#--							查看</a> -->
+<#--							<#if this.contain!=1>-->
+<#--								<#if this.contain==3>-->
+<#--									<a href="forwardother?noticeId=${this.notice_id}" onclick="{return confirm('确定转发给自己的下属吗？');};" class="label xinzeng chakan forwardthis"><span class="glyphicon glyphicon-log-out"></span>-->
+<#--									转发</a> -->
+<#--								<#else>-->
+<#--									<a href="javascript:void(0);" class="label sheding chakan"><span class="glyphicon glyphicon-log-out"></span>-->
+<#--									已转发</a> -->
+<#--								</#if>-->
+<#--							</#if>-->
+<#--							<#if this.is_read==0> -->
+<#--							<#else> -->
+<#--							<a onclick="{return confirm('删除该记录将不能恢复，确定删除吗？');};"-->
+<#--							href="informlistdelete?id=${this.notice_id}" class="label shanchu"> -->
+<#--							<span class="glyphicon glyphicon-remove"></span> 删除-->
+<#--						</a></#if></td>-->
 				</tr>
 				</#list>
 			</table>
@@ -93,7 +115,27 @@
 	<#include "/common/pagingmybatis.ftl">
 </div>
 <script>
+	<#--$(".shanchu").click(function (){-->
+    <#--console.log(${this.notice_id})-->
+	<#--})-->
 	$(function(){
+		$.ajax({
+        url:"/findinform",
+        type:"post",
+        dataType:"json",
+        success(res){
+        // console.log(res)
+
+         var a = $(".table")[0].children[0].children[0]
+         // console.log(a)
+         // a.append(html_);
+        },
+         error(res){
+         console.log('error')
+        }
+     })
+
+
 		$(".chakan").click(function(){
 			var $information=$(this).parents("td").siblings(".c").find("span").text();
 			if( $information!=""){

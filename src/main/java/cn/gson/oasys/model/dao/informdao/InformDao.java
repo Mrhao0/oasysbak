@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
@@ -31,4 +32,22 @@ public interface InformDao extends JpaRepository<NoticesList, Long> {
 	//根据关键字查找
 	@Query("from NoticesList n where n.userId = :userId and n.title like :baseKey")
 	Page<NoticesList> findByBaseKey(@Param("userId") Long userId,@Param("baseKey") String baseKey,Pageable pageable);
+	//	@Query("select count(n) from NoticesList n left join User u on n.userId=u.userId left join Dept d on d.deptId=u.dept.deptId where n.statusId=6 and u.userId=?1")
+//	int findNoticesListTotal(Long userid);
+//
+//	@Query("select n from NoticesList n left join User u on n.userId=u.userId left join Dept d on u.dept.deptId=d.deptId where n.statusId=6 and  u.userId=?3 limit ?1,?2")
+//	List<NoticesList> findPageNoticesList(int start, Integer rows, Long userid);
+
+	@Query("update NoticesList s set s.statusId=?1 where s.noticeId=?2")
+	@Modifying
+	void updatestatus(Long statusid, Long noticeId);
+	//绠＄悊鍛橀€氱煡
+	@Query("select n from NoticesList n,User u where n.userId=u.userId and n.statusId=6 and  u.userId=?1")
+	List<NoticesList> findUserInform(Long userId);
+	//鐢ㄦ埛閫氱煡
+	@Query("select n from NoticesList n,User u where n.userId=u.userId and n.statusId=6")
+	List<NoticesList> findAdministratorInform();
+
+
+
 }

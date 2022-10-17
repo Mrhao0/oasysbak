@@ -13,6 +13,7 @@ a:hover {
 	font-weight:100;
 	font-size:1px;
 }
+
 </style>
 <div class="row" style="padding-top: 10px;">
 	<div class="col-md-2">

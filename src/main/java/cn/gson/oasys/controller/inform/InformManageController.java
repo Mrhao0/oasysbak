@@ -181,12 +181,21 @@ public class InformManageController {
 	 */
 	@RequestMapping("infromlist")
 	public String infromList(HttpSession session, HttpServletRequest req, Model model,
-			@RequestParam(value="pageNum",defaultValue="1") int page) {
+							 @RequestParam(value="pageNum",defaultValue="1") int page) {
 		Long userId = Long.parseLong(session.getAttribute("userId") + "");
+		User user = uDao.findOne(userId);
 		PageHelper.startPage(page, 10);
-		List<Map<String, Object>> list = nm.findMyNotice(userId);
-		PageInfo<Map<String, Object>> pageinfo=new PageInfo<Map<String, Object>>(list);
-		List<Map<String, Object>> list2=informrelationservice.setList(list);
+//		List<Map<String, Object>> list = nm.findMyNotice(userId);
+		List<Map<String, Object>> list1 = new ArrayList<Map<String, Object>>();
+		if (user.getPosition().getId() != 1L) {
+			list1 = nm.findMyNotices1(userId);
+
+		}else{
+			list1 = nm.findMyNotices2();
+		}
+		System.out.println("list数据打印"+list1);
+		PageInfo<Map<String, Object>> pageinfo=new PageInfo<Map<String, Object>>(list1);
+		List<Map<String, Object>> list2=informrelationservice.setList(list1);
 		for (Map<String, Object> map : list2) {
 			System.out.println(map);
 		}

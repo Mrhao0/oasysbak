@@ -268,3 +268,4 @@ function changesharehref(){
 		$(".menu .doshare").attr("href",newhref);
 	}
 }
+

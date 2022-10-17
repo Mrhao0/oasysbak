@@ -101,6 +101,7 @@ public class LoginsController {
 			return "login/login";
 		}else{
 			session.setAttribute("userId", user.getUserId());
+			session.setAttribute("positionid", user.getPosition().getId());
 			Browser browser = UserAgent.parseUserAgentString(req.getHeader("User-Agent")).getBrowser();
 			Version version = browser.getVersion(req.getHeader("User-Agent"));
 			String info = browser.getName() + "/" + version.getVersion();

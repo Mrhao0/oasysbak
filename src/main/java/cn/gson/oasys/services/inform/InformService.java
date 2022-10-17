@@ -1,13 +1,10 @@
 package cn.gson.oasys.services.inform;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.transaction.Transactional;
 
+import cn.gson.oasys.model.entity.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -142,5 +139,43 @@ public class InformService {
 		}
 		return informDao.findByUserId(userId, pa);
 	}
+
+    public void addInfrom(String filename, User user) {
+		NoticesList noticesList = new NoticesList();
+		noticesList.setTitle(filename);
+		noticesList.setNoticeTime(new Date());
+		noticesList.setStatusId(6L);
+		noticesList.setTypeId(10L);
+		noticesList.setUserId(user.getUserId());
+		informDao.save(noticesList);
+	}
+//	public HashMap<String, Object> findinform(Integer page, Integer rows, Long userid) {
+//		int total=informDao.findNoticesListTotal(userid);
+//		int start=(page-1)*rows;
+//		List<NoticesList> list=informDao.findPageNoticesList(start,rows,userid);
+//		HashMap<String, Object> map = new HashMap<>();
+//		map.put("total",total);
+//		map.put("rows",list);
+//		return map;
+//	}
+
+
+	public void updatestatus(Long noticeId) {
+		Long statusid=25L;
+		informDao.updatestatus(statusid,noticeId);
+	}
+
+
+
+	public List<NoticesList> findinform(User user) {
+		if (user.getPosition().getId() == 1L) {
+			return informDao.findAdministratorInform();
+		}else{
+			return informDao.findUserInform(user.getUserId());
+		}
+
+
+	}
+
 
 }

@@ -4,7 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import cn.gson.oasys.model.dao.user.UserDao;
+import cn.gson.oasys.model.entity.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -12,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.github.pagehelper.PageHelper;
@@ -34,6 +38,9 @@ public class InformController {
 	
 	@Autowired
 	private InformRelationService informRelationService;
+
+	@Autowired
+	private UserDao userDao;
 	
 	
 
@@ -122,5 +129,42 @@ public class InformController {
 			model.addAttribute("baseKey", baseKey);
 		}
 	}
+
+	/**
+	 *鏂囦欢閫氱煡鍒嗛〉
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
+//	@RequestMapping("findinform")
+//	@ResponseBody
+//	public HashMap<String,Object> findinform(Integer page, Integer rows, HttpSession session){
+//		Long userid = Long.parseLong(session.getAttribute("userId") + "");
+//		return informService.findinform(page,rows,userid);
+//	}
+
+	/**
+	 * 閫氱煡
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping("findinform")
+	@ResponseBody
+	public List<NoticesList> findinform(HttpSession session){
+		Long userid = Long.parseLong(session.getAttribute("userId") + "");
+		User user = userDao.findOne(userid);
+		return informService.findinform(user);
+	}
+
+	/**
+	 * 瀹℃壒閫氳繃
+	 * @param noticeId
+	 */
+	@RequestMapping("updatestatus")
+	@ResponseBody
+	public void updatestatus(Long noticeId){
+		informService.updatestatus(noticeId);
+	}
+
 
 }
