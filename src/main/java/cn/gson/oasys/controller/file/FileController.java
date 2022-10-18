@@ -408,17 +408,17 @@ public class FileController {
 	 */
 	@RequestMapping("submitfile")
 	@ResponseBody
-	public void submitfile(@RequestParam("filename") String filename,HttpSession session) throws IOException {
+	public void submitfile(@RequestParam("submitpath") String submitpath,@RequestParam("fileid") String fileid,HttpSession session) throws IOException {
 		Long userid = Long.parseLong(session.getAttribute("userId") + "");
 		User user = udao.findOne(userid);
 
 		// 指定数据源
-		File source = new File(filename);
-		// 指定目的地
-		String dest = "D:/oasys/resources/static/images";
-		copyFile(source,dest);
-
-		informService.addInfrom(filename,user);
+//		File source = new File(filename);
+//		// 指定目的地
+//		String dest = "D:/oasys/resources/static/images";
+//		copyFile(source,dest);
+		fldao.updateSubmitpathById(fileid,submitpath);
+		informService.addInfrom(submitpath,userid);
 
 	}
 	public void copyFile(File source,String dest )throws IOException {

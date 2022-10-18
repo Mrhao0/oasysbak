@@ -2,6 +2,7 @@ package cn.gson.oasys.model.dao.filedao;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
@@ -37,5 +38,10 @@ public interface FileListdao extends PagingAndSortingRepository<FileList, Long>{
 	List<FileList> findByUserAndFileIsshareAndFileIstrash(User user,Long isshare,Long istrash);
 	
 	List<FileList> findByUserAndFileIstrashAndFileNameLike(User user,Long istrash,String likefile);
-	
+
+	@Query("update FileList fa set fa.submit_path=:submitpath where fa.fileId=:fileid")
+	@Modifying
+	void updateSubmitpathById(String fileid, String submitpath);
+
+
 }
