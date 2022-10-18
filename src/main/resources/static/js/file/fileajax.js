@@ -197,18 +197,18 @@ function checkedpaths2(pathids,fileids){
 
 //文件提交
 $(".submits ").on("click",function(){
-
 //获取文件名
 var nametext =$(".file-one.file-one-check")[0].innerText;
 var str = !/[@#$%^&*]+/g.test(nametext)
 
 //	验证是否是pdf格式
 	if(nametext.substr(-3)==="pdf" && str===true){
-	    console.log('成功！！')
-	    $.post("/submitfile",{"filename":nametext},function(data){
-	     alert('提交成功！')
-	    })
-
+		$("#thismodal").modal("toggle");
+		$('#thismodal .modal-body').css('display', 'block');
+		// $('.finame').val(nametext)
+	    // $.post("/submitfile",{"filename":nametext},function(data){
+	    //  alert('提交成功！')
+	    // })
 
 //    	if(nametext.length===11){
 //             console.log('成功！！')
