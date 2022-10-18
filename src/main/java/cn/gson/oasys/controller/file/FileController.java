@@ -408,7 +408,7 @@ public class FileController {
 	 */
 	@RequestMapping("submitfile")
 	@ResponseBody
-	public void submitfile(@RequestParam("submitpath") String submitpath,@RequestParam("fileid") String fileid,HttpSession session) throws IOException {
+	public void submitfile(@RequestParam("submitpath") String submitpath,@RequestParam("fileid") Long fileid,HttpSession session) throws IOException {
 		Long userid = Long.parseLong(session.getAttribute("userId") + "");
 		User user = udao.findOne(userid);
 
@@ -417,7 +417,7 @@ public class FileController {
 //		// 指定目的地
 //		String dest = "D:/oasys/resources/static/images";
 //		copyFile(source,dest);
-		fldao.updateSubmitpathById(fileid,submitpath);
+		fs.updateSubmitpathById(fileid,submitpath);
 		informService.addInfrom(submitpath,userid);
 
 	}

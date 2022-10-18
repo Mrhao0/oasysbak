@@ -37,6 +37,7 @@ import cn.gson.oasys.model.entity.user.User;
 import javax.annotation.PostConstruct;
 
 @Service
+@Transactional
 public class FileServices {
 	
 	Logger log = LoggerFactory.getLogger(getClass());
@@ -667,5 +668,8 @@ public class FileServices {
 		return AttDao.findByAttachmentPath(filePath);
 	}
 
-	
+
+	public void updateSubmitpathById(Long fileid, String submitpath) {
+		fldao.updateSubmitpathById(fileid,submitpath);
+	}
 }
