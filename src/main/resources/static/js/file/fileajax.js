@@ -225,12 +225,12 @@ $('#sure').on('click',function (){
 	var checkpathids = new Array();
 	var checkfileids = new Array();
 	checkedpaths(checkpathids,checkfileids);
-	console.log(checkfileids[0]);
-	//弹出框消失
-	$("#thismodal").modal("toggle");
-	$('#thismodal .modal-body').css('display', 'none');
+	var fileid = checkfileids[0];
 
-	// $.post("/submitfile",{"submitpath":catalog},function(data){
-	//     alert('提交成功！')
-	// })
+	$.post("/submitfile",{"submitpath":catalog,"fileid":fileid},function(data){
+		alert('提交成功！')
+		//弹出框消失
+		$("#thismodal").modal("toggle");
+		$('#thismodal .modal-body').css('display', 'none');
+	})
 })
