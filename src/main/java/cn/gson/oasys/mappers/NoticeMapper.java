@@ -22,6 +22,4 @@ public interface NoticeMapper {
 	List<Map<String, Object>> findMyNotices1(@Param("userId") Long userId);
 	//管理员通知
 	List<Map<String, Object>> findMyNotices2();
-	
- 
 }

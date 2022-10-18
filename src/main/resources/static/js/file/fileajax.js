@@ -197,18 +197,15 @@ function checkedpaths2(pathids,fileids){
 
 //文件提交
 $(".submits ").on("click",function(){
-
 //获取文件名
 var nametext =$(".file-one.file-one-check")[0].innerText;
 var str = !/[@#$%^&*]+/g.test(nametext)
 
 //	验证是否是pdf格式
 	if(nametext.substr(-3)==="pdf" && str===true){
-	    console.log('成功！！')
-	    $.post("/submitfile",{"filename":nametext},function(data){
-	     alert('提交成功！')
-	    })
-
+		//弹出框显示
+		$("#thismodal").modal("toggle");
+		$('#thismodal .modal-body').css('display', 'block');
 
 //    	if(nametext.length===11){
 //             console.log('成功！！')
@@ -219,3 +216,21 @@ var str = !/[@#$%^&*]+/g.test(nametext)
 		alert('提交失败,请检查是否是pdf格式')
 	}
 });
+
+//文件里面的确定按钮
+$('#sure').on('click',function (){
+	var catalog = $('.filcatalog').val()
+	console.log(catalog)
+	//拿到id
+	var checkpathids = new Array();
+	var checkfileids = new Array();
+	checkedpaths(checkpathids,checkfileids);
+	var fileid = checkfileids[0];
+
+	$.post("/submitfile",{"submitpath":catalog,"fileid":fileid},function(data){
+		alert('提交成功！')
+		//弹出框消失
+		$("#thismodal").modal("toggle");
+		$('#thismodal .modal-body').css('display', 'none');
+	})
+})

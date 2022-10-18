@@ -83,7 +83,6 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.30</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
@@ -153,6 +152,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>1.5.6.RELEASE</version>
 				<configuration>
 					<!-- 如果不设置fork,那么不会restart,devtools热部署不会起作用-->
 					<fork>true</fork>

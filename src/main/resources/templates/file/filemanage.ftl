@@ -173,71 +173,9 @@ li.activee>a {
 					<div class="box-header">
 						<h3 class="box-title mc-title" style="font-size:15px;"></h3>
 					</div>
-					<div class="box-body no-padding">
-						<div class="box-header" style="padding:3px 0 3px 0;">
-							<span class="btn btn-default btn-xs des mm"> 
-								<i class="glyphicon-minus"></i>
-							</span>
-							<!-- <img class="mcfloorimg" src="images/fileimg/Folder.png" /> -->
-							<div class="mcflooropen"></div>
-							<h3 class="box-title" style="font-size:12px;">${userrootpath.pathName}</h3>
-							<input class="mctopathid" type="hidden" value="${userrootpath.id}" />
-						</div>
-						<ul class="nav nav-pills nav-stacked mm" style="padding-left:15px;">
-							<#list mcpaths as path>
-								<div class="pathidcompare" pathId="${path.id}">
-									<div class="box-header no-padding">
-										<span class="btn btn-default btn-xs des mm"> 
-											<i class="jiajian glyphicon-plus"></i>
-										</span>
-										<span class="openpath modalajax">
-											<div class="mcflooropen"></div>
-											<h3 class="box-title" style="font-size:12px;">${path.pathName}</h3>
-											<input class="mctopathid" type="hidden" value="${path.id}" />
-										</span>
-									</div>
-									<ul class="nav nav-pills nav-stacked mm modalajaxdata" style="padding-left:15px;display:none;">
-										
-									</ul>
-								</div>
-							</#list>
-							<!-- <li style="border:0px;">
-								<div class="box-header no-padding">
-									<span class="btn btn-default btn-xs des mm"> 
-										<i class="glyphicon-plus"></i>
-									</span>
-									<div class="mcflooropen"></div>
-									<h3 class="box-title" style="font-size:12px;">文件夹1</h3>
-								</div>
-								<ul class="nav nav-pills nav-stacked mm" style="padding-left:15px;display:none;">
-									<li>xxx</li>
-								</ul>
-							</li>
-							<li style="border:0px;">
-								<div class="box-header no-padding">
-									<span class="btn btn-default btn-xs des mm"> 
-										<i class="glyphicon-plus"></i>
-									</span>
-									<div class="mcflooropen"></div>
-									<h3 class="box-title" style="font-size:12px;">文件夹1</h3>
-								</div>
-								<ul class="nav nav-pills nav-stacked mm" style="padding-left:15px;display:none;">
-									
-								</ul>
-							</li>
-							<li style="border:0px;">
-								<div class="box-header no-padding">
-									<span class="btn btn-default btn-xs des mm"> 
-										<i class="glyphicon-plus"></i>
-									</span>
-									<div class="mcflooropen"></div>
-									<h3 class="box-title" style="font-size:12px;">文件夹1</h3>
-								</div>
-								<ul class="nav nav-pills nav-stacked mm" style="padding-left:15px;display:none;">
-									<li>yeah</li>
-								</ul>
-							</li> -->
-						</ul>
+					<div class="box-body no-padding" style="height: 50px">
+<#--					<div style="margin-top: 60px;margin-left: 40px">	文件名:<input type="text" style="margin-left: 20px;width: 250px" class="finame"></div>-->
+						<div style="margin-top: 30px;margin-left: 40px"> 文件目录:<input type="text" style="margin-left: 10px;width: 250px" class="filcatalog"></div>
 					</div>
 					<div class="box-footer" style="text-align:right;">
 						<input class="userrootpath" type="hidden" name="userrootpath" value="${userrootpath.id}"/>
@@ -247,7 +185,7 @@ li.activee>a {
 							<input class="mcpathids" type="hidden" name="mcpathids" value=""/>
 							<input type="hidden" name="pathid" value="${nowpath.id}"/>
 							<input class="morc" type="hidden" name="morc" value=""/>
-							<button type="submit" class="btn btn-primary"
+							<button type="button" class="btn btn-primary" id="sure"
 								>确定</button>
 							<button type="button" class="btn btn-default mcmodalcancle"
 								data-dismiss="modal">取消</button>

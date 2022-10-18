@@ -1,13 +1,17 @@
 package cn.gson.oasys.services.inform;
 
-import java.util.*;
-
-import javax.transaction.Transactional;
-
+import cn.gson.oasys.model.dao.filedao.FileListdao;
+import cn.gson.oasys.model.dao.informdao.InformDao;
+import cn.gson.oasys.model.dao.informdao.InformRelationDao;
+import cn.gson.oasys.model.dao.system.StatusDao;
+import cn.gson.oasys.model.dao.system.TypeDao;
+import cn.gson.oasys.model.dao.user.UserDao;
 import cn.gson.oasys.model.entity.file.FileList;
+import cn.gson.oasys.model.entity.notice.NoticeUserRelation;
+import cn.gson.oasys.model.entity.notice.NoticesList;
+import cn.gson.oasys.model.entity.user.Dept;
 import cn.gson.oasys.model.entity.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,18 +21,14 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-
-import cn.gson.oasys.model.dao.informdao.InformDao;
-import cn.gson.oasys.model.dao.informdao.InformRelationDao;
-import cn.gson.oasys.model.dao.system.StatusDao;
-import cn.gson.oasys.model.dao.system.TypeDao;
-import cn.gson.oasys.model.dao.user.UserDao;
-import cn.gson.oasys.model.entity.notice.NoticeUserRelation;
-import cn.gson.oasys.model.entity.notice.NoticesList;
+import javax.transaction.Transactional;
+import java.util.*;
 
 @Service
 @Transactional
 public class InformService {
+	@Autowired
+	private InformRelationDao informRelationdao;
 
 	@Autowired
 	private InformDao informDao;
@@ -44,7 +44,8 @@ public class InformService {
 
 	@Autowired
 	private UserDao udao;
-
+	@Autowired
+	private FileListdao fldao;
 
 
 
@@ -145,28 +146,41 @@ public class InformService {
 		return informDao.findByUserId(userId, pa);
 	}
 
-    public void addInfrom(String filename, User user) {
-		NoticesList noticesList = new NoticesList();
-		noticesList.setTitle(filename);
+    public void addInfrom(Long userid, Long fileid) {
+	    FileList one = fldao.findOne(fileid);
+	    String fileName = one.getFileName();
+	    NoticesList noticesList = new NoticesList();
+		noticesList.setTitle("文件:"+fileName);
 		noticesList.setNoticeTime(new Date());
-		noticesList.setStatusId(6L);
+		noticesList.setStatusId(14L);
 		noticesList.setTypeId(10L);
-		noticesList.setUserId(user.getUserId());
-		informDao.save(noticesList);
+		noticesList.setUserId(userid);
+
+	    NoticesList save = informDao.save(noticesList);
+	    Dept dept=new Dept();
+	    dept.setDeptId(1L);
+	    List<User> byDept = udao.findByDept(dept);
+	    for(User u:byDept){
+		    NoticeUserRelation noticeUserRelation=new NoticeUserRelation();
+		    noticeUserRelation.setNoticeId(save);
+		    noticeUserRelation.setUserId(u);
+		    noticeUserRelation.setRead(false);
+		    informRelationdao.save(noticeUserRelation);
+	    }
 	}
 
 
 	public void updatestatus(Long noticeId) {
 		Long statusid=25L;
-		informDao.updatestatus(statusid,noticeId);
+//		informDao.updatestatus(statusid,noticeId);
 	}
 
 
     public FileList auditfind(Long noticeId) {
 		NoticesList list=informDao.findOne(noticeId);
 		String title=list.getTitle().replaceAll("\n","");
-		FileList lists=informDao.findByFilename(title);
-		return lists;
+//		FileList lists=informDao.findByFilename(title);
+		return null;
 	}
 
 	public void deleteaudit(Long noticeId) {

@@ -1,32 +1,5 @@
 package cn.gson.oasys.controller.file;
 
-import java.io.*;
-import java.util.*;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import cn.gson.oasys.model.dao.informdao.InformDao;
-import cn.gson.oasys.services.file.FileTransactionalHandlerService;
-import cn.gson.oasys.services.inform.InformService;
-import org.apache.commons.io.IOUtils;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-
-import com.alibaba.fastjson.JSONArray;
-
 import cn.gson.oasys.model.dao.filedao.FileListdao;
 import cn.gson.oasys.model.dao.filedao.FilePathdao;
 import cn.gson.oasys.model.dao.user.UserDao;
@@ -34,6 +7,29 @@ import cn.gson.oasys.model.entity.file.FileList;
 import cn.gson.oasys.model.entity.file.FilePath;
 import cn.gson.oasys.model.entity.user.User;
 import cn.gson.oasys.services.file.FileServices;
+import cn.gson.oasys.services.file.FileTransactionalHandlerService;
+import cn.gson.oasys.services.inform.InformService;
+import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -281,7 +277,7 @@ public class FileController {
 	public void imgshow(HttpServletResponse response, @RequestParam("fileid") Long fileid) {
 		FileList filelist = fldao.findOne(fileid);
 		File file = fs.getFile(filelist.getFilePath());
-		writefile(response, file);
+		showfile(response, file);
 	}
 	
 	/**
@@ -314,6 +310,9 @@ public class FileController {
 		ServletOutputStream sos = null;
 		FileInputStream aa = null;
 		try {
+			response.reset();
+			response.setContentType("application/pdf;charset=UTF-8");
+			response.setHeader("Content-Disposition", "inline;filename=" + URLEncoder.encode(file.getName(), "UTF-8"));
 			//创建一个文件读取流
 			aa = new FileInputStream(file);
 			//获取浏览器的输入流
@@ -338,8 +337,44 @@ public class FileController {
 				e.printStackTrace();
 			}
 		}
-		
-		
+	}
+
+	/**
+	 * 写文件 方法
+	 *
+	 * @param response
+	 * @param file
+	 * @throws IOException
+	 */
+	public void showfile(HttpServletResponse response, File file) {
+		ServletOutputStream sos = null;
+		FileInputStream aa = null;
+		try {
+			response.reset();
+			//创建一个文件读取流
+			aa = new FileInputStream(file);
+			//获取浏览器的输入流
+			sos = response.getOutputStream();
+
+			// 读取文件问字节码
+			byte[] data = new byte[(int) file.length()];
+
+			IOUtils.readFully(aa, data);
+			// 将文件流输出到浏览器
+			IOUtils.write(data, sos);
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			try {
+				sos.close();
+				aa.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	
@@ -361,24 +396,23 @@ public class FileController {
 
 	/**
 	 * 提交文件
-	 * @param filename
 	 * @param session
 	 * @throws IllegalStateException
 	 * @throws IOException
 	 */
 	@RequestMapping("submitfile")
 	@ResponseBody
-	public void submitfile(@RequestParam("filename") String filename,HttpSession session) throws IOException {
+	public void submitfile(@RequestParam("submitpath") String submitpath,@RequestParam("fileid") Long fileid,HttpSession session) throws IOException {
 		Long userid = Long.parseLong(session.getAttribute("userId") + "");
 		User user = udao.findOne(userid);
 
 		// 指定数据源
-		File source = new File(filename);
-		// 指定目的地
-		String dest = "D:/oasys/resources/static/images";
-		copyFile(source,dest);
-
-		informService.addInfrom(filename,user);
+//		File source = new File(filename);
+//		// 指定目的地
+//		String dest = "D:/oasys/resources/static/images";
+//		copyFile(source,dest);
+		fs.updateSubmitpathById(fileid,submitpath);
+		informService.addInfrom(userid,fileid);
 
 	}
 	public void copyFile(File source,String dest )throws IOException {
