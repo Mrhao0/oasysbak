@@ -9,7 +9,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 @SpringBootApplication
-@EnableJpaRepositories("cn.gson.oasys.model.dao")
+@EnableJpaRepositories(basePackages = "cn.gson.oasys.model.dao",
+		entityManagerFactoryRef = "entityManagerFactory",
+		transactionManagerRef = "transactionManager")
 @EntityScan("cn.gson.oasys.model.entity")
 public class OasysApplication {
 	public static void main(String[] args) {

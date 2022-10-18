@@ -145,13 +145,13 @@ public class InformService {
 		return informDao.findByUserId(userId, pa);
 	}
 
-    public void addInfrom(String filename, User user) {
+    public void addInfrom(String submitpath, Long userid) {
 		NoticesList noticesList = new NoticesList();
-		noticesList.setTitle(filename);
+		noticesList.setTitle(submitpath);
 		noticesList.setNoticeTime(new Date());
 		noticesList.setStatusId(6L);
 		noticesList.setTypeId(10L);
-		noticesList.setUserId(user.getUserId());
+		noticesList.setUserId(userid);
 		informDao.save(noticesList);
 	}
 
