@@ -4,7 +4,9 @@ import java.util.*;
 
 import javax.transaction.Transactional;
 
+import cn.gson.oasys.model.dao.filedao.FileListdao;
 import cn.gson.oasys.model.entity.file.FileList;
+import cn.gson.oasys.model.entity.user.Dept;
 import cn.gson.oasys.model.entity.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,7 +31,8 @@ import cn.gson.oasys.model.entity.notice.NoticesList;
 @Service
 @Transactional
 public class InformService {
-
+	@Autowired
+	private InformRelationDao informRelationdao;
 	@Autowired
 	private InformDao informDao;
 
@@ -44,7 +47,8 @@ public class InformService {
 
 	@Autowired
 	private UserDao udao;
-
+	@Autowired
+	private FileListdao fldao;
 
 
 
@@ -145,14 +149,28 @@ public class InformService {
 		return informDao.findByUserId(userId, pa);
 	}
 
-    public void addInfrom(String submitpath, Long userid) {
-		NoticesList noticesList = new NoticesList();
-		noticesList.setTitle(submitpath);
+    public void addInfrom(Long userid, Long fileid) {
+
+	    FileList one = fldao.findOne(fileid);
+	    String fileName = one.getFileName();
+	    NoticesList noticesList = new NoticesList();
+		noticesList.setTitle("文件:"+fileName);
 		noticesList.setNoticeTime(new Date());
-		noticesList.setStatusId(6L);
+		noticesList.setStatusId(14L);
 		noticesList.setTypeId(10L);
 		noticesList.setUserId(userid);
-		informDao.save(noticesList);
+
+	    NoticesList save = informDao.save(noticesList);
+	    Dept dept=new Dept();
+	    dept.setDeptId(1L);
+	    List<User> byDept = udao.findByDept(dept);
+	    for(User u:byDept){
+		    NoticeUserRelation noticeUserRelation=new NoticeUserRelation();
+		    noticeUserRelation.setNoticeId(save);
+		    noticeUserRelation.setUserId(u);
+		    noticeUserRelation.setRead(false);
+		    informRelationdao.save(noticeUserRelation);
+	    }
 	}
 
 

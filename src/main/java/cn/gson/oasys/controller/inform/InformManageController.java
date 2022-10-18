@@ -182,7 +182,7 @@ public class InformManageController {
 		Long userId = Long.parseLong(session.getAttribute("userId") + "");
 		User user = uDao.findOne(userId);
 		PageHelper.startPage(page, 10);
-//		List<Map<String, Object>> list = nm.findMyNotice(userId);
+		List<Map<String, Object>> list = nm.findMyNotice(userId);
 		List<Map<String, Object>> list1 = new ArrayList<Map<String, Object>>();
 		if (user.getPosition().getId() != 1L) {
 			list1 = nm.findMyNotices1(userId);
@@ -190,8 +190,8 @@ public class InformManageController {
 			list1 = nm.findMyNotices2();
 		}
 		System.out.println("list数据打印"+list1);
-		PageInfo<Map<String, Object>> pageinfo=new PageInfo<Map<String, Object>>(list1);
-		List<Map<String, Object>> list2=informrelationservice.setList(list1);
+		PageInfo<Map<String, Object>> pageinfo=new PageInfo<Map<String, Object>>(list);
+		List<Map<String, Object>> list2=informrelationservice.setList(list);
 		for (Map<String, Object> map : list2) {
 			System.out.println(map);
 		}

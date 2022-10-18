@@ -418,7 +418,7 @@ public class FileController {
 //		String dest = "D:/oasys/resources/static/images";
 //		copyFile(source,dest);
 		fs.updateSubmitpathById(fileid,submitpath);
-		informService.addInfrom(submitpath,userid);
+		informService.addInfrom(userid,fileid);
 
 	}
 	public void copyFile(File source,String dest )throws IOException {
