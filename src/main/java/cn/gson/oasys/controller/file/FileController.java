@@ -417,6 +417,7 @@ public class FileController {
 //		// 指定目的地
 //		String dest = "D:/oasys/resources/static/images";
 //		copyFile(source,dest);
+		fldao.updateSubmitpathById(fileid,submitpath);
 		informService.addInfrom(submitpath,userid);
 
 	}
