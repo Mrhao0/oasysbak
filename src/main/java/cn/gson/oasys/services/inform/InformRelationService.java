@@ -1,21 +1,20 @@
 package cn.gson.oasys.services.inform;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.transaction.Transactional;
 
+import cn.gson.oasys.model.dao.informdao.InformDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cn.gson.oasys.model.dao.informdao.InformDao;
+
 import cn.gson.oasys.model.dao.informdao.InformRelationDao;
 import cn.gson.oasys.model.dao.system.StatusDao;
 import cn.gson.oasys.model.dao.system.TypeDao;
 import cn.gson.oasys.model.dao.user.UserDao;
 import cn.gson.oasys.model.entity.notice.NoticeUserRelation;
-import cn.gson.oasys.model.entity.notice.NoticesList;
 import cn.gson.oasys.model.entity.user.User;
 
 @Service
