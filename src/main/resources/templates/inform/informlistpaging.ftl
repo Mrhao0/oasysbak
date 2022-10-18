@@ -8,7 +8,7 @@
         </h3>
         <div class="box-tools">
             <div class="input-group" style="width: 150px;">
-                <input type="text" class="form-control input-sm baseKey" placeholder="按标题查找" value="${(baseKey)!''}"/>
+                <input type="text" class="form-control input-sm baseKey" placeholder="按标题查找"  value="${(baseKey)!''}"/>
                 <div class="input-group-btn">
                     <a class="btn btn-sm btn-default baseKetsubmit"><span
                                 class="glyphicon glyphicon-search"></span></a>
@@ -20,7 +20,7 @@
     <div class="box-body no-padding">
         <div class="table-responsive">
             <table class="table table-hover">
-                <tr>
+                <tr >
                     <th style="text-align: center" scope="col"><span class="paixu thistype">类型
 						<#if type?? && icon??>
                             <span class="glyphicon ${icon}"></span>
@@ -47,9 +47,7 @@
 
                 <#list list as this>
                     <tr>
-                        <td style="text-align: center"><span class="label ${(this.statusColor)!''}"
-                                                             style="background: #ccc;color: black">${this.status}</span>
-                        </td>
+                        <td style="text-align: center"><span class="label ${(this.statusColor)!''}" style="background: #ccc;color: black">${this.status}</span></td>
                         <td style="text-align: center"><span class="label ${(this.statusColor)!''}">待审核</span></td>
                         <td style="text-align: center"><span>${this.title}</span></td>
                         <td style="text-align: center"><span>${this.modify_time}</span></td>
@@ -60,14 +58,15 @@
                         <td style="text-align: center"><span></span></td>
 
                         <td style="text-align: center">
-                            <a onclick="{console.log(${this.notice_id});};" href="" class="label xiugai chakan"
-                               style="font-size: 13px" id="${this.notice_id}">查看</a>
+                            <a onclick="{$.post('/auditfind',{'noticeId':id},function(data){console.log(data)})};" href="https://blog.csdn.net/ct5211314/article/details/120956414" class="label xiugai chakan" style="font-size: 13px" id="${this.notice_id}">查看</a>
                             <#if positionid?if_exists?number==1>
                             <#--							<a onclick="{console.log(${this.notice_id},$(this).parents('tr'));return confirm('删除该记录将不能恢复，确定删除吗？');};" href="" class="label shanchu"  style="font-size: 13px" id="${this.notice_id}">删除</a>-->
-                                <a onclick="$.get('updateInformStatus/'+${this.notice_id})" href=""
-                                   class="label xinzeng chakan forwardthis" style="font-size: 13px">审核</a>
+                                <a onclick="{console.log(${this.notice_id},$(this).parents('tr'));};" href="" class="label xinzeng chakan forwardthis" style="font-size: 13px">审核</a>
                             </#if>
                         </td>
+
+
+
 
                         <#--<td>${this}</td>-->
                         <#--					<td><span class="label ${(this.statusColor)!''}">${this.status}</span></td>-->
@@ -116,14 +115,15 @@
     <#include "/common/pagingmybatis.ftl">
 </div>
 <script>
-    <#--$(".shanchu").click(function (){-->
-    <#--console.log(${this.notice_id})-->
-    <#--})-->
 
-    $(".chakan").click(function () {
-        var $information = $(this).parents("td").siblings(".c").find("span").text();
-        if ($information != "") {
-            parent.changeinformation();
-        }
+    $(function(){
+
+
+        $(".chakan").click(function(){
+            var $information=$(this).parents("td").siblings(".c").find("span").text();
+            if( $information!=""){
+                parent.changeinformation();
+            }
+        });
     });
 </script>
