@@ -185,7 +185,7 @@ li.activee>a {
 							<input class="mcpathids" type="hidden" name="mcpathids" value=""/>
 							<input type="hidden" name="pathid" value="${nowpath.id}"/>
 							<input class="morc" type="hidden" name="morc" value=""/>
-							<button type="submit" class="btn btn-primary"
+							<button type="button" class="btn btn-primary" id="sure"
 								>确定</button>
 							<button type="button" class="btn btn-default mcmodalcancle"
 								data-dismiss="modal">取消</button>
