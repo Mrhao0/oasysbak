@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import cn.gson.oasys.model.dao.user.PositionDao;
+import cn.gson.oasys.model.entity.user.Position;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +39,8 @@ public class LoginsController {
 	private UserDao uDao;
 	@Autowired
 	UserLongRecordService ulService;
+	@Autowired
+	PositionDao pdao;
 	
 	public static final String CAPTCHA_KEY = "session_captcha";
 
@@ -102,6 +107,8 @@ public class LoginsController {
 		}else{
 			session.setAttribute("userId", user.getUserId());
 			session.setAttribute("positionid", user.getPosition().getId());
+			Position one = pdao.findOne(user.getPosition().getId());
+			session.setAttribute("depId", one.getDeptid());
 			Browser browser = UserAgent.parseUserAgentString(req.getHeader("User-Agent")).getBrowser();
 			Version version = browser.getVersion(req.getHeader("User-Agent"));
 			String info = browser.getName() + "/" + version.getVersion();

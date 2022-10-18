@@ -1,17 +1,14 @@
 package cn.gson.oasys.model.dao.informdao;
 
-import cn.gson.oasys.model.entity.file.FileList;
 import cn.gson.oasys.model.entity.notice.NoticeUserRelation;
 import cn.gson.oasys.model.entity.notice.NoticesList;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 
@@ -35,13 +32,14 @@ public interface InformDao extends JpaRepository<NoticesList, Long> {
 	@Query("from NoticesList n where n.userId = :userId and n.title like :baseKey")
 	Page<NoticesList> findByBaseKey(@Param("userId") Long userId,@Param("baseKey") String baseKey,Pageable pageable);
 
-	@Query("update NoticesList s set s.statusId=?1 where s.noticeId=?2")
-	@Modifying
-	@Transactional
-	void updatestatus(Long statusid, Long noticeId);
+//	@Query("update NoticesList s set s.statusId=?1 where s.noticeId=?2")
 
-	@Query("select f from FileList f where f.fileName=?1")
-	FileList findByFilename(String title);
+//	@Modifying
+//	@Transactional
+//	void updatestatus(Long statusid, Long noticeId);
+
+//	@Query("select f from FileList f where f.fileName=?1")
+//	FileList findByFilename(String title);
 
 
 }

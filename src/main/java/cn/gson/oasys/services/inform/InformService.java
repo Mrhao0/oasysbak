@@ -158,15 +158,15 @@ public class InformService {
 
 	public void updatestatus(Long noticeId) {
 		Long statusid=25L;
-		informDao.updatestatus(statusid,noticeId);
+//		informDao.updatestatus(statusid,noticeId);
 	}
 
 
     public FileList auditfind(Long noticeId) {
 		NoticesList list=informDao.findOne(noticeId);
 		String title=list.getTitle().replaceAll("\n","");
-		FileList lists=informDao.findByFilename(title);
-		return lists;
+//		FileList lists=informDao.findByFilename(title);
+		return null;
 	}
 
 	public void deleteaudit(Long noticeId) {

@@ -58,12 +58,14 @@ public class FileList implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "file_user_id")
 	private User user;			//外键关联用户表  -文件上传者
-	
+
+	@Column(name = "submit_path") //要审核的提交目录
+	private String submit_path;
+
 	@ManyToOne
 	@JoinColumn(name = "path_id")
 	@JsonIgnore
 	private FilePath fpath;
-	
 	public FileList() {
 		
 	}
@@ -162,6 +164,14 @@ public class FileList implements Serializable {
 
 	public void setFpath(FilePath fpath) {
 		this.fpath = fpath;
+	}
+
+	public String getSubmit_path() {
+		return submit_path;
+	}
+
+	public void setSubmit_path(String submit_path) {
+		this.submit_path = submit_path;
 	}
 
 	@Override

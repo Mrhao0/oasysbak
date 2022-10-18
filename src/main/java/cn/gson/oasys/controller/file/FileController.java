@@ -1,6 +1,7 @@
 package cn.gson.oasys.controller.file;
 
 import java.io.*;
+import java.net.URLEncoder;
 import java.util.*;
 
 import javax.servlet.ServletOutputStream;
@@ -281,7 +282,7 @@ public class FileController {
 	public void imgshow(HttpServletResponse response, @RequestParam("fileid") Long fileid) {
 		FileList filelist = fldao.findOne(fileid);
 		File file = fs.getFile(filelist.getFilePath());
-		writefile(response, file);
+		showfile(response, file);
 	}
 	
 	/**
@@ -314,6 +315,9 @@ public class FileController {
 		ServletOutputStream sos = null;
 		FileInputStream aa = null;
 		try {
+			response.reset();
+			response.setContentType("application/pdf;charset=UTF-8");
+			response.setHeader("Content-Disposition", "inline;filename=" + URLEncoder.encode(file.getName(), "UTF-8"));
 			//创建一个文件读取流
 			aa = new FileInputStream(file);
 			//获取浏览器的输入流
@@ -338,8 +342,44 @@ public class FileController {
 				e.printStackTrace();
 			}
 		}
-		
-		
+	}
+
+	/**
+	 * 写文件 方法
+	 *
+	 * @param response
+	 * @param file
+	 * @throws IOException
+	 */
+	public void showfile(HttpServletResponse response, File file) {
+		ServletOutputStream sos = null;
+		FileInputStream aa = null;
+		try {
+			response.reset();
+			//创建一个文件读取流
+			aa = new FileInputStream(file);
+			//获取浏览器的输入流
+			sos = response.getOutputStream();
+
+			// 读取文件问字节码
+			byte[] data = new byte[(int) file.length()];
+
+			IOUtils.readFully(aa, data);
+			// 将文件流输出到浏览器
+			IOUtils.write(data, sos);
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			try {
+				sos.close();
+				aa.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	

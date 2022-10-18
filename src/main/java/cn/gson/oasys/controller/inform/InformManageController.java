@@ -314,7 +314,7 @@ public class InformManageController {
 
 	@GetMapping("updateInformStatus/{fileId}")
 	public String updateInformStatus(@PathVariable Long fileId){
-		informDao.updatestatus(24L,fileId);
+//		informDao.updatestatus(24L,fileId);
 	    return "forward:/infromlist";
 	}
 
