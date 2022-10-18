@@ -6,9 +6,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import cn.gson.oasys.common.formValid.ResultVO;
 import cn.gson.oasys.model.dao.user.UserDao;
+import cn.gson.oasys.model.entity.file.FileList;
 import cn.gson.oasys.model.entity.user.User;
+import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,6 +45,9 @@ public class InformController {
 
 	@Autowired
 	private UserDao userDao;
+
+	@Value("${file.root.path}")
+	private String rootPath;
 	
 	
 
@@ -130,34 +137,9 @@ public class InformController {
 		}
 	}
 
-	/**
-	 *鏂囦欢閫氱煡鍒嗛〉
-	 * @param page
-	 * @param rows
-	 * @return
-	 */
-//	@RequestMapping("findinform")
-//	@ResponseBody
-//	public HashMap<String,Object> findinform(Integer page, Integer rows, HttpSession session){
-//		Long userid = Long.parseLong(session.getAttribute("userId") + "");
-//		return informService.findinform(page,rows,userid);
-//	}
 
 	/**
-	 * 閫氱煡
-	 * @param session
-	 * @return
-	 */
-	@RequestMapping("findinform")
-	@ResponseBody
-	public List<NoticesList> findinform(HttpSession session){
-		Long userid = Long.parseLong(session.getAttribute("userId") + "");
-		User user = userDao.findOne(userid);
-		return informService.findinform(user);
-	}
-
-	/**
-	 * 瀹℃壒閫氳繃
+	 * 审批通过
 	 * @param noticeId
 	 */
 	@RequestMapping("updatestatus")
@@ -166,5 +148,28 @@ public class InformController {
 		informService.updatestatus(noticeId);
 	}
 
+	/**
+	 * 审批查看
+	 * @param noticeId
+	 */
+	@RequestMapping("auditfind")
+	@ResponseBody
+	public FileList auditfind(Long noticeId){
+		FileList list=informService.auditfind(noticeId);
+		list.setFpath(null);
+		list.setUser(null);
+		list.setFilePath(rootPath+list.getFilePath());
+		return list;
+	}
+
+	/**
+	 * 审批删除
+	 * @param noticeId
+	 */
+	@RequestMapping("deleteaudit")
+	@ResponseBody
+	public void deleteaudit(Long noticeId){
+		informService.deleteaudit(noticeId);
+	}
 
 }
