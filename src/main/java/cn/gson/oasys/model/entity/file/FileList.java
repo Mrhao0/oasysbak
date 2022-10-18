@@ -1,5 +1,6 @@
 package cn.gson.oasys.model.entity.file;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -19,8 +20,10 @@ import cn.gson.oasys.model.entity.user.User;
 
 @Entity
 @Table(name = "aoa_file_list")
-public class FileList {
-	
+public class FileList implements Serializable {
+
+	public static final long serialVersionUID = 1L ;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "file_id")
@@ -113,7 +116,6 @@ public class FileList {
 		this.uploadTime = uploadTime;
 	}
 
-	
 	public String getModel() {
 		return model;
 	}
@@ -129,13 +131,21 @@ public class FileList {
 	public void setFileShuffix(String fileShuffix) {
 		this.fileShuffix = fileShuffix;
 	}
-	
+
 	public Long getFileIstrash() {
 		return fileIstrash;
 	}
 
 	public void setFileIstrash(Long fileIstrash) {
 		this.fileIstrash = fileIstrash;
+	}
+
+	public Long getFileIsshare() {
+		return fileIsshare;
+	}
+
+	public void setFileIsshare(Long fileIsshare) {
+		this.fileIsshare = fileIsshare;
 	}
 
 	public User getUser() {
@@ -154,22 +164,21 @@ public class FileList {
 		this.fpath = fpath;
 	}
 
-	
-	public Long getFileIsshare() {
-		return fileIsshare;
-	}
-
-	public void setFileIsshare(Long fileIsshare) {
-		this.fileIsshare = fileIsshare;
-	}
-
 	@Override
 	public String toString() {
-		return "FileList [fileId=" + fileId + ", fileName=" + fileName + ", filePath=" + filePath + ", size=" + size
-				+ ", contentType=" + contentType + ", uploadTime=" + uploadTime + ", model=" + model + ", fileShuffix="
-				+ fileShuffix + ", fileIstrash=" + fileIstrash + ", fileIsshare=" + fileIsshare + "]";
+		return "FileList{" +
+				"fileId=" + fileId +
+				", fileName='" + fileName + '\'' +
+				", filePath='" + filePath + '\'' +
+				", size=" + size +
+				", contentType='" + contentType + '\'' +
+				", uploadTime=" + uploadTime +
+				", model='" + model + '\'' +
+				", fileShuffix='" + fileShuffix + '\'' +
+				", fileIstrash=" + fileIstrash +
+				", fileIsshare=" + fileIsshare +
+				", user=" + user +
+				", fpath=" + fpath +
+				'}';
 	}
-
-	
-	
 }

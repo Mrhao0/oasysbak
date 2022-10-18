@@ -314,13 +314,18 @@ public class FileController {
 		ServletOutputStream sos = null;
 		FileInputStream aa = null;
 		try {
+			//创建一个文件读取流
 			aa = new FileInputStream(file);
+			//获取浏览器的输入流
 			sos = response.getOutputStream();
+
 			// 读取文件问字节码
 			byte[] data = new byte[(int) file.length()];
+
 			IOUtils.readFully(aa, data);
 			// 将文件流输出到浏览器
 			IOUtils.write(data, sos);
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

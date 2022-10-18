@@ -20,10 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -189,7 +186,6 @@ public class InformManageController {
 		List<Map<String, Object>> list1 = new ArrayList<Map<String, Object>>();
 		if (user.getPosition().getId() != 1L) {
 			list1 = nm.findMyNotices1(userId);
-
 		}else{
 			list1 = nm.findMyNotices2();
 		}
@@ -313,6 +309,13 @@ public class InformManageController {
 		}
 		System.out.println("是否进入最后的实体类信息：" + menu);
 		return "forward:/informedit";
+	}
+
+
+	@GetMapping("updateInformStatus/{fileId}")
+	public String updateInformStatus(@PathVariable Long fileId){
+		informDao.updatestatus(24L,fileId);
+	    return "forward:/infromlist";
 	}
 
 }

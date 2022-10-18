@@ -4,8 +4,10 @@ import java.util.*;
 
 import javax.transaction.Transactional;
 
+import cn.gson.oasys.model.entity.file.FileList;
 import cn.gson.oasys.model.entity.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -42,6 +44,9 @@ public class InformService {
 
 	@Autowired
 	private UserDao udao;
+
+
+
 
 	// 保存通知
 	public NoticesList save(NoticesList noticelist) {
@@ -149,15 +154,6 @@ public class InformService {
 		noticesList.setUserId(user.getUserId());
 		informDao.save(noticesList);
 	}
-//	public HashMap<String, Object> findinform(Integer page, Integer rows, Long userid) {
-//		int total=informDao.findNoticesListTotal(userid);
-//		int start=(page-1)*rows;
-//		List<NoticesList> list=informDao.findPageNoticesList(start,rows,userid);
-//		HashMap<String, Object> map = new HashMap<>();
-//		map.put("total",total);
-//		map.put("rows",list);
-//		return map;
-//	}
 
 
 	public void updatestatus(Long noticeId) {
@@ -166,16 +162,14 @@ public class InformService {
 	}
 
 
-
-	public List<NoticesList> findinform(User user) {
-		if (user.getPosition().getId() == 1L) {
-			return informDao.findAdministratorInform();
-		}else{
-			return informDao.findUserInform(user.getUserId());
-		}
-
-
+    public FileList auditfind(Long noticeId) {
+		NoticesList list=informDao.findOne(noticeId);
+		String title=list.getTitle().replaceAll("\n","");
+		FileList lists=informDao.findByFilename(title);
+		return lists;
 	}
 
-
+	public void deleteaudit(Long noticeId) {
+		informDao.delete(noticeId);
+	}
 }
