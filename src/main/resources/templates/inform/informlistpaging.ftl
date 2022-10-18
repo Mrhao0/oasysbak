@@ -58,7 +58,7 @@
                         <td style="text-align: center"><span></span></td>
 
                         <td style="text-align: center">
-                            <a onclick="{$.post('/auditfind',{'noticeId':id},function(data){console.log(data)})};" href="" class="label xiugai chakan" style="font-size: 13px" id="${this.notice_id}">查看</a>
+                            <a href="/informlistpaging.ftl" class="label xiugai chakan look" style="font-size: 13px" id="${this.notice_id}">查看</a>
                             <#if positionid?if_exists?number==1>
                             <#--							<a onclick="{console.log(${this.notice_id},$(this).parents('tr'));return confirm('删除该记录将不能恢复，确定删除吗？');};" href="" class="label shanchu"  style="font-size: 13px" id="${this.notice_id}">删除</a>-->
                                 <a onclick="{console.log(${this.notice_id},$(this).parents('tr'));};" href="" class="label xinzeng chakan forwardthis" style="font-size: 13px">审核</a>
@@ -116,8 +116,12 @@
 </div>
 <script>
 
-    $(function(){
+    $(".look").click(function (){
 
+
+    })
+
+    $(function(){
 
         $(".chakan").click(function(){
             var $information=$(this).parents("td").siblings(".c").find("span").text();
