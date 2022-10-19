@@ -1,33 +1,5 @@
 package cn.gson.oasys.controller.file;
 
-import java.io.*;
-import java.net.URLEncoder;
-import java.util.*;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import cn.gson.oasys.model.dao.informdao.InformDao;
-import cn.gson.oasys.services.file.FileTransactionalHandlerService;
-import cn.gson.oasys.services.inform.InformService;
-import org.apache.commons.io.IOUtils;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-
-import com.alibaba.fastjson.JSONArray;
-
 import cn.gson.oasys.model.dao.filedao.FileListdao;
 import cn.gson.oasys.model.dao.filedao.FilePathdao;
 import cn.gson.oasys.model.dao.user.UserDao;
@@ -35,6 +7,29 @@ import cn.gson.oasys.model.entity.file.FileList;
 import cn.gson.oasys.model.entity.file.FilePath;
 import cn.gson.oasys.model.entity.user.User;
 import cn.gson.oasys.services.file.FileServices;
+import cn.gson.oasys.services.file.FileTransactionalHandlerService;
+import cn.gson.oasys.services.inform.InformService;
+import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -401,7 +396,6 @@ public class FileController {
 
 	/**
 	 * 提交文件
-	 * @param filename
 	 * @param session
 	 * @throws IllegalStateException
 	 * @throws IOException

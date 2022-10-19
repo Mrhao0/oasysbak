@@ -7,6 +7,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import cn.gson.oasys.model.entity.notice.NoticeUserRelation;
 import cn.gson.oasys.model.entity.notice.NoticesList;
 import cn.gson.oasys.model.entity.user.User;
+import org.springframework.stereotype.Repository;
+
 
 public interface InformRelationDao extends PagingAndSortingRepository<NoticeUserRelation, Long> {
 	

@@ -1,30 +1,5 @@
 package cn.gson.oasys.controller.inform;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-
 import cn.gson.oasys.common.formValid.BindingResultVOUtil;
 import cn.gson.oasys.common.formValid.MapToList;
 import cn.gson.oasys.common.formValid.ResultEnum;
@@ -37,14 +12,28 @@ import cn.gson.oasys.model.dao.system.TypeDao;
 import cn.gson.oasys.model.dao.user.DeptDao;
 import cn.gson.oasys.model.dao.user.UserDao;
 import cn.gson.oasys.model.entity.notice.NoticeUserRelation;
-import cn.gson.oasys.model.entity.notice.NoticeVO;
 import cn.gson.oasys.model.entity.notice.NoticesList;
-import cn.gson.oasys.model.entity.system.SystemMenu;
 import cn.gson.oasys.model.entity.system.SystemStatusList;
 import cn.gson.oasys.model.entity.system.SystemTypeList;
 import cn.gson.oasys.model.entity.user.User;
 import cn.gson.oasys.services.inform.InformRelationService;
 import cn.gson.oasys.services.inform.InformService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import java.util.*;
 
 @Controller
 @RequestMapping("/")
@@ -180,16 +169,16 @@ public class InformManageController {
 	public String infromList(HttpSession session, HttpServletRequest req, Model model,
 							 @RequestParam(value="pageNum",defaultValue="1") int page) {
 		Long userId = Long.parseLong(session.getAttribute("userId") + "");
-		User user = uDao.findOne(userId);
+//		User user = uDao.findOne(userId);
 		PageHelper.startPage(page, 10);
 		List<Map<String, Object>> list = nm.findMyNotice(userId);
-		List<Map<String, Object>> list1 = new ArrayList<Map<String, Object>>();
-		if (user.getPosition().getId() != 1L) {
-			list1 = nm.findMyNotices1(userId);
-		}else{
-			list1 = nm.findMyNotices2();
-		}
-		System.out.println("list数据打印"+list1);
+//		List<Map<String, Object>> list1 = new ArrayList<Map<String, Object>>();
+////		if (user.getPosition().getId() != 1L) {
+////			list1 = nm.findMyNotices1(userId);
+////		}else{
+////			list1 = nm.findMyNotices2();
+////		}
+////		System.out.println("list数据打印"+list1);
 		PageInfo<Map<String, Object>> pageinfo=new PageInfo<Map<String, Object>>(list);
 		List<Map<String, Object>> list2=informrelationservice.setList(list);
 		for (Map<String, Object> map : list2) {
