@@ -39,9 +39,7 @@
     </h3>
 </div>
 <form action="informcheck" method="post" id="thisForm" onsubmit="return check();">
-    <div class="xiangqing">
-        <iframe src="imgshow?fileid=${fileid}"></iframe>
-    </div>
+    <iframe src="imgshow?fileid=159" width="100%" height="100%" frameborder="0"></iframe>
     <div class="box-footer">
         <input class="btn btn-primary" id="save" type="submit" value="通过" onclick="okay();" />
         <input class="btn btn-default" id="cancel" type="button" value="删除"
