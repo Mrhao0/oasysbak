@@ -327,7 +327,7 @@ public class InformManageController {
 	}
 
 	/**
-	 * @description 拒绝
+	 * @description 同意
 	 * @date 2022-10-19 17:25
 	 */
 	@GetMapping("agree")
