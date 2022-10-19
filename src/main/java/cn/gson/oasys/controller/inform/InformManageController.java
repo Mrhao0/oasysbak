@@ -321,8 +321,9 @@ public class InformManageController {
 	 * @date 2022-10-19 17:25
 	 */
 	@GetMapping("refuse")
-	public String refuse(Long noticesListId){
-		informService.deleteOne(noticesListId);
+	public String refuse(Long noticesListId,String remark,HttpSession session){
+		Long userid = Long.parseLong(session.getAttribute("userId") + "");
+		informService.deleteAndBackSend(noticesListId,remark,userid);
 		return "forward:/infromlist";
 	}
 
@@ -332,6 +333,7 @@ public class InformManageController {
 	 */
 	@GetMapping("agree")
 	public String agree(Long noticesListId,Long fileid){
+		informService.agreeAndSubmit(noticesListId,fileid);
 
 		return "forward:/infromlist";
 	}
