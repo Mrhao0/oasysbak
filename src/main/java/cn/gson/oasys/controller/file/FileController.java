@@ -402,19 +402,16 @@ public class FileController {
 	 */
 	@RequestMapping("submitfile")
 	@ResponseBody
-	public void submitfile(@RequestParam("submitpath") String submitpath,@RequestParam("fileid") Long fileid,HttpSession session) throws IOException {
+	public String submitfile(@RequestParam("submitpath") String submitpath,@RequestParam("fileid") Long fileid,HttpSession session) throws IOException {
 		Long userid = Long.parseLong(session.getAttribute("userId") + "");
-		User user = udao.findOne(userid);
-
-		// 指定数据源
-//		File source = new File(filename);
-//		// 指定目的地
-//		String dest = "D:/oasys/resources/static/images";
-//		copyFile(source,dest);
-		fs.updateSubmitpathById(fileid,submitpath);
-		informService.addInfrom(userid,fileid);
-
+		boolean window = fs.checkPathValid(submitpath, "window");
+		if(window){
+			fs.updateSubmitpathById(fileid,submitpath);
+			informService.addInfrom(userid,fileid,null,null);
+		}
+		return "路径异常";
 	}
+
 	public void copyFile(File source,String dest )throws IOException {
 		//创建目的地文件夹
 		File destfile = new File(dest);

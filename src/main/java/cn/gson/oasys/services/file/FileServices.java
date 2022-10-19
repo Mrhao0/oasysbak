@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
@@ -33,13 +34,16 @@ import cn.gson.oasys.model.entity.file.FileList;
 import cn.gson.oasys.model.entity.file.FilePath;
 import cn.gson.oasys.model.entity.note.Attachment;
 import cn.gson.oasys.model.entity.user.User;
+import sun.awt.OSInfo;
 
 import javax.annotation.PostConstruct;
 
 @Service
 @Transactional
 public class FileServices {
-	
+	private static final Pattern linux_path_pattern=Pattern.compile("(/([a-zA-Z0-9][a-zA-Z0-9_\\-]{0,255}/)*([a-zA-Z0-9][a-zA-Z0-9_\\-]{0,255})|/)");
+	private static final Pattern windows_path_pattern=Pattern.compile("(^[A-Z]:((\\\\|/)([a-zA-Z0-9\\-_]){1,255}){1,255}|([A-Z]:(\\\\|/)))");
+
 	Logger log = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
@@ -672,4 +676,20 @@ public class FileServices {
 	public void updateSubmitpathById(Long fileid, String submitpath) {
 		fldao.updateSubmitpathById(fileid,submitpath);
 	}
+
+	/**
+	 * check path is valid in windows and linux
+	 * @param path path to be validate
+	 * @param platform valid value: linux,windows
+	 * @return whether the path is valid
+	 * **/
+	public boolean checkPathValid(String path,String platform){
+		if (platform.toLowerCase().equals(OSInfo.OSType.LINUX.name().toLowerCase())) return checkPatternMatch(linux_path_pattern,path);
+		if (platform.toLowerCase().equals(OSInfo.OSType.WINDOWS.name().toLowerCase())) return checkPatternMatch(windows_path_pattern,path);
+		return false;
+	}
+	private boolean checkPatternMatch(Pattern pattern,String target){
+		return pattern.matcher(target).matches();
+	}
+
 }
