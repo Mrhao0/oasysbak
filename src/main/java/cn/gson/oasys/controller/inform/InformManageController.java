@@ -310,8 +310,8 @@ public class InformManageController {
 	 * @description 审查页
 	 * @date 2022-10-19 11:57
 	 */
-	@GetMapping("tocheck/{noticesListId}")
-	public String tocheck(@PathVariable Long noticesListId,HttpServletRequest req, Model model){
+	@GetMapping("tocheck")
+	public String tocheck(String noticesListId,HttpServletRequest req, Model model){
 		model.addAttribute("noticesListId", noticesListId);
 		return "inform/check";
 	}
