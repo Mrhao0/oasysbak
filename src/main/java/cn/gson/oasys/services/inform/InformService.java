@@ -1,15 +1,17 @@
 package cn.gson.oasys.services.inform;
 
-import java.util.*;
-
-import javax.transaction.Transactional;
-
 import cn.gson.oasys.model.dao.filedao.FileListdao;
+import cn.gson.oasys.model.dao.informdao.InformDao;
+import cn.gson.oasys.model.dao.informdao.InformRelationDao;
+import cn.gson.oasys.model.dao.system.StatusDao;
+import cn.gson.oasys.model.dao.system.TypeDao;
+import cn.gson.oasys.model.dao.user.UserDao;
 import cn.gson.oasys.model.entity.file.FileList;
+import cn.gson.oasys.model.entity.notice.NoticeUserRelation;
+import cn.gson.oasys.model.entity.notice.NoticesList;
 import cn.gson.oasys.model.entity.user.Dept;
 import cn.gson.oasys.model.entity.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,20 +21,15 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-
-import cn.gson.oasys.model.dao.informdao.InformDao;
-import cn.gson.oasys.model.dao.informdao.InformRelationDao;
-import cn.gson.oasys.model.dao.system.StatusDao;
-import cn.gson.oasys.model.dao.system.TypeDao;
-import cn.gson.oasys.model.dao.user.UserDao;
-import cn.gson.oasys.model.entity.notice.NoticeUserRelation;
-import cn.gson.oasys.model.entity.notice.NoticesList;
+import javax.transaction.Transactional;
+import java.util.*;
 
 @Service
 @Transactional
 public class InformService {
 	@Autowired
 	private InformRelationDao informRelationdao;
+
 	@Autowired
 	private InformDao informDao;
 
@@ -150,7 +147,6 @@ public class InformService {
 	}
 
     public void addInfrom(Long userid, Long fileid) {
-
 	    FileList one = fldao.findOne(fileid);
 	    String fileName = one.getFileName();
 	    NoticesList noticesList = new NoticesList();
