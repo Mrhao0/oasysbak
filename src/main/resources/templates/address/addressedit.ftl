@@ -11,7 +11,7 @@ a:hover {
 .red {
 	color: #d9534f;
 	font-weight: 100;
-	font-size: 1px;
+	/*font-size: 1px;*/
 }
 .file{
 	opacity: 0;
