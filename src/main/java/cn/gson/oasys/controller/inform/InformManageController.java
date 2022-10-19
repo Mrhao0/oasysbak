@@ -321,7 +321,8 @@ public class InformManageController {
 	 * @date 2022-10-19 11:57
 	 */
 	@GetMapping("newpdf")
-	public String newpdf(){
+	public String newpdf(String fileid, Model model){
+		model.addAttribute("fileid", fileid);
 		return "inform/newpdf";
 	}
 	/**
