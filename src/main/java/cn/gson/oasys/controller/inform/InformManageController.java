@@ -317,6 +317,14 @@ public class InformManageController {
 		return "inform/check";
 	}
 	/**
+	 * @description 查看页
+	 * @date 2022-10-19 11:57
+	 */
+	@GetMapping("newpdf")
+	public String newpdf(){
+		return "inform/newpdf";
+	}
+	/**
 	 * @description 拒绝
 	 * @date 2022-10-19 17:25
 	 */
