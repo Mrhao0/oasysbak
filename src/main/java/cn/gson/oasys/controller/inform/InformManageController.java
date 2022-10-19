@@ -316,5 +316,24 @@ public class InformManageController {
 		model.addAttribute("fileid", fileid);
 		return "inform/check";
 	}
+	/**
+	 * @description 拒绝
+	 * @date 2022-10-19 17:25
+	 */
+	@GetMapping("refuse")
+	public String refuse(Long noticesListId){
+		informService.deleteOne(noticesListId);
+		return "forward:/infromlist";
+	}
+
+	/**
+	 * @description 拒绝
+	 * @date 2022-10-19 17:25
+	 */
+	@GetMapping("agree")
+	public String agree(Long noticesListId,Long fileid){
+
+		return "forward:/infromlist";
+	}
 
 }
