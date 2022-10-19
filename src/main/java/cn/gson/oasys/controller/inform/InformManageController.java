@@ -306,5 +306,34 @@ public class InformManageController {
 //		informDao.updatestatus(24L,fileId);
 	    return "forward:/infromlist";
 	}
+	/**
+	 * @description 审查页
+	 * @date 2022-10-19 11:57
+	 */
+	@GetMapping("tocheck")
+	public String tocheck(String noticesListId,String fileid,HttpServletRequest req, Model model){
+		model.addAttribute("noticesListId", noticesListId);
+		model.addAttribute("fileid", fileid);
+		return "inform/check";
+	}
+	/**
+	 * @description 拒绝
+	 * @date 2022-10-19 17:25
+	 */
+	@GetMapping("refuse")
+	public String refuse(Long noticesListId){
+		informService.deleteOne(noticesListId);
+		return "forward:/infromlist";
+	}
+
+	/**
+	 * @description 同意
+	 * @date 2022-10-19 17:25
+	 */
+	@GetMapping("agree")
+	public String agree(Long noticesListId,Long fileid){
+
+		return "forward:/infromlist";
+	}
 
 }
