@@ -306,5 +306,14 @@ public class InformManageController {
 //		informDao.updatestatus(24L,fileId);
 	    return "forward:/infromlist";
 	}
+	/**
+	 * @description 审查页
+	 * @date 2022-10-19 11:57
+	 */
+	@GetMapping("tocheck/{noticesListId}")
+	public String tocheck(@PathVariable Long noticesListId,HttpServletRequest req, Model model){
+		model.addAttribute("noticesListId", noticesListId);
+		return "inform/check";
+	}
 
 }
