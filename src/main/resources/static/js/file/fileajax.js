@@ -206,6 +206,7 @@ var str = !/[@#$%^&*]+/g.test(nametext)
 		//弹出框显示
 		$("#thismodal").modal("toggle");
 		$('#thismodal .modal-body').css('display', 'block');
+		$('.filcatalog').val('')
 
 //    	if(nametext.length===11){
 //             console.log('成功！！')
