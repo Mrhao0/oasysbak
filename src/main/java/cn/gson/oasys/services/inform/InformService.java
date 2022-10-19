@@ -155,6 +155,7 @@ public class InformService {
 		noticesList.setStatusId(14L);
 		noticesList.setTypeId(10L);
 		noticesList.setUserId(userid);
+	    noticesList.setFile_id(fileid);
 
 	    NoticesList save = informDao.save(noticesList);
 	    Dept dept=new Dept();
