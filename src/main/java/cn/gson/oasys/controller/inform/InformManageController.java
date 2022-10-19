@@ -311,8 +311,9 @@ public class InformManageController {
 	 * @date 2022-10-19 11:57
 	 */
 	@GetMapping("tocheck")
-	public String tocheck(String noticesListId,HttpServletRequest req, Model model){
+	public String tocheck(String noticesListId,String fileid,HttpServletRequest req, Model model){
 		model.addAttribute("noticesListId", noticesListId);
+		model.addAttribute("fileid", fileid);
 		return "inform/check";
 	}
 

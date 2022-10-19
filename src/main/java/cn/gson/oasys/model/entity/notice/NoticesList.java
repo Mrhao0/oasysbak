@@ -42,6 +42,16 @@ public class NoticesList {
 
 	@Column(name = "modify_time")
 	private Date modifyTime=new Date(); // 修改时间
+	@Column(name = "file_id")
+	private Long file_id;
+
+	public Long getFile_id() {
+		return file_id;
+	}
+
+	public void setFile_id(Long file_id) {
+		this.file_id = file_id;
+	}
 
 	public NoticesList() {
 	}
