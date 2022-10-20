@@ -1,16 +1,68 @@
 <#include "/common/commoncss.ftl">
 <style type="text/css">
-
-    .img {
-        width: 500px;
-        height: 300px;
-        border: #0a84ff;
+    form {
         background-color: white;
-        margin-left: 420px
+    }
+
+    iframe {
+        width: 70%;
+        height: 60%;
+        border: #0a84ff;
+        margin-left: 190px;
+        background-color: white;
+        margin-bottom: 30px;
     }
 
     .box-footer {
+        text-align: center;
+    }
+
+    .masking {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        background: rgba(150, 150, 150, 0.8);
+        display: none;
+        top: 0;
+        left: 0;
+    }
+
+    .layer {
+        position: relative;
+        width: 600px;
+        height: 350px;
+        background: #ccc;
+        border: 3px solid #fff;
+        left: 50%;
+        margin-left: -300px;
+        top: 50%;
+        margin-top: -350px;
+    }
+
+    .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+    }
+
+    #okk {
+        margin-top: 30px;
         text-align: center
+    }
+
+
+    .middle {
+        margin-left: 50px;
+        margin-top: 70px
+    }
+
+    textarea {
+        margin-top: 20px;
+    }
+
+    .text {
+        font-size: 20px;
+        margin-bottom: 30px;
     }
 
 
@@ -50,72 +102,99 @@
     <div class="xiangqing">
         <iframe src="imgshow?fileid=${fileid}"></iframe>
     </div>
-    <iframe src="imgshow?fileid=159" width="100%" height="100%" frameborder="0"></iframe>
     <div class="box-footer">
-        <input class="btn btn-primary" id="save" type="submit" value="通过" onclick="okay();"/>
+        <input class="btn btn-primary" id="save" type="submit" value="通过" size="small" onclick="okay();"/>
         <input class="btn btn-default" id="cancel" type="button" value="拒绝"
                onclick="delblog(${noticesListId})"/>
+        <div class="masking"><!--遮罩-->
+            <div class="layer"><!--弹窗-->
+                <a class="close">关闭</a>
+                <div class="middle">
+                    <div class="text">请输入拒绝原因
+                        <div>
+                            <textarea style="width:300px;height:100px;"></textarea>
+                        </div>
+                        <input id="okk" class="btn btn-primary" type="submit" value="确定" onclick="okay(${noticesListId})"/>
+                    </div>
+                </div>
 
-    </div>
+            </div>
 
-    <#include "/common/modalTip.ftl">
+            <#include "/common/modalTip.ftl">
+            <#--拒绝，删除-->
+            <script type="text/javascript">
+                function delblog(obj) {
 
-    <script type="text/javascript">
-        function delblog(obj) {
+                    return true
 
-            return true
-        }
+                }
 
-        }
+                $(function () {
+                    $('#cancel').click(function () {
+                        $('.masking').fadeIn();
+                    })
+                    $('.close').click(function (event) {
+                        event.preventDefault;
+                        $('.masking').hide();
+                    });
 
-        function okay() {
-        }
+                    $('.masking').click(function (event) {
+                        event.preventDefault;
+                        $(this).hide();
+                    });
+                })
+
+                $(function () {
+                    $('okay').click(function () {
+
+                    });
+                })
 
 
-        $('.successToUrl').on('click', function () {
-            window.location.href = '/infrommanage';
-        });
+                function okay() {
+                    window.location.href = '/informlistpaging.ftl'
+                }
 
-        //表单提交前执行的onsubmit()方法；返回false时，执行相应的提示信息；返回true就提交表单到后台校验与执行
-        function check() {
-            console.log("开始进入了");
-            //提示框可能在提交之前是block状态，所以在这之前要设置成none
-            $('.alert-danger').css('display', 'none');
-            var isRight = 1;
-            $('.form-control').each(function (index) {
-                // 如果在这些input框中，判断是否能够为空
-                if ($(this).val() == "") {
-                    // 排除哪些字段是可以为空的，在这里排除
-                    if (index == 3 || index == 4) {
+
+                //表单提交前执行的onsubmit()方法；返回false时，执行相应的提示信息；返回true就提交表单到后台校验与执行
+                function check() {
+                    console.log("开始进入了");
+                    //提示框可能在提交之前是block状态，所以在这之前要设置成none
+                    $('.alert-danger').css('display', 'none');
+                    var isRight = 1;
+                    $('.form-control').each(function (index) {
+                        // 如果在这些input框中，判断是否能够为空
+                        if ($(this).val() == "") {
+                            // 排除哪些字段是可以为空的，在这里排除
+                            if (index == 3 || index == 4) {
+                                return true;
+                            }
+                            if (index == 3) {
+
+                            }
+                            // 获取到input框的兄弟的文本信息，并对应提醒；
+                            var brother = $(this).siblings('.control-label').text();
+                            var errorMess = "[" + brother + "输入框信息不能为空]";
+                            // 对齐设置错误信息提醒；红色边框
+                            $(this).parent().addClass("has-error has-feedback");
+                            $('.alert-danger').css('display', 'block');
+                            // 提示框的错误信息显示
+                            $('.error-mess').text(errorMess);
+                            // 模态框的错误信息显示
+                            $('.modal-error-mess').text(errorMess);
+                            isRight = 0;
+                            return false;
+                        } else {
+                            // 在这个里面进行其他的判断；不为空的错误信息提醒
+                            return true;
+                        }
+                    });
+                    if (isRight == 0) {
+                        //modalShow(0);
+                        return false;
+                    } else if (isRight == 1) {
+                        //modalShow(1);
                         return true;
                     }
-                    if (index == 3) {
-
-                    }
-                    // 获取到input框的兄弟的文本信息，并对应提醒；
-                    var brother = $(this).siblings('.control-label').text();
-                    var errorMess = "[" + brother + "输入框信息不能为空]";
-                    // 对齐设置错误信息提醒；红色边框
-                    $(this).parent().addClass("has-error has-feedback");
-                    $('.alert-danger').css('display', 'block');
-                    // 提示框的错误信息显示
-                    $('.error-mess').text(errorMess);
-                    // 模态框的错误信息显示
-                    $('.modal-error-mess').text(errorMess);
-                    isRight = 0;
-                    return false;
-                } else {
-                    // 在这个里面进行其他的判断；不为空的错误信息提醒
-                    return true;
                 }
-            });
-            if (isRight == 0) {
-                //modalShow(0);
-                return false;
-            } else if (isRight == 1) {
-                //modalShow(1);
-                return true;
-            }
-//	return false;
-        }
-    </script>
+            </script>
