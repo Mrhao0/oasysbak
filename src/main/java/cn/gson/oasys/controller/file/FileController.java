@@ -402,17 +402,15 @@ public class FileController {
 	 */
 	@RequestMapping("submitfile")
 	@ResponseBody
-	public void submitfile(@RequestParam("submitpath") String submitpath,@RequestParam("fileid") Long fileid,HttpSession session) throws IOException {
+	public String submitfile(@RequestParam("submitpath") String submitpath,@RequestParam("fileid") Long fileid,HttpSession session) throws IOException {
 		Long userid = Long.parseLong(session.getAttribute("userId") + "");
-//		boolean window = fs.checkPathValid(submitpath, "windows");
-//		if(window){
-//			fs.updateSubmitpathById(fileid,submitpath);
-//			informService.addInfrom(userid,fileid,null,null);
-//			return "提交成功";
-//		}
-//		return "路径异常";
-		fs.updateSubmitpathById(fileid,submitpath);
-		informService.addInfrom(userid,fileid,null,null);
+		boolean window = fs.checkPathValid(submitpath, "windows");
+		if(window){
+			fs.updateSubmitpathById(fileid,submitpath);
+			informService.addInfrom(userid,fileid,null,null);
+			return "提交成功";
+		}
+		return "路径异常";
 	}
 
 	public void copyFile(File source,String dest )throws IOException {
