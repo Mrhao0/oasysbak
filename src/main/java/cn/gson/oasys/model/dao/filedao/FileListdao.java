@@ -44,5 +44,15 @@ public interface FileListdao extends PagingAndSortingRepository<FileList, Long>{
 	@Modifying
 	void updateSubmitpathById(@Param("fileid")Long fileid, @Param("submitpath")String submitpath);
 
+	@Query("update FileSplit s set s.deleteflag=1 where s.splitid=?1")
+	@Modifying
+	void deletesplitfile(Long splitid);
+
+	@Query("update FileSplit s set s.remark=?2 where s.splitid=?1")
+	@Modifying
+	void updatesplitfile(Long splitid, String remark);
+
+	@Query("select l from FileList l where l.user.userId=?1 and l.fileShuffix='pdf' ")
+	List<FileList> findfile(Long userid);
 
 }

@@ -39,8 +39,9 @@
 						</span></th>
                     <th style="text-align: center" scope="col">发布人</th>
                     <th style="text-align: center" scope="col">部门</th>
-                    <th style="text-align: center" scope="col">置顶</th>
-                    <th style="text-align: center" scope="col">链接</th>
+                    <th style="text-align: center" scope="col">详情</th>
+<#--                    <th style="text-align: center" scope="col">置顶</th>-->
+<#--                    <th style="text-align: center" scope="col">链接</th>-->
                     <th style="text-align: center" scope="col">操作</th>
                 </tr>
 
@@ -53,9 +54,9 @@
                         <td style="text-align: center"><span>${this.modify_time}</span></td>
                         <td style="text-align: center"><span>${this.userName}</span></td>
                         <td style="text-align: center"><span>${this.deptName}</span></td>
-
-                        <td style="text-align: center"><span></span></td>
-                        <td style="text-align: center"><span></span></td>
+                        <td style="text-align: center"><span>${this.content2}</span></td>
+<#--                        <td style="text-align: center"><span></span></td>-->
+<#--                        <td style="text-align: center"><span></span></td>-->
 
                         <td style="text-align: center">
                             <a href="newpdf?fileid=${this.file_id2}" class="label xiugai chakan look" style="font-size: 13px" id="${this.notice_id}">查看</a>
