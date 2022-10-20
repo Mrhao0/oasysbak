@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gson.oasys.mappers.FileMapper">
+	<!--分割文件新增-->
+	<insert id="addfilesplit">
+		insert into aoa_file_split values (null,#{fileSplit.type},#{fileSplit.deleteflag},#{fileSplit.path},#{fileSplit.fileid},#{fileSplit.remark})
+	</insert>
+
+	<!--查看当前用户分割后的PDF文件-->
+	<select id="findsplitfile" resultType="cn.gson.oasys.model.entity.file.FileSplit">
+		SELECT * from aoa_file_split s
+						  LEFT JOIN aoa_file_list l on l.file_id=s.fileid
+						  LEFT JOIN aoa_file_path p on l.path_id=p.path_id
+		where s.type=#{type} and p.path_user_id=#{userid}
+	</select>
+
+</mapper>
