@@ -96,14 +96,14 @@
            style="padding: 5px;"> <i
                     class="glyphicon glyphicon-chevron-left"></i> <span>返回</span>
         </a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        提交目录：<input value="${submitpath}">
+        提交目录：<input value="${submitpath}" readonly >
     </h3>
 </div>
 <div class="xiangqing">
     <iframe src="imgshow?fileid=${fileid}"></iframe>
 </div>
 <div class="box-footer">
-    <a class="btn" href="agree?noticesListId=${noticesListId}&fileid=${fileid}" style="font-size: 13px">同意</a>
+    <a href="agree?noticesListId=${noticesListId}&fileid=${fileid}" class="btn btn-primary" style="font-size: 13px">同意</a>
     <input class="btn btn-default" id="cancel" type="button" value="拒绝"
          />
 
@@ -114,9 +114,11 @@
         <div class="middle">
             <div class="text">请输入拒绝原因
                 <div>
-                    <textarea style="width:300px;height:100px;" class="texts"></textarea>
+                    <textarea onkeyup="remarkkeyup(${noticesListId},${fileid})" id="remark" style="width:300px;height:100px;" class="texts"></textarea>
                 </div>
-                <input id="okk" class="btn btn-primary" type="submit" value="确定" onclick="ok()"/>
+<#--                <input id="okk" class="btn btn-primary" type="submit" value="确定" onclick="ok()"/>-->
+                <a id="alinkisok" href="refuse?noticesListId=${noticesListId}&remark=''&fileid=${fileid}" class="btn btn-primary" style="font-size: 13px">确定</a>
+
             </div>
         </div>
     </div>
@@ -138,20 +140,24 @@
             $(".masking").hide();
         });
     })
-
-    function ok() {
+    function remarkkeyup(noticesListId,fileid){
         var is=$('.texts').val();
-        console.log(${noticesListId},123456)
-        console.log(is,12345)
-            $.ajax({
-                url: "/refuse",
-                data: {"noticesListId":${noticesListId} , "fileid":${fileid},"remark":is},
-                type: "GET",
-                success: function (result) {
-                    alert("删除成功")
-                }
-            })
-
-        window.location.href = "infromlist"
+        $("#alinkisok").attr("href", "refuse?noticesListId="+noticesListId+"&remark="+is+"&fileid="+fileid);
     }
+    <#--function ok() {-->
+    <#--    var is=$('.texts').val();-->
+
+    <#--        $.ajax({-->
+    <#--            url: "/refuse",-->
+    <#--            data: {"noticesListId":${noticesListId} , "fileid":${fileid},"remark":is},-->
+    <#--            type: "GET",-->
+    <#--            success: function (result) {-->
+    <#--                alert("删除成功")-->
+
+    <#--            }-->
+    <#--        })-->
+
+    <#--    window.location.href = "infromlist"-->
+    <#--    opener.location.reload()-->
+    <#--}-->
 </script>
