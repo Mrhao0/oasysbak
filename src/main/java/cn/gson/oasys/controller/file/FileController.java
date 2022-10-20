@@ -1,14 +1,17 @@
 package cn.gson.oasys.controller.file;
 
+import cn.gson.oasys.mappers.FileMapper;
 import cn.gson.oasys.model.dao.filedao.FileListdao;
 import cn.gson.oasys.model.dao.filedao.FilePathdao;
 import cn.gson.oasys.model.dao.user.UserDao;
 import cn.gson.oasys.model.entity.file.FileList;
 import cn.gson.oasys.model.entity.file.FilePath;
+import cn.gson.oasys.model.entity.file.FileSplit;
 import cn.gson.oasys.model.entity.user.User;
 import cn.gson.oasys.services.file.FileServices;
 import cn.gson.oasys.services.file.FileTransactionalHandlerService;
 import cn.gson.oasys.services.inform.InformService;
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,9 +30,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/")
@@ -46,6 +47,8 @@ public class FileController {
 	private FileTransactionalHandlerService fileTransactionalHandlerService;
 	@Autowired
 	private InformService informService;
+	@Autowired
+	private FileMapper fileMapper;
 
 	/**
 	 * 第一次进入
@@ -404,65 +407,100 @@ public class FileController {
 	@ResponseBody
 	public String submitfile(@RequestParam("submitpath") String submitpath,@RequestParam("fileid") Long fileid,HttpSession session) throws IOException {
 		Long userid = Long.parseLong(session.getAttribute("userId") + "");
-		boolean window = fs.checkPathValid(submitpath, "windows");
-		if(window){
+		boolean pathflag = fs.checkPathValid(submitpath, "windows");
+		Map<String,String> msg=new HashMap<>();
+
+		String s = JSON.toJSONString(msg);
+
+		if(!pathflag){
+			msg.put("status","1");
+			msg.put("msg","路径异常");
+		}else{
+			msg.put("status","0");
+			msg.put("msg","提交成功");
 			fs.updateSubmitpathById(fileid,submitpath);
 			informService.addInfrom(userid,fileid,null,null,23L,17L);
-			return "提交成功";
 		}
-		return "路径异常";
+		return s;
 	}
 
-	public void copyFile(File source,String dest )throws IOException {
-		//创建目的地文件夹
-		File destfile = new File(dest);
-		if (!destfile.exists()) {
-			destfile.mkdir();
-		}
-		//如果source是文件夹，则在目的地址中创建新的文件夹
-		if (source.isDirectory()) {
-			File file = new File(dest + "\\" + source.getName());//用目的地址加上source的文件夹名称，创建新的文件夹
-			file.mkdir();
-			//得到source文件夹的所有文件及目录
-			File[] files = source.listFiles();
-			if (files.length == 0) {
-				return;
-			} else {
-				for (int i = 0; i < files.length; i++) {
-					copyFile(files[i], file.getPath());
+	/**
+	 * 分割文件新增
+	 * @param type
+	 * @param fileid
+	 * @param remark
+	 */
+	@RequestMapping("splitfileadd")
+	@ResponseBody
+	public void splitfileadd(Integer type,Long fileid,String remark){
+		FileList list = fldao.findOne(fileid);
+		String[] split = list.getFilePath().split("/");
+		String path="";
+		for (int i = 0; i < split.length; i++) {
+			if (i != 0) {
+				path+="/"+split[i];
+				if (i == 3) {
+					path=path+"/"+type;
 				}
 			}
-
 		}
-		//source是文件，则用字节输入输出流复制文件
-		else if (source.isFile()) {
-			FileInputStream fis = new FileInputStream(source);
-			//创建新的文件，保存复制内容，文件名称与源文件名称一致
-			File dfile = new File(dest + "\\" + source.getName());
-			if (!dfile.exists()) {
-				dfile.createNewFile();
-			}
+		System.out.println("path = " + path);
 
-			FileOutputStream fos = new FileOutputStream(dfile);
-			// 读写数据
-			// 定义数组
-			byte[] b = new byte[1024];
-			// 定义长度
-			int len;
-			// 循环读取
-			while ((len = fis.read(b)) != -1) {
-				// 写出数据
-				fos.write(b, 0, len);
-			}
-
-			//关闭资源
-			fos.close();
-			fis.close();
-
-		}
-
+		FileSplit fileSplit = new FileSplit();
+		fileSplit.setType(type);
+		fileSplit.setDeleteflag(0);
+		fileSplit.setPath(path);
+		fileSplit.setFileid(fileid);
+		fileSplit.setRemark(remark);
+		fileMapper.addfilesplit(fileSplit);
 	}
 
+	/**
+	 * 查看当前用户的PDF文件
+	 * @param userid
+	 * @return
+	 */
+	@RequestMapping("findfile")
+	@ResponseBody
+	public List<FileList> findfile(@SessionAttribute("userId") Long userid){
+		List<FileList> findfile = fldao.findfile(userid);
+		for (FileList fileList : findfile) {
+			fileList.setUser(null);
+		}
+		return findfile;
+	}
 
+	/**
+	 * 查看当前用户分割的PDF文件
+	 * @param type
+	 * @param userid
+	 * @return
+	 */
+	@RequestMapping("findsplitfile")
+	@ResponseBody
+	public List<FileSplit> findsplitfile(Integer type,@SessionAttribute("userId") Long userid){
+		List<FileSplit> findsplitfile = fileMapper.findsplitfile(type, userid);
+		System.out.println("findsplitfile = " + findsplitfile);
+		return  findsplitfile;
+	}
 
+	/**
+	 * 删除分割文件（修改删除标记）
+	 * @param splitid
+	 */
+	@RequestMapping("deletesplitfile")
+	@ResponseBody
+	public void deletesplitfile(Long splitid){
+		fldao.deletesplitfile(splitid);
+	}
+
+	/**
+	 * 修改备注
+	 * @param remark
+	 */
+	@RequestMapping("updatesplitfile")
+	@ResponseBody
+	public void updatesplitfile(Long splitid,String remark){
+		fldao.updatesplitfile(splitid,remark);
+	}
 }
