@@ -226,7 +226,7 @@ public class InformService {
 		}
 
 		FileList one1 = fldao.findOne(fileid);
-		String submit_path = one1.getSubmit_path();
+		String submit_path = one1.getSubmit_path()+"/"+one1.getFileName();
 		String filePath = one1.getFilePath();
 		File s = fileServices.getFile(filePath);
 		File t = new File(submit_path);
