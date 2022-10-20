@@ -236,11 +236,15 @@ $('#sure').on('click',function (){
 			dataType: "JSON",
 			data:datas,
 			success(res) {
-				console.log("22222222222")
-				console.log(res)
-				//弹出框消失
-				$("#thismodal").modal("toggle");
-				$('#thismodal .modal-body').css('display', 'none');
+				if (status==0){
+					alert("提交成功")
+					//弹出框消失
+					 $("#thismodal").modal("toggle");
+					 $('#thismodal .modal-body').css('display', 'none');
+				 }else{
+			     	alert('提交失败')
+				 }
+
 			}
 		})
 	}else {
