@@ -221,17 +221,29 @@ var str = !/[@#$%^&*]+/g.test(nametext)
 //文件里面的确定按钮
 $('#sure').on('click',function (){
 	var catalog = $('.filcatalog').val()
-	console.log(catalog)
+	// console.log(catalog)
 	//拿到id
 	var checkpathids = new Array();
 	var checkfileids = new Array();
 	checkedpaths(checkpathids,checkfileids);
 	var fileid = checkfileids[0];
 
-	$.post("/submitfile",{"submitpath":catalog,"fileid":fileid},function(data){
-		alert('提交成功！')
-		//弹出框消失
-		$("#thismodal").modal("toggle");
-		$('#thismodal .modal-body').css('display', 'none');
-	})
+	if(catalog!=""){
+		let datas = {"submitpath": catalog, "fileid": fileid}
+		$.ajax({
+			url: "submitfile",
+			type: "post",
+			dataType: "JSON",
+			data:datas,
+			success(res) {
+				console.log("22222222222")
+				console.log(res)
+				//弹出框消失
+				$("#thismodal").modal("toggle");
+				$('#thismodal .modal-body').css('display', 'none');
+			}
+		})
+	}else {
+		alert('不能为空！！')
+	}
 })

@@ -9,7 +9,6 @@ import cn.gson.oasys.model.entity.user.User;
 import cn.gson.oasys.services.file.FileServices;
 import cn.gson.oasys.services.file.FileTransactionalHandlerService;
 import cn.gson.oasys.services.inform.InformService;
-import com.alibaba.fastjson.JSON;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,7 +27,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -403,21 +404,13 @@ public class FileController {
 	@ResponseBody
 	public String submitfile(@RequestParam("submitpath") String submitpath,@RequestParam("fileid") Long fileid,HttpSession session) throws IOException {
 		Long userid = Long.parseLong(session.getAttribute("userId") + "");
-		boolean pathflag = fs.checkPathValid(submitpath, "windows");
-		Map<String,String> msg=new HashMap<>();
-
-		String s = JSON.toJSONString(msg);
-
-		if(!pathflag){
-			msg.put("status","1");
-			msg.put("msg","路径异常");
-		}else{
-			msg.put("status","0");
-			msg.put("msg","提交成功");
+		boolean window = fs.checkPathValid(submitpath, "windows");
+		if(window){
 			fs.updateSubmitpathById(fileid,submitpath);
 			informService.addInfrom(userid,fileid,null,null,23L,17L);
+			return "提交成功";
 		}
-		return s;
+		return "路径异常";
 	}
 
 	public void copyFile(File source,String dest )throws IOException {
