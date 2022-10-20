@@ -54,7 +54,7 @@
                         <td style="text-align: center"><span>${this.modify_time}</span></td>
                         <td style="text-align: center"><span>${this.userName}</span></td>
                         <td style="text-align: center"><span>${this.deptName}</span></td>
-                        <td style="text-align: center"><span>${this.content}</span></td>
+                        <td style="text-align: center"><span>${this.content2}</span></td>
 <#--                        <td style="text-align: center"><span></span></td>-->
 <#--                        <td style="text-align: center"><span></span></td>-->
 
