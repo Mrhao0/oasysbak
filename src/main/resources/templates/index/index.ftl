@@ -46,7 +46,7 @@ maximum-scale=1, user-scalable=no">
 					<!-- 导航栏 -->
 					<#include "/common/navlist.ftl">
 					<div class="col-md-12 list-right"
-						style="background: #ecf0f5; position: relative; height: 845px;padding: 0;">
+						style="background: #ecf0f5; position: relative; height: 845px;padding: 0; text-align: center">
 						<!--内容区块-->
 						<iframe src="test2" frameBorder="0" width="100%" height="92%"></iframe>
 						<!-- 底部栏 -->

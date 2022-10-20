@@ -409,9 +409,6 @@ public class FileController {
 		Long userid = Long.parseLong(session.getAttribute("userId") + "");
 		boolean pathflag = fs.checkPathValid(submitpath, "windows");
 		Map<String,String> msg=new HashMap<>();
-
-		String s = JSON.toJSONString(msg);
-
 		if(!pathflag){
 			msg.put("status","1");
 			msg.put("msg","路径异常");
@@ -421,6 +418,7 @@ public class FileController {
 			fs.updateSubmitpathById(fileid,submitpath);
 			informService.addInfrom(userid,fileid,null,null,23L,17L);
 		}
+		String s = JSON.toJSONString(msg);
 		return s;
 	}
 

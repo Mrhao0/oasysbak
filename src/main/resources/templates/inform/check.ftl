@@ -103,7 +103,7 @@
     <iframe src="imgshow?fileid=${fileid}"></iframe>
 </div>
 <div class="box-footer">
-    <a href="agree?noticesListId=${noticesListId}&fileid=${fileid}" style="font-size: 13px">同意</a>
+    <a class="btn" href="agree?noticesListId=${noticesListId}&fileid=${fileid}" style="font-size: 13px">同意</a>
     <input class="btn btn-default" id="cancel" type="button" value="拒绝"
          />
 
@@ -145,7 +145,7 @@
         console.log(is,12345)
             $.ajax({
                 url: "/refuse",
-                data: {"noticesListId":${noticesListId} , "fileid":is},
+                data: {"noticesListId":${noticesListId} , "fileid":${fileid},"remark":is},
                 type: "GET",
                 success: function (result) {
                     alert("删除成功")
