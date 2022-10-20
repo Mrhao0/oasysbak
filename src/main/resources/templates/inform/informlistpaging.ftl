@@ -47,8 +47,8 @@
 
                 <#list list as this>
                     <tr>
-                        <td style="text-align: center"><span class="label ${(this.statusColor)!''}" style="background: #ccc;color: black">${this.status}</span></td>
-                        <td style="text-align: center"><span class="label ${(this.statusColor)!''}">待审核</span></td>
+                        <td style="text-align: center"><span class="label ${(this.statusColor)!''}" style="background: #ccc;color: black">${this.type}</span></td>
+                        <td style="text-align: center"><span class="label ${(this.statusColor)!''}">${this.status}</span></td>
                         <td style="text-align: center"><span>${this.title}</span></td>
                         <td style="text-align: center"><span>${this.modify_time}</span></td>
                         <td style="text-align: center"><span>${this.userName}</span></td>
@@ -61,7 +61,7 @@
                             <a href="/informlistpaging.ftl" class="label xiugai chakan look" style="font-size: 13px" id="${this.notice_id}">查看</a>
                             <#if positionid?if_exists?number==1>
                             <#--							<a onclick="{console.log(${this.notice_id},$(this).parents('tr'));return confirm('删除该记录将不能恢复，确定删除吗？');};" href="" class="label shanchu"  style="font-size: 13px" id="${this.notice_id}">删除</a>-->
-                                <a onclick="{console.log(${this.notice_id},$(this).parents('tr'));};" href="tocheck?noticesListId=${this.notice_id}&fileid=${this.file_id}" class="label xinzeng chakan forwardthis" id="${this.notice_id}" style="font-size: 13px">审核</a>
+                                <a onclick="{console.log(${this.file_id2},$(this).parents('tr'));};" href="tocheck?noticesListId=${this.notice_id}&fileid=${this.file_id2}" class="label xinzeng chakan forwardthis" id="${this.notice_id}" style="font-size: 13px">审核</a>
 
                             </#if>
 
