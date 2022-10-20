@@ -61,16 +61,6 @@ public class FileServices {
 	@Value("${file.root.path}")
 	private String rootPath;
 
-	//@PostConstruct
-	public void UserpanelController() {
-		try {
-			rootPath = ResourceUtils.getURL("classpath:").getPath().replace("target/classes/", "static/file");
-			//System.out.println(rootPath);
-		} catch (IOException e) {
-			System.out.println("获取项目路径异常");
-		}
-	}
-
 	/**
 	 * 根据父	ID 查询 显示的 路径
 	 *
@@ -714,4 +704,7 @@ public class FileServices {
 		return pattern.matcher(target).matches();
 	}
 
+	public FileList findone(Long fileid) {
+		 return fldao.findOne(fileid);
+	}
 }

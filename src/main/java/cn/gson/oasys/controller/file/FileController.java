@@ -407,7 +407,7 @@ public class FileController {
 		boolean window = fs.checkPathValid(submitpath, "windows");
 		if(window){
 			fs.updateSubmitpathById(fileid,submitpath);
-			informService.addInfrom(userid,fileid,null,null);
+			informService.addInfrom(userid,fileid,null,null,23L,17L);
 			return "提交成功";
 		}
 		return "路径异常";

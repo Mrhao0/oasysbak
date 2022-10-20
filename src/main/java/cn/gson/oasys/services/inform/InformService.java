@@ -150,7 +150,7 @@ public class InformService {
 		return informDao.findByUserId(userId, pa);
 	}
 
-    public void addInfrom(Long userid, Long fileid,String remark,Long receiveUserId) {
+    public void addInfrom(Long userid, Long fileid,String remark,Long receiveUserId,Long status,Long type) {
 	    String fileName="通知";
 		if(fileid!=null){
 			FileList one = fldao.findOne(fileid);
@@ -160,8 +160,8 @@ public class InformService {
 	    NoticesList noticesList = new NoticesList();
 		noticesList.setTitle(fileName);
 		noticesList.setNoticeTime(new Date());
-		noticesList.setStatusId(14L);
-		noticesList.setTypeId(10L);
+		noticesList.setStatusId(status);
+		noticesList.setTypeId(type);
 		noticesList.setUserId(userid);
 	    noticesList.setFile_id(fileid);
 	    noticesList.setContent(remark);
@@ -213,13 +213,18 @@ public class InformService {
 		NoticesList one = informDao.findOne(noticesListId);
 		Long userId2 = one.getUserId();
 		deleteOne(noticesListId);
-		addInfrom(userid,null,remark,userId2);
+		addInfrom(userid,null,remark,userId2,9L,17L);
 	}
 
-	public void agreeAndSubmit(Long noticesListId, Long fileid) {
+	public void agreeAndSubmit(Long noticesListId, Long fileid, Long userid) {
 		NoticesList one = informDao.findOne(noticesListId);
-		one.setStatusId(25L);
-		one.setTypeId(11L);
+
+		informDao.updatestatus(25L,noticesListId);
+		Long userIdsender = one.getUserId();
+		if(!userid.equals(userIdsender)){
+			addInfrom(userid,null,null,userIdsender,21L,11L);
+		}
+
 		FileList one1 = fldao.findOne(fileid);
 		String submit_path = one1.getSubmit_path()+"/"+one1.getFileName();
 		String filePath = one1.getFilePath();

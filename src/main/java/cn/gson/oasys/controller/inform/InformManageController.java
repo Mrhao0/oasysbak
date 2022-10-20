@@ -11,11 +11,13 @@ import cn.gson.oasys.model.dao.system.StatusDao;
 import cn.gson.oasys.model.dao.system.TypeDao;
 import cn.gson.oasys.model.dao.user.DeptDao;
 import cn.gson.oasys.model.dao.user.UserDao;
+import cn.gson.oasys.model.entity.file.FileList;
 import cn.gson.oasys.model.entity.notice.NoticeUserRelation;
 import cn.gson.oasys.model.entity.notice.NoticesList;
 import cn.gson.oasys.model.entity.system.SystemStatusList;
 import cn.gson.oasys.model.entity.system.SystemTypeList;
 import cn.gson.oasys.model.entity.user.User;
+import cn.gson.oasys.services.file.FileServices;
 import cn.gson.oasys.services.inform.InformRelationService;
 import cn.gson.oasys.services.inform.InformService;
 import com.github.pagehelper.PageHelper;
@@ -67,7 +69,8 @@ public class InformManageController {
 
 	@Autowired
 	private NoticeMapper nm;
-
+	@Autowired
+	private FileServices fs;
 	/**
 	 * 通知管理面板
 	 * 
@@ -311,9 +314,12 @@ public class InformManageController {
 	 * @date 2022-10-19 11:57
 	 */
 	@GetMapping("tocheck")
-	public String tocheck(String noticesListId,String fileid,HttpServletRequest req, Model model){
+	public String tocheck(String noticesListId,Long fileid,HttpServletRequest req, Model model){
+		FileList one = fs.findone(fileid);
+		model.addAttribute("submitpath", one.getSubmit_path());
 		model.addAttribute("noticesListId", noticesListId);
 		model.addAttribute("fileid", fileid);
+
 		return "inform/check";
 	}
 	/**
@@ -341,9 +347,9 @@ public class InformManageController {
 	 * @date 2022-10-19 17:25
 	 */
 	@GetMapping("agree")
-	public String agree(Long noticesListId,Long fileid){
-		informService.agreeAndSubmit(noticesListId,fileid);
-
+	public String agree(Long noticesListId,Long fileid,HttpSession session){
+		Long userid = Long.parseLong(session.getAttribute("userId") + "");
+		informService.agreeAndSubmit(noticesListId,fileid,userid);
 		return "forward:/infromlist";
 	}
 

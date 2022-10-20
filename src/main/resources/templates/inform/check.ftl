@@ -23,6 +23,7 @@
         top: 0;
         left: 0;
     }
+
     .layer {
         position: relative;
         width: 600px;
