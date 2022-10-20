@@ -3,6 +3,7 @@
     form {
         background-color: white;
     }
+
     iframe {
         width: 70%;
         height: 60%;
@@ -11,9 +12,11 @@
         background-color: white;
         margin-bottom: 30px;
     }
+
     .box-footer {
         text-align: center;
     }
+
     .masking {
         width: 100%;
         height: 100%;
@@ -35,35 +38,47 @@
         top: 50%;
         margin-top: -300px;
     }
+
     .close {
         position: absolute;
         right: 15px;
         top: 15px;
     }
+
     #okk {
         margin-top: 30px;
     }
+
     .middle {
         margin-top: 80px;
         text-align: center;
     }
+
     textarea {
         margin-top: 20px;
     }
+
     .text {
         font-size: 20px;
         margin-bottom: 30px;
     }
+
     a:hover {
         text-decoration: none;
     }
+
     .bgc-w {
         background-color: #fff;
     }
+
     .red {
         color: #d9534f;
         font-weight: 100;
         font-size: 1px;
+    }
+
+    .mulu {
+        text-align: center
     }
 </style>
 <div class="row" style="padding-top: 10px;">
@@ -80,17 +95,18 @@
         <a href="javascript:history.back();" class="label label-default"
            style="padding: 5px;"> <i
                     class="glyphicon glyphicon-chevron-left"></i> <span>返回</span>
-        </a>
+        </a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        提交目录：<input value="${submitpath}">
     </h3>
 </div>
-<#--<form action="informcheck" method="post" id="thisForm" onsubmit="return check();">-->
 <div class="xiangqing">
     <iframe src="imgshow?fileid=${fileid}"></iframe>
 </div>
 <div class="box-footer">
-    <input class="btn btn-primary" id="agree" type="submit" value="同意" size="small" onclick="agree();"/>
+    <a href="agree?noticesListId=${noticesListId}&fileid=${fileid}" style="font-size: 13px">同意</a>
     <input class="btn btn-default" id="cancel" type="button" value="拒绝"
-           onclick="delblog(${noticesListId})"/>
+         />
+
 </div>
 <div class="masking"><!--遮罩-->
     <div class="layer"><!--弹窗-->
@@ -98,9 +114,9 @@
         <div class="middle">
             <div class="text">请输入拒绝原因
                 <div>
-                    <textarea style="width:300px;height:100px;"></textarea>
+                    <textarea style="width:300px;height:100px;" class="texts"></textarea>
                 </div>
-                <input id="okk" class="btn btn-primary" type="submit" value="确定" onclick="ok(${noticesListId})"/>
+                <input id="okk" class="btn btn-primary" type="submit" value="确定" onclick="ok()"/>
             </div>
         </div>
     </div>
@@ -108,9 +124,7 @@
 <#include "/common/modalTip.ftl">
 <#--拒绝，删除-->
 <script type="text/javascript">
-    function delblog(obj) {
-        return true
-    }
+
     $(function () {
         $('#cancel').click(function () {
             $('.masking').fadeIn();
@@ -124,19 +138,20 @@
             $(".masking").hide();
         });
     })
-    // 同意
-    <#--$('#agree').on('click', function () {-->
-    <#--    $.ajax({-->
-    <#--        url: "agree",-->
-    <#--        data: {noticesListId:${noticesListId} , fileid:${fileid}},-->
-    <#--        type: "get",-->
-    <#--        agree: function (result) {-->
-    <#--            alert(result)-->
-    <#--        }-->
-    <#--    })-->
-    <#--})-->
 
     function ok() {
+        var is=$('.texts').val();
+        console.log(${noticesListId},123456)
+        console.log(is,12345)
+            $.ajax({
+                url: "/refuse",
+                data: {"noticesListId":${noticesListId} , "fileid":is},
+                type: "GET",
+                success: function (result) {
+                    alert("删除成功")
+                }
+            })
 
+        window.location.href = "infromlist"
     }
 </script>
