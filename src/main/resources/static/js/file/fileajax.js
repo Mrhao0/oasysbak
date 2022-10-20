@@ -236,15 +236,13 @@ $('#sure').on('click',function (){
 			dataType: "JSON",
 			data:datas,
 			success(res) {
-				if (status==0){
-					alert("提交成功")
+				if (res.status==0){
 					//弹出框消失
 					 $("#thismodal").modal("toggle");
 					 $('#thismodal .modal-body').css('display', 'none');
 				 }else{
-			     	alert('提交失败')
+			     	alert('提交失败,路径只能包含字母、数字、_和-')
 				 }
-
 			}
 		})
 	}else {
