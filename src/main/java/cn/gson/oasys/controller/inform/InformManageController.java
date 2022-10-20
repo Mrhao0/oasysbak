@@ -316,5 +316,35 @@ public class InformManageController {
 		model.addAttribute("fileid", fileid);
 		return "inform/check";
 	}
+	/**
+	 * @description 查看页
+	 * @date 2022-10-19 11:57
+	 */
+	@GetMapping("newpdf")
+	public String newpdf(String fileid, Model model){
+		model.addAttribute("fileid", fileid);
+		return "inform/newpdf";
+	}
+	/**
+	 * @description 拒绝
+	 * @date 2022-10-19 17:25
+	 */
+	@GetMapping("refuse")
+	public String refuse(Long noticesListId,String remark,HttpSession session){
+		Long userid = Long.parseLong(session.getAttribute("userId") + "");
+		informService.deleteAndBackSend(noticesListId,remark,userid);
+		return "forward:/infromlist";
+	}
+
+	/**
+	 * @description 同意
+	 * @date 2022-10-19 17:25
+	 */
+	@GetMapping("agree")
+	public String agree(Long noticesListId,Long fileid){
+		informService.agreeAndSubmit(noticesListId,fileid);
+
+		return "forward:/infromlist";
+	}
 
 }
