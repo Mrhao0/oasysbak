@@ -111,6 +111,35 @@ public class FileController {
 		model.addAttribute("mcpaths",fs.findpathByparent(userrootpath.getId()));
 		return "file/filemanage";
 	}
+	/**
+	 * @description 素材管理
+	 * @date 2022-10-21 12:30
+	 */
+	@RequestMapping("materialManagement")
+	public String materialManagement(@SessionAttribute("userId")Long userid,Model model) {
+		System.out.println(userid);
+		User user = udao.findOne(userid);
+
+		FilePath filepath = fpdao.findByPathName(user.getUserName());
+
+		System.out.println(filepath);
+
+		if(filepath == null){
+			FilePath filepath1 = new FilePath();
+			filepath1.setParentId(1L);
+			filepath1.setPathName(user.getUserName());
+			filepath1.setPathUserId(user.getUserId());
+			filepath = fpdao.save(filepath1);
+		}
+
+		model.addAttribute("nowpath", filepath);
+		model.addAttribute("paths", fs.findpathByparent(filepath.getId()));
+		model.addAttribute("files", fs.findfileBypath(filepath));
+
+		model.addAttribute("userrootpath",filepath);
+		model.addAttribute("mcpaths",fs.findpathByparent(filepath.getId()));
+		return "file/material";
+	}
 
 	/**
 	 * 文件上传 controller方法
@@ -379,24 +408,6 @@ public class FileController {
 			}
 		}
 	}
-	
-	
-
-	// @RequestMapping(value = "pathin",method = RequestMethod.POST)
-	// public @ResponseBody Map<Integer, Object>
-	// pathin(@RequestParam("pathid")Long pathid){
-	// FilePath filepath = fpdao.findOne(pathid);
-	// if(null == filepath)
-	// return null;
-	//
-	// Map<Integer, Object> maps = new HashMap<>();
-	// maps.put(1, fs.findpath(filepath.getId()));
-	// maps.put(2, fs.findfileBypath(filepath));
-	// System.out.println(maps);
-	// return maps;
-	// }
-
-
 	/**
 	 * 提交文件
 	 * @param session
@@ -421,6 +432,9 @@ public class FileController {
 		String s = JSON.toJSONString(msg);
 		return s;
 	}
+
+
+
 
 	/**
 	 * 分割文件新增

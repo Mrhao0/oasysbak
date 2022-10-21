@@ -141,6 +141,7 @@
 				
 				<#if paths??>
 					<#list paths as path>
+
 						<div class="file-one">
 							<div class="file-img path">
 								<#if istrash??>

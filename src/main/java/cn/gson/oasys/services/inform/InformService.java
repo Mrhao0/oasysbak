@@ -213,7 +213,7 @@ public class InformService {
 		NoticesList one = informDao.findOne(noticesListId);
 		Long userId2 = one.getUserId();
 		deleteOne(noticesListId);
-		addInfrom(userid,null,remark,userId2,9L,17L);
+		addInfrom(userid,one.getFile_id(),"拒绝:"+remark,userId2,9L,17L);
 	}
 
 	public void agreeAndSubmit(Long noticesListId, Long fileid, Long userid) {
@@ -222,7 +222,7 @@ public class InformService {
 		informDao.updatestatus(25L,noticesListId);
 		Long userIdsender = one.getUserId();
 		if(!userid.equals(userIdsender)){
-			addInfrom(userid,null,null,userIdsender,21L,11L);
+			addInfrom(userid,fileid,"提交已同意",userIdsender,21L,11L);
 		}
 
 		FileList one1 = fldao.findOne(fileid);

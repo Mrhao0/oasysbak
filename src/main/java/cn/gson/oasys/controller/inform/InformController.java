@@ -147,7 +147,6 @@ public class InformController {
 	public void updatestatus(Long noticeId){
 		informService.updatestatus(noticeId);
 	}
-
 	/**
 	 * 审批查看
 	 * @param noticeId
@@ -161,7 +160,6 @@ public class InformController {
 		list.setFilePath(rootPath+list.getFilePath());
 		return list;
 	}
-
 	/**
 	 * 审批删除
 	 * @param noticeId

@@ -96,7 +96,7 @@
            style="padding: 5px;"> <i
                     class="glyphicon glyphicon-chevron-left"></i> <span>返回</span>
         </a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        提交目录：<input value="${submitpath}" readonly >
+        提交目录：<input value="${submitpath}" readonly disabled>
     </h3>
 </div>
 <div class="xiangqing">

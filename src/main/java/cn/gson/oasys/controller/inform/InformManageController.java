@@ -100,34 +100,6 @@ public class InformManageController {
 		return "redirect:/infromlist";
 	}
 
-	// demo
-//	@RequestMapping("cccc")
-//	public @ResponseBody Page<NoticesList> ddd(@RequestParam(value = "page", defaultValue = "0") int page,
-//			@RequestParam(value = "size", defaultValue = "10") int size,
-//			@RequestParam(value = "baseKey", required = false) String baseKey, @SessionAttribute("userId") Long userId,
-//			Model model) {
-//		Page<NoticesList> page2 = informService.pageThis(page, size, userId,baseKey,null,null,null);
-//		List<NoticesList> noticeList=page2.getContent();
-//		Long sum=page2.getTotalElements();
-//		int size2=page2.getSize();
-//		int pages=page2.getTotalPages();
-//		int number=page2.getNumber();
-//		model.addAttribute("list", noticeList);
-//		model.addAttribute("page", page2);
-//		return page2;
-		
-		// List<NoticesList> noticeList=informDao.findByUserId(userId);
-		// List<NoticesList>
-		// noticeList=informDao.findByUserIdAndTopOrderByModifyTimeDesc(userId,
-		// true);
-		// List<NoticesList>
-		// noticeList2=informDao.findByUserIdAndTopOrderByModifyTimeDesc(userId,
-		// false);
-		// noticeList.addAll(noticeList2);
-		// List<Map<String, Object>> list=informService.fengZhuang(noticeList);
-		// model.addAttribute("list",list);
-//	}
-
 	/**
 	 * 通知管理删除
 	 */
@@ -172,16 +144,8 @@ public class InformManageController {
 	public String infromList(HttpSession session, HttpServletRequest req, Model model,
 							 @RequestParam(value="pageNum",defaultValue="1") int page) {
 		Long userId = Long.parseLong(session.getAttribute("userId") + "");
-//		User user = uDao.findOne(userId);
 		PageHelper.startPage(page, 10);
 		List<Map<String, Object>> list = nm.findMyNotice(userId);
-//		List<Map<String, Object>> list1 = new ArrayList<Map<String, Object>>();
-////		if (user.getPosition().getId() != 1L) {
-////			list1 = nm.findMyNotices1(userId);
-////		}else{
-////			list1 = nm.findMyNotices2();
-////		}
-////		System.out.println("list数据打印"+list1);
 		PageInfo<Map<String, Object>> pageinfo=new PageInfo<Map<String, Object>>(list);
 		List<Map<String, Object>> list2=informrelationservice.setList(list);
 		for (Map<String, Object> map : list2) {
