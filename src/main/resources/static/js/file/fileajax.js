@@ -87,6 +87,13 @@ $(".filetypeshare").click(function(){
 	$(".loadfiletype").load("filetypeload",{type:"share"});
 });
 
+$(".filets").click(function(){
+	$(".loadfiletype").load("material",{type:"pingtu"});
+});
+
+$(".filematerial").click(function(){
+	$(".loadfiletype").load("material",{type:"submitfile"});
+});
 /**
  * 搜索js
  */

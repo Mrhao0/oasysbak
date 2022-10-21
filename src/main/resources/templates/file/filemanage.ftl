@@ -103,9 +103,6 @@ li.activee>a {
 	<div class="row" style="padding-top: 15px;">
 		<div class="col-md-3">
 			<form class = "fileuploadform" action="fileupload" method="post" enctype="multipart/form-data">
-			<!-- <a class="btn btn-primary" href="##"
-				style="width: 100%; margin-bottom: 20px;"><span
-				class="glyphicon glyphicon-open"></span> 上传</a> -->
 				<div class="btn btn-primary uploadfile"
 					style="position: relative; overflow: hidden;width: 100%; margin-bottom: 20px;">
 					<i class="glyphicon glyphicon-open"></i> 上传 
@@ -174,7 +171,7 @@ li.activee>a {
 						<h3 class="box-title mc-title" style="font-size:15px;"></h3>
 					</div>
 					<div class="box-body no-padding" style="height: 50px">
-<#--					<div style="margin-top: 60px;margin-left: 40px">	文件名:<input type="text" style="margin-left: 20px;width: 250px" class="finame"></div>-->
+
 						<div style="margin-top: 30px;margin-left: 40px"> 文件目录:<input type="text" style="margin-left: 10px;width: 250px" class="filcatalog"></div>
 					</div>
 					<div class="box-footer" style="text-align:right;">

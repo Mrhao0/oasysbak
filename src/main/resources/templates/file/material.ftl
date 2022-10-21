@@ -113,10 +113,10 @@
 					</span>
             </div>
             <ul class="nav nav-pills nav-stacked mm">
-                <li class="activee filetypedocument"><a href="filemanage"> <span
-                                class="iconfont icon-suoyougongneng"></span> 全部文件</a></li>
-                <li><a href="##" class="filetypedocument"><span class="iconfont icon-icon4"></span>
-                        文档</a></li>
+                <li><a href="##" class="filets"><span class="iconfont icon-icon4"></span>
+                        文件管理</a></li>
+                <li><a href="##" class="filematerial"><span class="iconfont icon-tupian"></span>
+                        素材管理</a></li>
             </ul>
         </div>
     </div>
