@@ -243,16 +243,14 @@ public class FileController {
 	}
 
 	@RequestMapping("temeplate")
-	public String temeplate(Long noticesListId,Long fileid,HttpSession session){
-		Long userid = Long.parseLong(session.getAttribute("userId") + "");
-		informService.agreeAndSubmit(noticesListId,fileid,userid);
+	public String temeplate(){
+
 		return "file/temeplate";
 	}
 
 	@RequestMapping("thepath")
-	public String thepath(Long noticesListId,Long fileid,HttpSession session){
-		Long userid = Long.parseLong(session.getAttribute("userId") + "");
-		informService.agreeAndSubmit(noticesListId,fileid,userid);
+	public String thepath(){
+
 		return "file/thepath";
 	}
 
