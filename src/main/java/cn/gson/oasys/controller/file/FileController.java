@@ -16,10 +16,7 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
@@ -244,6 +241,21 @@ public class FileController {
 		return "forward:/filetest";
 		
 	}
+
+	@RequestMapping("temeplate")
+	public String temeplate(Long noticesListId,Long fileid,HttpSession session){
+		Long userid = Long.parseLong(session.getAttribute("userId") + "");
+		informService.agreeAndSubmit(noticesListId,fileid,userid);
+		return "file/temeplate";
+	}
+
+	@RequestMapping("thepath")
+	public String thepath(Long noticesListId,Long fileid,HttpSession session){
+		Long userid = Long.parseLong(session.getAttribute("userId") + "");
+		informService.agreeAndSubmit(noticesListId,fileid,userid);
+		return "file/thepath";
+	}
+
 	/**
 	 * 移动和复制
 	 * @param mctoid

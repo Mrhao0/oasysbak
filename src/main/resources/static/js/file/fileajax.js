@@ -87,12 +87,12 @@ $(".filetypeshare").click(function(){
 	$(".loadfiletype").load("filetypeload",{type:"share"});
 });
 
-$(".filets").click(function(){
-	$(".loadfiletype").load("material",{type:"pingtu"});
+$(".filelib").click(function(){
+	$(".loadfiletype").load("filetypeload",{type:"filelib"});
 });
 
-$(".filematerial").click(function(){
-	$(".loadfiletype").load("material",{type:"submitfile"});
+$(".materialLib").click(function(){
+	$(".loadfiletype").load("filetypeload",{type:"materialLib"});
 });
 /**
  * 搜索js
