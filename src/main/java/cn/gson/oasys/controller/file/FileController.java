@@ -242,6 +242,10 @@ public class FileController {
 		
 	}
 
+	/**
+	 * @description 审核模板管理页
+	 * @date 2022-10-25 15:59
+	 */
 	@RequestMapping("temeplate")
 	public String temeplate(Model model){
 		List<Map<String,String>> l=new ArrayList<>();
@@ -270,6 +274,10 @@ public class FileController {
 		return "file/temeplate";
 	}
 
+	/**
+	 * @description 审核模板管理页-新增修改
+	 * @date 2022-10-25 16:00
+	 */
 	@RequestMapping("addthepath2")
 	public String addthepath2(String id,Model model){
 		Map<String,String> thepathmap2=new HashMap<>();
@@ -282,6 +290,11 @@ public class FileController {
 		return "file/addthepath2";
 	}
 
+
+	/**
+	 * @description 目录管理
+	 * @date 2022-10-25 16:00
+	 */
 	@RequestMapping("thepath")
 	public String thepath(Model model){
 		List<Map<String,String>> l=new ArrayList<>();
@@ -307,6 +320,10 @@ public class FileController {
 		return "file/thepath";
 	}
 
+	/**
+	 * @description 目录管理-新增修改
+	 * @date 2022-10-25 16:00
+	 */
 	@RequestMapping("addthepath")
 	public String addthepath(String id,Model model){
 		Map<String,String> thepathmap2=new HashMap<>();
