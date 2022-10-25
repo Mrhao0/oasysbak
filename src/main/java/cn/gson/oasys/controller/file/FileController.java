@@ -226,14 +226,14 @@ public class FileController {
 	 * @param model
 	 * @return
 	 */
-	
+
 	@RequestMapping("rename")
 	public String rename(@RequestParam("name") String name,
 			@RequestParam("renamefp") Long renamefp,
 			@RequestParam("pathid") Long pathid,
 			@RequestParam("isfile") boolean isfile,
 			Model model){
-		
+
 		//这里调用重命名方法
 		fs.rename(name, renamefp, pathid, isfile);
 		
@@ -270,6 +270,18 @@ public class FileController {
 		return "file/temeplate";
 	}
 
+	@RequestMapping("addthepath2")
+	public String addthepath2(String id,Model model){
+		Map<String,String> thepathmap2=new HashMap<>();
+		thepathmap2.put("id","2");
+		thepathmap2.put("name","陕西省-西安市-周至县-招商银行");
+		thepathmap2.put("path","D:\\陕西省\\西安市\\周至县\\招商银行");
+		thepathmap2.put("remark","招商银行图纸库");
+		thepathmap2.put("checktemplate","1");
+		model.addAttribute("pathMap", thepathmap2);
+		return "file/addthepath2";
+	}
+
 	@RequestMapping("thepath")
 	public String thepath(Model model){
 		List<Map<String,String>> l=new ArrayList<>();
@@ -295,6 +307,16 @@ public class FileController {
 		return "file/thepath";
 	}
 
+	@RequestMapping("addthepath")
+	public String addthepath(String id,Model model){
+		Map<String,String> thepathmap2=new HashMap<>();
+		thepathmap2.put("id","2");
+		thepathmap2.put("name","陕西省-西安市-周至县-招商银行");
+		thepathmap2.put("path","D:\\陕西省\\西安市\\周至县\\招商银行");
+		thepathmap2.put("remark","招商银行图纸库");
+		model.addAttribute("pathMap", thepathmap2);
+		return "file/addthepath";
+	}
 	/**
 	 * 移动和复制
 	 * @param mctoid
