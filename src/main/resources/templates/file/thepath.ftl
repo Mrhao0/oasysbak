@@ -63,7 +63,7 @@
                 <!--盒子头-->
                 <div class="box-header">
                     <h3 class="box-title">
-                        <a href="addrole" class="label label-success" style="padding: 5px;">
+                        <a href="addthepath" class="label label-success" style="padding: 5px;">
                             <span class="glyphicon glyphicon-plus"></span> 新增
                         </a>
                     </h3>
@@ -98,9 +98,7 @@
                                         <td><span>0</span></td>
                                     </#if>
                                     <td>
-<#--                                        <a href="roleset?id=${item.roleId}" class="label sheding">-->
-<#--                                            <span class="glyphicon glyphicon-asterisk"></span> 设定</a>-->
-                                        <a href="addrole?id=${item.id}" class="label xiugai">
+                                        <a href="addthepath?id=${item.id}" class="label xiugai">
                                             <span class="glyphicon glyphicon-edit"></span> 修改</a>
                                         <a href="deshan?id=${item.id}" onclick="{return confirm('删除该记录将不能恢复，确定删除吗？');};" class="label shanchu">
                                             <span  class="glyphicon glyphicon-remove"></span> 删除</a>
@@ -111,7 +109,7 @@
                     </div>
                 </div>
                 <!--盒子尾-->
-                <#include "/common/paging.ftl">
+                <#include "/common/pagingmybatis.ftl">
             </div>
         </div>
     </div>
