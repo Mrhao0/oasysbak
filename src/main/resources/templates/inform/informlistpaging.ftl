@@ -130,11 +130,6 @@
 </div>
 <script>
 
-    $(".look").click(function () {
-
-
-    })
-
     $(function () {
 
         $(".chakan").click(function () {
