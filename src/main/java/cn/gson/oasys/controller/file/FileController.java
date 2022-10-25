@@ -252,7 +252,6 @@ public class FileController {
 		thepathmap.put("remark","建设银行图纸库");
 		thepathmap.put("checktemplate","1");
 		l.add(thepathmap);
-
 		Map<String,String> thepathmap2=new HashMap<>();
 		thepathmap2.put("id","2");
 		thepathmap2.put("name","陕西省-西安市-周至县-招商银行审核模板");
@@ -267,7 +266,7 @@ public class FileController {
 		thepathmap3.put("remark","华夏银行图纸库");
 		thepathmap3.put("checktemplate","0");
 		l.add(thepathmap3);
-		model.addAttribute("pathList", l);
+		model.addAttribute("temeplateList", l);
 		return "file/temeplate";
 	}
 
@@ -280,7 +279,6 @@ public class FileController {
 		thepathmap.put("path","D:\\陕西省\\西安市\\周至县\\建设银行");
 		thepathmap.put("remark","建设银行图纸库");
 		l.add(thepathmap);
-
 		Map<String,String> thepathmap2=new HashMap<>();
 		thepathmap2.put("id","2");
 		thepathmap2.put("name","陕西省-西安市-周至县-招商银行");
