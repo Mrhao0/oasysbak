@@ -1,16 +1,31 @@
 <#include "/common/commoncss.ftl">
 <style type="text/css">
     form {
+
+    }
+
+    .xiangqing {
         background-color: white;
+        position: relative;
+        width: 100%;
+        height: 510px;
+
     }
 
     iframe {
-        width: 70%;
-        height: 60%;
+        position: absolute;
+        width: 60%;
+        height: 95%;
         border: #0a84ff;
-        margin-left: 190px;
+        margin-left: 15px;
         background-color: white;
-        margin-bottom: 30px;
+    }
+
+    .check {
+        position: absolute;
+        margin-left: 70%;
+        width: 30%;
+        height: 100%;
     }
 
     .box-footer {
@@ -45,7 +60,7 @@
         top: 15px;
     }
 
-    #okk {
+    #alinkisok {
         margin-top: 30px;
     }
 
@@ -101,11 +116,15 @@
 </div>
 <div class="xiangqing">
     <iframe src="imgshow?fileid=${fileid}"></iframe>
+    <div class="check"><a href="menuedit" class="btn btn-success" style="color: white;"><span
+                    class="glyphicon glyphicon-plus"></span>修改审核点</a></div>
+
 </div>
 <div class="box-footer">
-    <a href="agree?noticesListId=${noticesListId}&fileid=${fileid}" class="btn btn-primary" style="font-size: 13px">同意</a>
+    <a href="agree?noticesListId=${noticesListId}&fileid=${fileid}" class="btn btn-primary"
+       style="font-size: 13px">同意</a>
     <input class="btn btn-default" id="cancel" type="button" value="拒绝"
-         />
+    />
 
 </div>
 <div class="masking"><!--遮罩-->
@@ -114,10 +133,12 @@
         <div class="middle">
             <div class="text">请输入拒绝原因
                 <div>
-                    <textarea onkeyup="remarkkeyup(${noticesListId},${fileid})" id="remark" style="width:300px;height:100px;" class="texts"></textarea>
+                    <textarea onkeyup="remarkkeyup(${noticesListId},${fileid})" id="remark"
+                              style="width:300px;height:100px;" class="texts"></textarea>
                 </div>
-<#--                <input id="okk" class="btn btn-primary" type="submit" value="确定" onclick="ok()"/>-->
-                <a id="alinkisok" href="refuse?noticesListId=${noticesListId}&remark=''&fileid=${fileid}" class="btn btn-primary" style="font-size: 13px">确定</a>
+                <#--                <input id="okk" class="btn btn-primary" type="submit" value="确定" onclick="ok()"/>-->
+                <a id="alinkisok" href="refuse?noticesListId=${noticesListId}&remark=''&fileid=${fileid}"
+                   class="btn btn-primary" style="font-size: 13px">确定</a>
 
             </div>
         </div>
@@ -140,10 +161,12 @@
             $(".masking").hide();
         });
     })
-    function remarkkeyup(noticesListId,fileid){
-        var is=$('.texts').val();
-        $("#alinkisok").attr("href", "refuse?noticesListId="+noticesListId+"&remark="+is+"&fileid="+fileid);
+
+    function remarkkeyup(noticesListId, fileid) {
+        var is = $('.texts').val();
+        $("#alinkisok").attr("href", "refuse?noticesListId=" + noticesListId + "&remark=" + is + "&fileid=" + fileid);
     }
+
     <#--function ok() {-->
     <#--    var is=$('.texts').val();-->
 
