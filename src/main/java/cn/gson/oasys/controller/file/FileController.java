@@ -243,8 +243,31 @@ public class FileController {
 	}
 
 	@RequestMapping("temeplate")
-	public String temeplate(){
+	public String temeplate(Model model){
+		List<Map<String,String>> l=new ArrayList<>();
+		Map<String,String> thepathmap=new HashMap<>();
+		thepathmap.put("id","1");
+		thepathmap.put("name","陕西省-西安市-周至县-建设银行审核模板");
+		thepathmap.put("path","D:\\陕西省\\西安市\\周至县\\建设银行");
+		thepathmap.put("remark","建设银行图纸库");
+		thepathmap.put("checktemplate","1");
+		l.add(thepathmap);
 
+		Map<String,String> thepathmap2=new HashMap<>();
+		thepathmap2.put("id","2");
+		thepathmap2.put("name","陕西省-西安市-周至县-招商银行审核模板");
+		thepathmap2.put("path","D:\\陕西省\\西安市\\周至县\\招商银行");
+		thepathmap2.put("remark","招商银行图纸库");
+		thepathmap2.put("checktemplate","1");
+		l.add(thepathmap2);
+		Map<String,String> thepathmap3=new HashMap<>();
+		thepathmap3.put("id","3");
+		thepathmap3.put("name","陕西省-铜川市-新兴镇-华夏银行审核模板");
+		thepathmap3.put("path","D:\\铜川市\\新兴镇\\周至县\\华夏银行");
+		thepathmap3.put("remark","华夏银行图纸库");
+		thepathmap3.put("checktemplate","0");
+		l.add(thepathmap3);
+		model.addAttribute("pathList", l);
 		return "file/temeplate";
 	}
 
