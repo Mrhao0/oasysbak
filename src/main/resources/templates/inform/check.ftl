@@ -17,16 +17,10 @@
         width: 60%;
         height: 95%;
         border: #0a84ff;
-        margin-left: 15px;
+        margin-left: 240px;
         background-color: white;
     }
 
-    .check {
-        position: absolute;
-        margin-left: 70%;
-        width: 30%;
-        height: 100%;
-    }
 
     .box-footer {
         text-align: center;
@@ -116,9 +110,6 @@
 </div>
 <div class="xiangqing">
     <iframe src="imgshow?fileid=${fileid}"></iframe>
-    <div class="check"><a href="menuedit" class="btn btn-success" style="color: white;"><span
-                    class="glyphicon glyphicon-plus"></span>修改审核点</a></div>
-
 </div>
 <div class="box-footer">
     <a href="agree?noticesListId=${noticesListId}&fileid=${fileid}" class="btn btn-primary"
