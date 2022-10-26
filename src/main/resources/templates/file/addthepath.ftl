@@ -47,7 +47,6 @@
                             <span class="error-mess"></span>
                         </div>
                         <div class="row">
-
                             <div class="col-md-6 form-group">
                                 <label>
                                     <span id="ctl00_cphMain_Label1">名称</span>
@@ -71,8 +70,6 @@
                                 <input name="roleName" type="text" value="${(role.remark)!''}" class="form-control"/>
                                 <input name="roleId" type="text" value="${(role.id)!''}" hidden="hidden"/>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
