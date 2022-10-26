@@ -57,7 +57,7 @@ public class FileController {
 	public String usermanage(@SessionAttribute("userId")Long userid,Model model) {
 		System.out.println(userid);
 		User user = udao.findOne(userid);
-		
+
 		FilePath filepath = fpdao.findByPathName(user.getUserName());
 		
 		System.out.println(filepath);
@@ -162,7 +162,16 @@ public class FileController {
 		model.addAttribute("pathid", pathid);
 		return "forward:/filetest";
 	}
-	
+	/**
+	 * @description 图纸合成
+	 * @date 2022-10-26 18:30
+	 */
+	@RequestMapping("mergeblueprint")
+	public String tomergeblueprint(@SessionAttribute("userId")Long userid,Model model) {
+		
+		return "file/mergeblueprint";
+	}
+
 	/**
 	 * 文件分享
 	 * @param pathid
@@ -319,7 +328,6 @@ public class FileController {
 		model.addAttribute("pathList", l);
 		return "file/thepath";
 	}
-
 	/**
 	 * @description 目录管理-新增修改
 	 * @date 2022-10-25 16:00
