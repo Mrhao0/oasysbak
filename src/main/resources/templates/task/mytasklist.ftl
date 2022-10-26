@@ -20,7 +20,7 @@
 	</div>
 	<!--盒子身体-->
 	<div class="box-body no-padding">
-		<div class="table-responsive">
+		<div class="table-responsive" >
 			<table class="table table-hover table-striped">
 				<thead>
 					<tr>

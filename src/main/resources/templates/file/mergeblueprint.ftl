@@ -46,6 +46,13 @@
             cursor: pointer;
         }
 
+        .bigbox{
+            width: 80%;
+            height: 500px;
+            border: 5px solid black;
+            margin: 0 auto;
+            padding: 20px;
+        }
     </style>
     <div class="row" style="padding-top: 10px;">
         <div class="col-md-2">
@@ -55,5 +62,31 @@
             <a href="##"><span class="glyphicon glyphicon-home"></span> 首页</a> > <a
                     disabled="disabled">合成图纸</a>
         </div>
+    </div>
+
+
+
+    <div class="row" style="padding-top: 15px;">
+        <div class="col-md-12 thistable">
+            <div class="bgc-w box box-primary">
+                <!--盒子身体-->
+                <div class="box-body no-padding">
+                    <div class="table-responsive" style="margin-top: 20px">
+                        <button type="button" style="padding:6px 16px;background: #337ab7;color: white;border: none;border-radius: 5px">开始合成</button>
+                        <select style="margin-left:10px;height: 25px;width: 100px;border-radius: 5px">
+                            <option>选择模板</option>
+                            <option>模板一</option>
+                            <option>模板二</option>
+                            <option>模板三</option>
+                        </select>
+                        <button type="button" style="margin-left:10px;padding:6px 16px;background: #337ab7;color: white;border: none;border-radius: 5px">下一页</button>
+                        <button type="button" style="margin-left:10px;padding:6px 16px;background: #337ab7;color: white;border: none;border-radius: 5px">完成</button>
+                    </div>
+                    <div class="bigbox"></div>
+                </div>
+
+            </div>
+        </div>
+
     </div>
 
