@@ -47,22 +47,29 @@
                             <span class="error-mess"></span>
                         </div>
                         <div class="row">
-
                             <div class="col-md-6 form-group">
                                 <label>
                                     <span id="ctl00_cphMain_Label1">名称</span>
                                 </label>
-                                <input name="roleName" type="text" value="${(role.roleName)!''}" class="form-control"/>
-                                <input name="roleId" type="text" value="${(role.roleId)!''}" hidden="hidden"/>
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label>
-                                    <span id="ctl00_cphMain_Label2">类型值</span>
-                                </label>
-                                <input name="roleValue" readonly="readonly" type="text" value="${(role.roleValue)!''}"
-                                       style="background-color:#fff;" class="form-control"/>
+                                <input name="roleName" type="text" value="${(role.name)!''}" class="form-control"/>
+                                <input name="roleId" type="text" value="${(role.id)!''}" hidden="hidden"/>
                             </div>
 
+                            <div class="col-md-6 form-group">
+                                <label>
+                                    <span id="ctl00_cphMain_Label1">路径</span>
+                                </label>
+                                <input name="roleName" type="text" value="${(role.path)!''}" class="form-control"/>
+                                <input name="roleId" type="text" value="${(role.id)!''}" hidden="hidden"/>
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <label>
+                                    <span id="ctl00_cphMain_Label1">备注</span>
+                                </label>
+                                <input name="roleName" type="text" value="${(role.remark)!''}" class="form-control"/>
+                                <input name="roleId" type="text" value="${(role.id)!''}" hidden="hidden"/>
+                            </div>
                         </div>
                     </div>
                 </div>
