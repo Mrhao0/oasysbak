@@ -405,6 +405,7 @@
         </div>
         <p id="dirId" hidden></p>
         <p id="materialIds" hidden></p>
+        <p id="fileListId" hidden></p>
     </div>
 
 <script >
@@ -456,7 +457,8 @@
                 dataType: "JSON",
                 data:data,
                 success(res) {
-                    console.log(res)
+                    console.log(res.data.dirId)
+                    $("#fileListId").html(res.data.dirId);
                 },
                 error(res){
                     console.log('error')

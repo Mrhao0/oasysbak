@@ -34,7 +34,7 @@ public class DirManagementController {
 	 */
 	@RequestMapping("thepath")
 	public String toThepath(@RequestParam(value="page",defaultValue="0") int page, Model model,
-	                        @RequestParam(value="size",defaultValue="10") int size,Integer type){
+	                        @RequestParam(value="size",defaultValue="10") int size,@RequestParam(value="size",defaultValue="100")Integer type){
 		Sort sort = new Sort(Sort.Direction.DESC, "id");
 		Pageable pa=new PageRequest(page, size,sort);
 
