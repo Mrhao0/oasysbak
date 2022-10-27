@@ -196,6 +196,15 @@
             width: 185px;
             height: 29px;
         }
+
+        .cler{
+            font-size: 25px;
+            color: white;
+            position: absolute;
+            top: 30px;
+            right: 60px;
+            cursor: pointer;
+        }
     </style>
     <div class="row" style="padding-top: 10px;">
         <div class="col-md-2">
@@ -378,6 +387,7 @@
 
             </div>
             <div class="blacks">
+                <div class="cler">X</div>
                 <div class="whites">
                     <div style="margin-left: 27px;margin-top: 22px">
                         名字:<input type="text" placeholder="请输入文件名字"class="nams">
@@ -385,8 +395,7 @@
                     <div style="margin-top: 20px">
                         提交目录: <select id="catalogue">
                             <option selected="selected" disabled="disabled"  style='display: none' value=''>目录</option>
-                            <option>目录1</option>
-                            <option>目录2</option>
+
                         </select>
                     </div>
 
@@ -400,8 +409,6 @@
 
 <script >
     $(function (){
-
-        var arr = []
         <#-- 选择模板 下拉框  -->
         $("#sele").on('click',(e) => {
             e.preventDefault();
@@ -455,7 +462,6 @@
                     console.log('error')
                 }
             })
-
             pan++
             $("#pageNoYes").html(pan)
             // $('.box1_right').css('background','white')
@@ -464,18 +470,45 @@
 
         //完成   按钮
         $('#finish').on('click',function (e){
+            $.ajax({
+                url:"getSubmitPath",
+                type:'post',
+                dataType:"json",
+                success(res) {
+                    console.log(res)
+                    res.forEach(item =>{
+                        console.log(item.name)
+
+                        $('#catalogue').append("<option value='"+item.id+"'>"+item.name+"</option>")
+                    })
+
+                }
+            })
+
             $('.blacks').css('height','673px')
             $('.whites').css('display','block')
             $('.nams').val('')
-
         })
 
-      //确定  按钮
+            //确定  按钮
         $('.sure').click(function (){
             var nam = $('.nams').val()
             var cata = $('#catalogue').val()
             console.log(nam,cata)
             if(nam!=''&&cata!=null){
+                $.ajax({
+                    url:"mergedPDF",
+                    type:'post',
+                    dataType:"json",
+                    data:{"fileListId":'',"dirId":cata,"pdfName":nam},
+                    success(res) {
+                     alert('合成成功')
+                    },
+                    error(res){
+                        alert('合成失败')
+                    }
+                })
+
                 $('.blacks').css('height','0px')
                 $('.whites').css('display','none')
             }else {
@@ -484,6 +517,13 @@
 
         })
     })
+
+    //完成的关闭 按钮
+    $('.cler').click(function (){
+        $('.blacks').css('height','0px')
+        $('.whites').css('display','none')
+    })
+
     function getImgList(id){
         console.log(id)
         var sourceval = $("#"+id+"ls").val();
