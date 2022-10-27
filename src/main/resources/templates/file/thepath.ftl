@@ -86,6 +86,7 @@
                                 <th scope="col">名称</th>
                                 <th scope="col">路径</th>
                                 <th scope="col">备注</th>
+                                <th scope="col">类型</th>
                                 <th scope="col">操作</th>
                             </tr>
                             <#list pathList as item>
@@ -97,10 +98,17 @@
                                     <#else>
                                         <td><span>0</span></td>
                                     </#if>
+
+                                    <#if item.type==0>
+                                        <td><span>图纸库</span></td>
+                                    <#else>
+                                        <td><span>素材库</span></td>
+                                    </#if>
+
                                     <td>
                                         <a href="addthepath?id=${item.id}" class="label xiugai">
                                             <span class="glyphicon glyphicon-edit"></span> 修改</a>
-                                        <a href="deshan?id=${item.id}" onclick="{return confirm('删除该记录将不能恢复，确定删除吗？');};" class="label shanchu">
+                                        <a href="deleteDirManagement?id=${item.id}" onclick="{return confirm('删除该记录将不能恢复，确定删除吗？');};" class="label shanchu">
                                             <span  class="glyphicon glyphicon-remove"></span> 删除</a>
                                     </td>
                                 </tr>
@@ -109,7 +117,7 @@
                     </div>
                 </div>
                 <!--盒子尾-->
-                <#include "/common/pagingmybatis.ftl">
+                <#include "/common/paging.ftl">
             </div>
         </div>
     </div>

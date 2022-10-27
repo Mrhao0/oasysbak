@@ -59,8 +59,8 @@ public class FileList implements Serializable {
 	@JoinColumn(name = "file_user_id")
 	private User user;			//外键关联用户表  -文件上传者
 
-	@Column(name = "submit_path") //要审核的提交目录
-	private String submit_path;
+	@Column(name = "id_dir_management") //要审核的提交目录
+	private Long id_dir_management;
 
 	@ManyToOne
 	@JoinColumn(name = "path_id")
@@ -166,12 +166,12 @@ public class FileList implements Serializable {
 		this.fpath = fpath;
 	}
 
-	public String getSubmit_path() {
-		return submit_path;
+	public Long getId_dir_management() {
+		return id_dir_management;
 	}
 
-	public void setSubmit_path(String submit_path) {
-		this.submit_path = submit_path;
+	public void setId_dir_management(Long id_dir_management) {
+		this.id_dir_management = id_dir_management;
 	}
 
 	@Override

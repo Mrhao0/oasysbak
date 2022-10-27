@@ -1,5 +1,7 @@
 package cn.gson.oasys.controller.file;
 
+import cn.gson.oasys.common.formValid.BindingResultVOUtil;
+import cn.gson.oasys.common.formValid.ResultVO;
 import cn.gson.oasys.mappers.FileMapper;
 import cn.gson.oasys.model.dao.filedao.FileListdao;
 import cn.gson.oasys.model.dao.filedao.FilePathdao;
@@ -300,48 +302,8 @@ public class FileController {
 	}
 
 
-	/**
-	 * @description 目录管理
-	 * @date 2022-10-25 16:00
-	 */
-	@RequestMapping("thepath")
-	public String thepath(Model model){
-		List<Map<String,String>> l=new ArrayList<>();
-		Map<String,String> thepathmap=new HashMap<>();
-		thepathmap.put("id","1");
-		thepathmap.put("name","陕西省-西安市-周至县-建设银行");
-		thepathmap.put("path","D:\\陕西省\\西安市\\周至县\\建设银行");
-		thepathmap.put("remark","建设银行图纸库");
-		l.add(thepathmap);
-		Map<String,String> thepathmap2=new HashMap<>();
-		thepathmap2.put("id","2");
-		thepathmap2.put("name","陕西省-西安市-周至县-招商银行");
-		thepathmap2.put("path","D:\\陕西省\\西安市\\周至县\\招商银行");
-		thepathmap2.put("remark","招商银行图纸库");
-		l.add(thepathmap2);
-		Map<String,String> thepathmap3=new HashMap<>();
-		thepathmap3.put("id","3");
-		thepathmap3.put("name","陕西省-铜川市-新兴镇-华夏银行");
-		thepathmap3.put("path","D:\\铜川市\\新兴镇\\周至县\\华夏银行");
-		thepathmap3.put("remark","华夏银行图纸库");
-		l.add(thepathmap3);
-		model.addAttribute("pathList", l);
-		return "file/thepath";
-	}
-	/**
-	 * @description 目录管理-新增修改
-	 * @date 2022-10-25 16:00
-	 */
-	@RequestMapping("addthepath")
-	public String addthepath(String id,Model model){
-		Map<String,String> thepathmap2=new HashMap<>();
-		thepathmap2.put("id","2");
-		thepathmap2.put("name","陕西省-西安市-周至县-招商银行");
-		thepathmap2.put("path","D:\\陕西省\\西安市\\周至县\\招商银行");
-		thepathmap2.put("remark","招商银行图纸库");
-		model.addAttribute("pathMap", thepathmap2);
-		return "file/addthepath";
-	}
+
+
 	/**
 	 * 移动和复制
 	 * @param mctoid
@@ -514,21 +476,19 @@ public class FileController {
 	 */
 	@RequestMapping("submitfile")
 	@ResponseBody
-	public String submitfile(@RequestParam("submitpath") String submitpath,@RequestParam("fileid") Long fileid,HttpSession session) throws IOException {
+	public ResultVO submitfile(@RequestParam("id_submitpath") Long id_submitpath,@RequestParam("fileid") Long fileid,HttpSession session) throws IOException {
 		Long userid = Long.parseLong(session.getAttribute("userId") + "");
-		boolean pathflag = fs.checkPathValid(submitpath, "windows");
-		Map<String,String> msg=new HashMap<>();
-		if(!pathflag){
-			msg.put("status","1");
-			msg.put("msg","路径异常");
-		}else{
-			msg.put("status","0");
-			msg.put("msg","提交成功");
-			fs.updateSubmitpathById(fileid,submitpath);
-			informService.addInfrom(userid,fileid,null,null,23L,17L);
-		}
-		String s = JSON.toJSONString(msg);
-		return s;
+
+//		boolean pathflag = fs.checkPathValid(submitpath, "windows");
+//		Map<String,String> msg=new HashMap<>();
+//		if(!pathflag){
+//			return BindingResultVOUtil.error(1, "路径异常");
+//		}else{
+//
+//		}
+		fs.updateSubmitpathById(fileid,id_submitpath);
+		informService.addInfrom(userid,fileid,null,null,23L,17L);
+		return BindingResultVOUtil.success();
 	}
 
 

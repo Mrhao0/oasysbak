@@ -1,11 +1,13 @@
 package cn.gson.oasys.services.inform;
 
+import cn.gson.oasys.model.dao.filedao.DirManagementDao;
 import cn.gson.oasys.model.dao.filedao.FileListdao;
 import cn.gson.oasys.model.dao.informdao.InformDao;
 import cn.gson.oasys.model.dao.informdao.InformRelationDao;
 import cn.gson.oasys.model.dao.system.StatusDao;
 import cn.gson.oasys.model.dao.system.TypeDao;
 import cn.gson.oasys.model.dao.user.UserDao;
+import cn.gson.oasys.model.entity.file.DirManagement;
 import cn.gson.oasys.model.entity.file.FileList;
 import cn.gson.oasys.model.entity.notice.NoticeUserRelation;
 import cn.gson.oasys.model.entity.notice.NoticesList;
@@ -50,7 +52,8 @@ public class InformService {
 	private FileListdao fldao;
 	@Autowired
 	FileServices fileServices;
-
+	@Autowired
+	DirManagementDao dirManagementDao;
 
 
 	// 保存通知
@@ -226,7 +229,8 @@ public class InformService {
 		}
 
 		FileList one1 = fldao.findOne(fileid);
-		String submit_path = one1.getSubmit_path()+"/"+one1.getFileName();
+		DirManagement one2 = dirManagementDao.findOne(one1.getId_dir_management());
+		String submit_path = one2.getPath()+"/"+one1.getFileName();
 		String filePath = one1.getFilePath();
 		File s = fileServices.getFile(filePath);
 		File t = new File(submit_path);

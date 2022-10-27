@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gson.oasys.mappers.AuditMapper">
+    <!--封装审核的dao对象-->
+    <resultMap id="selectSH" type="cn.gson.oasys.model.entity.audit.Auditlogging">
+        <id column="auditloggingid" property="auditloggingid"/>
+        <result column="status" property="status"/>
+        <result column="checktime" property="checktime"/>
+        <result column="remark" property="remark"/>
+        <association property="user" javaType="cn.gson.oasys.model.entity.user.User">
+            <id column="user_id" property="userId"/>
+            <result column="user_name" property="userName"/>
+        </association>
+        <association property="audittemplate" javaType="cn.gson.oasys.model.entity.audit.Audittemplate">
+            <id column="audittemplateid" property="audittemplateid"/>
+            <result column="page_no" property="pageno"/>
+            <result column="check_point" property="checkpoint"/>
+            <result column="id_path" property="idpath"/>
+            <result column="id_dept" property="iddept"/>
+        </association>
+    </resultMap>
+
+    <!--审核模板查询-->
+    <!--<select id="findAudittemplateList" resultType="cn.gson.oasys.model.entity.audit.Audittemplate">
+        SELECT * from aoa_audittemplate_list where 1=1
+    </select>-->
+
+    <!--审核模板数据新增-->
+    <insert id="addAudittemplate">
+        insert into aoa_audittemplate_list
+        values (null, #{audittemplates.pageno}, #{audittemplates.checkpoint}, #{audittemplates.idpath},
+                #{audittemplates.iddept})
+    </insert>
+
+    <!--审核记录数据新增-->
+    <insert id="addAuditlogging">
+        insert into aoa_auditlogging_list
+        values (null, #{auditlogging.status}, #{auditlogging.user.userId}, #{auditlogging.audittemplate.audittemplateid},
+                #{auditlogging.checktime}, #{auditlogging.remark})
+    </insert>
+
+    <!---->
+    <select id="findAuditloggingList" resultMap="selectSH">
+        SELECT *
+        FROM aoa_auditlogging_list l
+                     LEFT JOIN aoa_audittemplate_list t ON l.id_audittemplateid = t.audittemplateid
+                     LEFT JOIN aoa_user u ON l.id_user = u.user_id
+    </select>
+</mapper>

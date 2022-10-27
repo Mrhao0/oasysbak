@@ -61,6 +61,7 @@
 				});
 				
 				   $(".chazhao").click(function(){
+				   	   console.log("123")
 					   var con=$(".cha").val();
 					   $(".thistable").load("roleser",{val:con});
 				   });

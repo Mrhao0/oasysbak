@@ -681,8 +681,8 @@ public class FileServices {
 	}
 
 
-	public void updateSubmitpathById(Long fileid, String submitpath) {
-		fldao.updateSubmitpathById(fileid, submitpath);
+	public void updateSubmitpathById(Long fileid, Long id_submitpath) {
+		fldao.updateSubmitpathById(fileid, id_submitpath);
 	}
 
 	/**

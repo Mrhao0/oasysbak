@@ -40,9 +40,9 @@ public interface FileListdao extends PagingAndSortingRepository<FileList, Long>{
 	
 	List<FileList> findByUserAndFileIstrashAndFileNameLike(User user,Long istrash,String likefile);
 
-	@Query("update FileList fa set fa.submit_path=?2 where fa.fileId=?1")
+	@Query("update FileList fa set fa.id_dir_management=?2 where fa.fileId=?1")
 	@Modifying
-	void updateSubmitpathById(@Param("fileid")Long fileid, @Param("submitpath")String submitpath);
+	void updateSubmitpathById(Long fileid, Long submitpath);
 
 	@Query("update FileSplit s set s.deleteflag=1 where s.splitid=?1")
 	@Modifying

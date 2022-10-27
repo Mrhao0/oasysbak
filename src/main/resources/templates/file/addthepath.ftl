@@ -38,7 +38,7 @@
                 </h3>
             </div>
             <!--盒子身体-->
-            <form action="modifyrole"  method="post" onsubmit="return check();">
+            <form action="addOrEditDirManagement"  method="post" onsubmit="return check();">
                 <div class="box-body no-padding">
                     <div class="box-body">
                         <!--錯誤信息提示  -->
@@ -51,24 +51,32 @@
                                 <label>
                                     <span id="ctl00_cphMain_Label1">名称</span>
                                 </label>
-                                <input name="roleName" type="text" value="${(role.name)!''}" class="form-control"/>
-                                <input name="roleId" type="text" value="${(role.id)!''}" hidden="hidden"/>
+                                <input name="name" type="text" value="${(pathMap.name)!''}" class="form-control"/>
                             </div>
 
                             <div class="col-md-6 form-group">
                                 <label>
                                     <span id="ctl00_cphMain_Label1">路径</span>
                                 </label>
-                                <input name="roleName" type="text" value="${(role.path)!''}" class="form-control"/>
-                                <input name="roleId" type="text" value="${(role.id)!''}" hidden="hidden"/>
+                                <input name="path" type="text" value="${(pathMap.path)!''}" class="form-control"/>
                             </div>
 
                             <div class="col-md-6 form-group">
                                 <label>
                                     <span id="ctl00_cphMain_Label1">备注</span>
                                 </label>
-                                <input name="roleName" type="text" value="${(role.remark)!''}" class="form-control"/>
-                                <input name="roleId" type="text" value="${(role.id)!''}" hidden="hidden"/>
+                                <input name="remark" type="text" value="${(pathMap.remark)!''}" class="form-control"/>
+                                <input name="id" type="text" value="${(pathMap.id)!''}" hidden="hidden"/>
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <label>
+                                    <span id="ctl00_cphMain_Label1">类别</span>
+                                </label>
+                                <select class="deptselect form-control" name="type">
+                                        <option value="0">图纸库</option>
+                                        <option value="1">素材库</option>
+                                </select>
                             </div>
                         </div>
                     </div>

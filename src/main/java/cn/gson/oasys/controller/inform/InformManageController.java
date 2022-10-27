@@ -17,6 +17,7 @@ import cn.gson.oasys.model.entity.notice.NoticesList;
 import cn.gson.oasys.model.entity.system.SystemStatusList;
 import cn.gson.oasys.model.entity.system.SystemTypeList;
 import cn.gson.oasys.model.entity.user.User;
+import cn.gson.oasys.services.file.DirManagementService;
 import cn.gson.oasys.services.file.FileServices;
 import cn.gson.oasys.services.inform.InformRelationService;
 import cn.gson.oasys.services.inform.InformService;
@@ -66,6 +67,9 @@ public class InformManageController {
 
 	@Autowired
 	private InformRelationService informrelationservice;
+
+	@Autowired
+	DirManagementService dirManagementService;
 
 	@Autowired
 	private NoticeMapper nm;
@@ -280,7 +284,8 @@ public class InformManageController {
 	@GetMapping("tocheck")
 	public String tocheck(String noticesListId,Long fileid,HttpServletRequest req, Model model){
 		FileList one = fs.findone(fileid);
-		model.addAttribute("submitpath", one.getSubmit_path());
+		String path = dirManagementService.findOne(one.getId_dir_management()).getPath();
+		model.addAttribute("submitpath", path);
 		model.addAttribute("noticesListId", noticesListId);
 		model.addAttribute("fileid", fileid);
 
