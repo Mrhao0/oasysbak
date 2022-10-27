@@ -191,10 +191,10 @@ public class FileController {
 		return "file/mergeblueprint";
 	}
 
-	@RequestMapping("getMaterialList")
+	@PostMapping("getMaterialList")
 	@ResponseBody
-	public String getMaterialList(@RequestBody Map m,Model model) {
-		List<FileList> fileLists = fs.getMaterialListById((Long) m.get("id"));
+	public String getMaterialList(Long id) {
+		List<FileList> fileLists = fs.getMaterialListById(id);
 		return JSON.toJSONString(fileLists);
 	}
 

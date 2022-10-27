@@ -358,7 +358,7 @@ public class FileAjaxController {
 		}
 		File readyPath = fs.getReadyPath(tempDir);
 		File temp = new File(readyPath, String.valueOf(tempDir.getFileId()));
-//		materialIds
+
 
 //		File file = PdfUtils.CompositeImage(
 //				,

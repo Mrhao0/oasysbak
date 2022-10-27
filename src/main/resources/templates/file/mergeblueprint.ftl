@@ -443,7 +443,7 @@
         $('.source').click(function (){
             var inp = $(this).val();
             console.log(inp)
-           $.post('getMaterialList',{'id':inp},function (data){
+           $.post('getMaterialList',{"id":inp},function (data){
                console.log(data)
            },"json")
         })
