@@ -193,8 +193,8 @@ public class FileController {
 
 	@RequestMapping("getMaterialList")
 	@ResponseBody
-	public String getMaterialList(Long id,Model model) {
-		List<FileList> fileLists = fs.getMaterialListById(id);
+	public String getMaterialList(@RequestBody Map m,Model model) {
+		List<FileList> fileLists = fs.getMaterialListById((Long) m.get("id"));
 		return JSON.toJSONString(fileLists);
 	}
 
