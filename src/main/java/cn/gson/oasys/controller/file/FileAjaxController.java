@@ -7,14 +7,13 @@ import java.util.stream.Collectors;
 import cn.gson.oasys.common.PdfUtils;
 import cn.gson.oasys.common.formValid.BindingResultVOUtil;
 import cn.gson.oasys.common.formValid.ResultVO;
+import cn.gson.oasys.model.entity.file.DirManagement;
+import cn.gson.oasys.services.file.DirManagementService;
 import cn.gson.oasys.services.file.FileTransactionalHandlerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 
 import cn.gson.oasys.model.dao.filedao.FileListdao;
 import cn.gson.oasys.model.dao.filedao.FilePathdao;
@@ -38,6 +37,9 @@ public class FileAjaxController {
 	UserDao udao;
 	@Autowired
 	private FileTransactionalHandlerService fileTransactionalHandlerService;
+
+	@Autowired
+	private DirManagementService dirManagementService;
 	
 	@RequestMapping("mcloadpath")
 	public String mcloadpath(@RequestParam("mctoid") Long mctoid,@RequestParam("mcpathids") List<Long> mcpathids,Model model){
@@ -342,43 +344,49 @@ public class FileAjaxController {
 
 	@RequestMapping("mergedImages")
 	@ResponseBody
-	public ResultVO mergedImages(
-			@RequestParam("materialIds")String[] materialIds,
-			@RequestParam("type")int type,
-			@RequestParam("page")int page,
-			@SessionAttribute("userId") Long userid,
-			@RequestParam("pathid") Long pathid,
-			Long fileListId) {
+	public ResultVO mergedImages(Long id) {
 
+		String[] materialIds={"196","197","198","199","192"};
+		Long userid=1L;
+		Long dirId=193L;
+		Integer type=3;
+		Integer page=3;
+		User user = udao.findOne(userid);
+		FilePath filepath = fpdao.findByPathName(user.getUserName());
 		FileList tempDir;
-		if(fileListId==null){
-			tempDir = fs.createTempDir(pathid, userid);
+		if(dirId==null){
+			tempDir = fs.createTempDir(filepath.getId(), userid);
 		}else{
-			tempDir = fs.findone(fileListId);
+			tempDir = fs.findone(dirId);
 		}
-		File readyPath = fs.getReadyPath(tempDir);
+		File readyPath = fs.getFile(tempDir.getFilePath());
 		File temp = new File(readyPath, String.valueOf(tempDir.getFileId()));
-
-
-//		File file = PdfUtils.CompositeImage(
-//				,
-//				temp,
-//				type,
-//				page
-//		);
+		List<File> flies=new ArrayList<>();
+		for(String fileListId:materialIds){
+			FileList findone = fs.findone(Long.valueOf(fileListId));
+			File file = fs.getFile(findone.getFilePath());
+			flies.add(file);
+		}
+		File file = PdfUtils.CompositeImage(flies, temp, type, page);
 		Map<String,String> dataMap=new HashMap<>();
 		dataMap.put("fileListId",String.valueOf(tempDir.getFileId()));
 		return BindingResultVOUtil.success(dataMap);
 	}
 
 
+//	@RequestParam("imagePath")String imagePath,
+//	@RequestParam("pdfName")String pdfName
 	@RequestMapping("mergedPDF")
 	@ResponseBody
-	public String mergedPDF(
-			@RequestParam("imagePath")String imagePath,
-			@RequestParam("pdfName")String pdfName){
+	public String mergedPDF(){
+		Long fileListId=193L;
+		Long dirId=15L;
+		String pdfName="测试";
+		FileList findone = fs.findone(fileListId);
+		DirManagement one = dirManagementService.findOne(dirId);
+		String imagePath = fs.getFile(findone.getFilePath()) + "/" + findone.getFileId();
 
-		File file = PdfUtils.mergeImageTOPdf(imagePath, imagePath, pdfName);
+		File file = PdfUtils.mergeImageTOPdf(imagePath, one.getPath(), pdfName);
 		if (Objects.nonNull(file)){
 			fldao.updateFileNameByFilePath(pdfName,imagePath);
 		}

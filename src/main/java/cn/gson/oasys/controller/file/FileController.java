@@ -195,7 +195,14 @@ public class FileController {
 	@ResponseBody
 	public String getMaterialList(Long id) {
 		List<FileList> fileLists = fs.getMaterialListById(id);
-		return JSON.toJSONString(fileLists);
+		List<Map<String,Object>> lm=new ArrayList<>();
+		for(FileList fileList:fileLists){
+			Map<String,Object> m=new HashMap<>();
+			m.put("id",fileList.getFileId());
+			m.put("name",fileList.getFileName());
+			lm.add(m);
+		}
+		return JSON.toJSONString(lm);
 	}
 
 	/**
