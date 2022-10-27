@@ -736,10 +736,6 @@ public class FileServices {
 		return save;
 	}
 
-	public File getReadyPath(FileList tempDir) {
-		return new File(this.rootPath, tempDir.getFilePath());
-	}
-
 	public Map<Long,List<FileList>> getMapWithDir() {
 		Iterable<FileList> all = fldao.findAll();
 		Iterator<FileList> iterator = all.iterator();

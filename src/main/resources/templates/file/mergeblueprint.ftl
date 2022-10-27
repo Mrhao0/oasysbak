@@ -224,8 +224,8 @@
                         <button id="finish" type="button">完成</button>
                     </div>
                     <div class="bigbox1">
-                        <div id="1" class="box1_left">
-                            <select class="source" onchange="{console.log($(this).val())}">
+                        <div id="1b" class="box1_left">
+                            <select id="1ls" class="source" onchange="getImgList(1)">
                                 <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
                                 <#list materialLib as item>
                                     <option value="${item.id}">${item.name}</option>
@@ -233,13 +233,13 @@
 
                             </select>
 
-                            <select class="imgs">
+                            <select id="1rs" onchange="img(1)"  class="imgs">
                                 <option selected="selected" disabled="disabled"  style='display: none' value=''>选择图片</option>
 
                             </select>
                         </div>
-                        <div id="2" class="box1_right">
-                            <select class="source">
+                        <div id="2b" class="box1_right">
+                            <select id="2ls" onchange="getImgList(2)" class="source">
                                 <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
                                 <#list materialLib as item>
                                     <option value="${item.id}">${item.name}</option>
@@ -247,7 +247,7 @@
 
                             </select>
 
-                            <select class="imgs">
+                            <select id="2rs" onchange="img(2)" class="imgs" >
                                 <option selected="selected" disabled="disabled"  style='display: none' value=''>选择图片</option>
 
                             </select>
@@ -256,42 +256,42 @@
                     </div>
                     <div class="bigbox2">
                         <div class="box1_left">
-                            <div id="1" class="left1">
-                                <select class="source">
+                            <div id="3b" class="left1">
+                                <select id="3ls" onchange="getImgList(3)" class="source">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
                                     <#list materialLib as item>
                                         <option value="${item.id}">${item.name}</option>
                                     </#list>
                                 </select>
 
-                                <select class="imgs">
+                                <select id="3rs" onchange="img(3)" class="imgs">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择图片</option>
 
                                 </select>
                             </div>
-                            <div id="2" class="left1">
-                                <select class="source">
+                            <div id="4b" class="left1">
+                                <select id="4ls" onchange="getImgList(4)" class="source">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
                                     <#list materialLib as item>
                                         <option value="${item.id}">${item.name}</option>
                                     </#list>
                                 </select>
 
-                                <select class="imgs">
+                                <select id="4rs" onchange="img(4)" class="imgs">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择图片</option>
 
                                 </select>
                             </div>
                         </div>
-                        <div id="3" class="box1_right">
-                            <select class="source">
+                        <div id="5b" class="box1_right">
+                            <select  id="5ls" onchange="getImgList(5)" class="source">
                                 <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
                                 <#list materialLib as item>
                                     <option value="${item.id}">${item.name}</option>
                                 </#list>
                             </select>
 
-                            <select class="imgs">
+                            <select id="5rs" onchange="img(5)" class="imgs">
                                 <option selected="selected" disabled="disabled"  style='display: none' value=''>选择图片</option>
 
                             </select>
@@ -300,69 +300,69 @@
                     </div>
                     <div class="bigbox3">
                         <div class="box1_left">
-                            <div id="1" class="left2">
-                                <select class="source">
+                            <div id="6b" class="left2">
+                                <select id="6ls" onchange="getImgList(6)" class="source">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
                                     <#list materialLib as item>
                                         <option value="${item.id}">${item.name}</option>
                                     </#list>
                                 </select>
 
-                                <select class="imgs">
+                                <select id="6rs" onchange="img(6)" class="imgs">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择图片</option>
 
                                 </select>
                             </div>
-                            <div id="2" class="left2">
-                                <select class="source">
+                            <div id="7b" class="left2">
+                                <select id="7ls" onchange="getImgList(7)" class="source">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
                                     <#list materialLib as item>
                                         <option value="${item.id}">${item.name}</option>
                                     </#list>
                                 </select>
 
-                                <select class="imgs">
+                                <select id="7rs" onchange="img(7)" class="imgs">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择图片</option>
 
                                 </select>
                             </div>
-                            <div id="3" class="left2">
-                                <select class="source">
+                            <div id="8b" class="left2">
+                                <select id="8ls" onchange="getImgList(8)" class="source">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
                                     <#list materialLib as item>
                                         <option value="${item.id}">${item.name}</option>
                                     </#list>
                                 </select>
 
-                                <select class="imgs">
+                                <select id="8rs" onchange="img(8)" class="imgs">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择图片</option>
 
                                 </select>
                             </div>
-                            <div id="4" class="left2">
-                                <select class="source">
+                            <div id="9b" class="left2">
+                                <select id="9ls" onchange="getImgList(9)" class="source">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
                                     <#list materialLib as item>
                                         <option value="${item.id}">${item.name}</option>
                                     </#list>
                                 </select>
 
-                                <select class="imgs">
+                                <select id="9rs" onchange="img(9)" class="imgs">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择图片</option>
 
                                 </select>
                             </div>
 
                         </div>
-                        <div id="5" class="box1_right">
-                            <select class="source">
+                        <div id="10b" class="box1_right">
+                            <select id="10ls" onchange="getImgList(10)" class="source">
                                 <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
                                 <#list materialLib as item>
                                     <option value="${item.id}">${item.name}</option>
                                 </#list>
                             </select>
 
-                            <select class="imgs">
+                            <select id="10rs" onchange="img(10)" class="imgs">
                                 <option selected="selected" disabled="disabled"  style='display: none' value=''>选择图片</option>
 
                             </select>
@@ -388,8 +388,6 @@
                             <option selected="selected" disabled="disabled"  style='display: none' value=''>目录</option>
                             <option>目录1</option>
                             <option>目录2</option>
-
-
                         </select>
                     </div>
 
@@ -460,31 +458,33 @@
             }
 
         })
-
-        //素材下拉列表
-        $('.source').change(function (){
-            var sourceval = $(this).val();
-            var im = $(this).next()[0]
-            $.ajax({
-                url: "getMaterialList",
-                type: "post",
-                dataType: "JSON",
-                data:{'id':sourceval},
-                success(res) {
-                    // console.log(im.option())
-                    // im.option().append("<option>1111</option>")
-                    var opt = $('.imgs option:eq(0)').append("<option>1111</option>")
-                    opt.val(res[0].fileId)
-                    opt.html(res[0].fileName)
-                },
-                error(res){
-                    console.log('error')
-                }
-            })
-        })
-
-        $('.imgs').click(function (){
-           $(this).parent().css('background','url(images/41f78a40-0bfb-4dd3-b8d0-c419dc91c8b4.jpeg)')
-        })
     })
+    function getImgList(id){
+        console.log(id)
+        var sourceval = $("#"+id+"ls").val();
+        console.log(sourceval)
+        $.ajax({
+            url: "getMaterialList",
+            type: "post",
+            dataType: "JSON",
+            data:{'id':sourceval},
+            success(res) {
+                console.log(res)
+                var html="";
+                for(var i=0;i<res.length;i++){
+                    html+="<option value='"+res[i].id+"'>"+res[i].name+"</option>"
+                }
+                $("#"+id+"rs").append(html)
+            },
+            error(res){
+                console.log('error')
+            }
+        })
+    }
+    function img(id){
+        console.log("3212");
+        var sourceval = $("#"+id+"rs").val();
+        console.log(sourceval);
+        $("#"+id+"b").css("background","url(imgshow?fileid="+sourceval+")")
+    }
 </script>
