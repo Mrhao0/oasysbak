@@ -229,7 +229,7 @@ public class InformService {
 		}
 
 		FileList one1 = fldao.findOne(fileid);
-		DirManagement one2 = dirManagementDao.findOne(one1.getId_dir_management());
+		DirManagement one2 = one1.getId_dir_management();
 		String submit_path = one2.getPath()+"/"+one1.getFileName();
 		String filePath = one1.getFilePath();
 		File s = fileServices.getFile(filePath);

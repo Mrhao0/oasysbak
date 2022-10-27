@@ -284,7 +284,7 @@ public class InformManageController {
 	@GetMapping("tocheck")
 	public String tocheck(String noticesListId,Long fileid,HttpServletRequest req, Model model){
 		FileList one = fs.findone(fileid);
-		String path = dirManagementService.findOne(one.getId_dir_management()).getPath();
+		String path = one.getId_dir_management().getPath();
 		model.addAttribute("submitpath", path);
 		model.addAttribute("noticesListId", noticesListId);
 		model.addAttribute("fileid", fileid);

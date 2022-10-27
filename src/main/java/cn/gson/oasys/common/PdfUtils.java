@@ -27,12 +27,13 @@ import java.util.stream.Collectors;
  * @date 2022/10/19
  */
 public class PdfUtils {
-    public static void main(String[] args) {
-        File file = new File("D:\\test2");
-        File filet = new File("D:\\test\\tt");
 
-        File file1 = pdfToImageAll(file, filet, Type.JPG);
-    }
+    /**
+     * 1920*1080
+     */
+    private static final int WIDTH = 1920;
+    private static final int HEIGHT = 1080;
+
     /**
      * 图片展示的百分比
      */
@@ -137,18 +138,18 @@ public class PdfUtils {
      * @param imageParentPath 图像父路径
      * @param number          查看的页码（从1开始，在代码中已经默认减 1 了）
      * @param size            大小（显示几个页面）
-     * @return {@link List}<{@link String}>
+     * @return {@link List}<{@link String}> 图片地址的集合
      */
-    public static List<String> showNumberImage(String imageParentPath, int number, int size){
+    public static List<String> showNumberImage(String imageParentPath, int number, int size) {
         //调用方法
-        List<String> numberImage = getNumberImage(imageParentPath,number,size);
+        List<String> numberImage = getNumberImage(imageParentPath, number, size);
         //给可能提前返回的集合进行最后一次排序，收集，然后返回
         return numberImage.stream().sorted(
-                        Comparator.comparingInt(o -> Integer.parseInt(
-                                o.substring(
-                                        (o.lastIndexOf("\\") + 1),
-                                        o.lastIndexOf("."))))
-                )
+                Comparator.comparingInt(o -> Integer.parseInt(
+                        o.substring(
+                                (o.lastIndexOf("\\") + 1),
+                                o.lastIndexOf("."))))
+        )
                 .collect(Collectors.toList());
     }
 
@@ -156,9 +157,9 @@ public class PdfUtils {
     /**
      * 合并pdf
      *
-     * @param files  文件地址的集合
+     * @param files  pdf文件地址的集合
      * @param target 合并后的pdf文件地址
-     * @return
+     * @return 合并后的文件
      */
     public static File mergePdfFiles(List<String> files, String target) {
         Document document = null;
@@ -177,6 +178,7 @@ public class PdfUtils {
                     copy.addPage(page);
                 }
             }
+            return new File(target);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -190,7 +192,7 @@ public class PdfUtils {
                 document.close();
             }
         }
-        return new File(target);
+        return null;
     }
 
     /**
@@ -199,7 +201,7 @@ public class PdfUtils {
      * @param source 文件对象集合
      * @param target 目标地址
      */
-    public static void imgChangePdf(List<String> source, String target) {
+    public static boolean imgChangePdf(List<String> source, String target) {
         //创建一个文档对象
         Document doc = new Document();
         try {
@@ -212,10 +214,12 @@ public class PdfUtils {
                 if (url == null) {
                     continue;
                 }
+                doc.newPage();
                 //路径
                 com.lowagie.text.Image img = com.lowagie.text.Image.getInstance(url);
                 //图片居中
                 img.setAlignment(com.lowagie.text.Image.MIDDLE);
+                setPercent(30);
                 //百分比显示图
                 img.scalePercent(PERCENT);
                 //设置高和宽的比例
@@ -223,9 +227,11 @@ public class PdfUtils {
             }
             // 关闭文档
             doc.close();
+            return true;
         } catch (IOException | DocumentException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     /**
@@ -237,7 +243,7 @@ public class PdfUtils {
      */
     public static File pdfToImageAll(File pdfFile, File target, Type type) {
         //判断用户文件是否为空
-        judgingInformation(pdfFile, target, new String[]{Type.PDF.getValue()});
+        judgingInformation(pdfFile, target, new String[]{Type.PDF.value});
         try {
             PDDocument doc = PDDocument.load(pdfFile);
 
@@ -254,6 +260,69 @@ public class PdfUtils {
         }
         return target;
     }
+
+    /**
+     * 合成图像
+     *
+     * @param fileList   文件列表
+     * @param fileTarget 目标文件
+     * @param templateId 模板id
+     * @param page       页面
+     * @return {@link File} 文件的父目录
+     */
+    public static File CompositeImage(List<File> fileList, File fileTarget, int templateId, int page) {
+        try {
+            return reallyCompositeImage(fileList, fileTarget, templateId, page);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    /**
+     * 将合并的图像转为pdf
+     *
+     * @param directoryAddress 目录地址
+     * @param target           目标
+     * @return {@link File} 返回的是合成图片的父目录
+     */
+    public static File mergeImageTOPdf(String directoryAddress, String target,String filename) {
+        File file = new File(directoryAddress);
+        File[] files = file.listFiles();
+        if (files == null || files.length == 0) {
+            throw new RuntimeException("目录路径下文件为空或路径有误");
+        }
+        File targetPath = new File(target);
+        if (!targetPath.exists()) {
+            if (!targetPath.mkdirs()) {
+                throw new RuntimeException("目标目录创建失败");
+            }
+        }
+        if (!targetPath.isDirectory()) {
+            throw new RuntimeException("此路径不是一个目录");
+        }
+        List<File> filesList = Arrays.asList(files);
+        List<String> collect = filesList.stream()
+                .map(File::getPath)
+                .filter(path ->
+                        Arrays.asList(
+                                Type.JPG.getValue(), Type.PNG.getValue())
+                                .contains(path.substring(path.lastIndexOf(".")))
+                )
+                .sorted(
+                        Comparator.comparingInt(o -> Integer.parseInt(
+                                o.substring(
+                                        (o.lastIndexOf("\\") + 1),
+                                        o.lastIndexOf("."))))
+                )
+                .collect(Collectors.toList());
+        String s = target + "\\" + filename +Type.PDF.getValue();
+        if (imgChangePdf(collect, s)) {
+            return new File(s);
+        }
+        return null;
+    }
+
 
     private static List<String> getNumberImage(String imageParentPath, int number, int size) {
         //默认减一，页码为1，集合下标为0
@@ -278,7 +347,7 @@ public class PdfUtils {
                         .map(File::getPath)
                         .filter(filename ->
                                 Arrays.asList(
-                                                Type.JPG.getValue(), Type.PNG.getValue())
+                                        Type.JPG.getValue(), Type.PNG.getValue())
                                         .contains(filename.substring(filename.lastIndexOf(".")))
                         )
                         .sorted(
@@ -346,7 +415,7 @@ public class PdfUtils {
 
     private static File splitPdfFile(File pdfFile, File target) throws IOException {
         //判断信息
-        String[] types = {Type.PDF.getValue()};
+        String[] types = {Type.PDF.value};
         judgingInformation(pdfFile, target, types);
 
         PDDocument doc = null;
@@ -377,7 +446,7 @@ public class PdfUtils {
 
     private static List<File> imagesSplit(File image, Type type, File target) throws IOException {
 
-        String[] types = {Type.JPG.getValue(), Type.PNG.getValue()};
+        String[] types = {Type.JPG.value, Type.PNG.value};
 
         judgingInformation(image, target, types);
 
@@ -445,7 +514,7 @@ public class PdfUtils {
 
     private static File pdfToJpg(File file, File target, Type type) throws IOException {
 
-        String[] types = {Type.PDF.getValue()};
+        String[] types = {Type.PDF.value};
 
         judgingInformation(file, target, types);
 
@@ -465,7 +534,7 @@ public class PdfUtils {
 
 
     private static File userSplitImages(File image, int startX, int startY, int endX, int endY, Type type, File target) throws IOException {
-        String[] types = {Type.JPG.getValue(), Type.PNG.getValue()};
+        String[] types = {Type.JPG.value, Type.PNG.value};
         //判断传过来的文件是否存在
         judgingInformation(image, target, types);
         // 读取图片文件流
@@ -473,13 +542,16 @@ public class PdfUtils {
         // 转为图片对象
         BufferedImage imageObject = ImageIO.read(imageFileStream);
 
-
         // 设置第count小图的大小和类型
         BufferedImage img = new BufferedImage(endX - startX, endY - startY, imageObject.getType());
 
         // 创建图样对象  获取配置  创建兼容图像  设置（宽|高|透明度）
-        img = img.createGraphics().getDeviceConfiguration().createCompatibleImage(endX - startX, endY - startY,
-                Transparency.TRANSLUCENT);
+        img = img.createGraphics()
+                .getDeviceConfiguration()
+                .createCompatibleImage(
+                        endX - startX,
+                        endY - startY,
+                        Transparency.TRANSLUCENT);
 
         Graphics2D gr = img.createGraphics();
 
@@ -517,7 +589,7 @@ public class PdfUtils {
         if (!file.exists()) {
             throw new RuntimeException("调用文件为空");
         }
-        if (isWantFileType(file, Type.PDF.getValue())) {
+        if (isWantFileType(file, Type.PDF.value)) {
             throw new RuntimeException("文件类型错误，请传输pdf文件");
         }
         return new Splitter().split(PDDocument.load(file)).size();
@@ -545,7 +617,7 @@ public class PdfUtils {
      */
     private static boolean isWantFileType(File file, String... types) {
         List<String> strings = Arrays.asList(types);
-        return !strings.contains(file.getName().substring(file.getName().lastIndexOf(".")));
+        return !strings.contains(file.getName().substring(file.getName().lastIndexOf(".") + 1));
     }
 
 
@@ -554,7 +626,7 @@ public class PdfUtils {
      *
      * @param file   文件
      * @param target 目标
-     * @param types  类型
+     * @param types  类型    使用
      */
     private static void judgingInformation(File file, File target, String[] types) {
         //判断用户文件是否为空
@@ -573,11 +645,12 @@ public class PdfUtils {
         }
         //创建分页目录
         if (!target.exists()) {
-            if (!target.isDirectory()) {
-                if (!target.mkdirs()) {
-                    throw new RuntimeException("目录创建失败");
-                }
+            if (!target.mkdirs()) {
+                throw new RuntimeException("目标目录创建失败");
             }
+        }
+        if (!target.isDirectory()) {
+            throw new RuntimeException("此路径不是一个目录");
         }
     }
 
@@ -608,6 +681,206 @@ public class PdfUtils {
         String getValue() {
             return "." + value;
         }
+    }
+
+    @SuppressWarnings("all")
+    private static File reallyCompositeImage(List<File> fileList, File fileTarget, int templateId, int page) throws IOException {
+        if (fileList == null || fileList.isEmpty()) {
+            throw new RuntimeException("集合无效，请重新输入");
+        }
+
+        BufferedImage bufferedImage = null;
+        switch (templateId) {
+            case 1:
+                if (fileList.size() != 2) {
+                    throw new RuntimeException("集合数量有误");
+                }
+                bufferedImage = twoMergeImage(
+                        ImageIO.read(fileList.get(0)),
+                        ImageIO.read(fileList.get(1))
+                );
+                break;
+            case 2:
+                if (fileList.size() != 3) {
+                    throw new RuntimeException("集合数量有误");
+                }
+                bufferedImage = threeMergeImage(
+                        ImageIO.read(fileList.get(0)),
+                        ImageIO.read(fileList.get(1)),
+                        ImageIO.read(fileList.get(2))
+                );
+                break;
+            case 3:
+                if (fileList.size() != 5) {
+                    throw new RuntimeException("集合数量有误");
+                }
+                bufferedImage = fiveMergeImage(
+                        ImageIO.read(fileList.get(0)),
+                        ImageIO.read(fileList.get(1)),
+                        ImageIO.read(fileList.get(2)),
+                        ImageIO.read(fileList.get(3)),
+                        ImageIO.read(fileList.get(4))
+                );
+                break;
+            default:
+                throw new RuntimeException("输入的模板号异常，请重新输入");
+        }
+
+
+        if (!fileTarget.exists()) {
+            if (!fileTarget.mkdirs()) {
+                throw new RuntimeException("目标目录创建失败");
+            }
+        }
+        if (!fileTarget.isDirectory()) {
+            throw new RuntimeException("此路径不是一个目录");
+        }
+
+
+        if (writeImageLocal(fileTarget.getPath() + "\\" + page + ".png", bufferedImage)) {
+            return fileTarget;
+        }
+        return null;
+    }
+
+
+    /**
+     * 生成新图片到本地
+     */
+    private static boolean writeImageLocal(String newImage, BufferedImage img) {
+
+        if (newImage != null && img != null) {
+            try {
+                File outputfile = new File(newImage);
+                ImageIO.write(img, "png", outputfile);
+                return true;
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     * 合并两个照片
+     * <p>
+     * ----------------------------------------------
+     * -                    50          W:430       -
+     * -     -------------------      ---------     -
+     * -     -      w:1330     -      -       -     -
+     * -     -     img1        -  60  - right -     -
+     * - 50  -                 -      -       -  50 -
+     * -     -     h:980       -      - h:980 -     -
+     * -     -------------------      ---------     -
+     * -                    50                      -
+     * ----------------------------------------------
+     *
+     * @param img1  待合并的第一张图
+     * @param right 带合并的右图
+     * @return 返回合并后的BufferedImage对象
+     */
+    private static BufferedImage twoMergeImage(BufferedImage img1, BufferedImage right) {
+        Graphics2D graphics2D;
+        // 生成新图片
+        BufferedImage destImage;
+        destImage = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+        // 创建图样对象  获取配置  创建兼容图像  设置（宽|高|透明度）
+        graphics2D = destImage.createGraphics();
+        graphics2D.setColor(Color.WHITE);
+        graphics2D.fillRect(0, 0, WIDTH, HEIGHT);
+        graphics2D.drawImage(img1, 50, 50, 1330, HEIGHT - 100, null);
+        graphics2D.drawImage(right, 1380 + 60, 50, 430, HEIGHT - 100, null);
+        graphics2D.dispose();
+        return destImage;
+    }
+
+    /**
+     * 合并三个照片
+     * 50
+     * ----------------------------------------------
+     * -            W:1330               W:430      -
+     * -     -------------------      ---------     -
+     * -     -      img1 h:470 -      -       -     -
+     * -     -------------------      -       -     -
+     * - 50          40           60  - right -  50 -
+     * -     -------------------      -       -     -
+     * -     -      img2 h:470 -      - h:980 -     -
+     * -     -------------------      ---------     -
+     * -                                            -
+     * ----------------------------------------------
+     * 50
+     *
+     * @param img1  待合并的第一张图
+     * @param img2  带合并的第二张图
+     * @param right 带合并的右图
+     * @return 返回合并后的BufferedImage对象
+     */
+    private static BufferedImage threeMergeImage(BufferedImage img1, BufferedImage img2, BufferedImage right) {
+        Graphics2D graphics2D;
+        BufferedImage destImage;
+        destImage = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+        graphics2D = destImage.createGraphics();
+        graphics2D.setColor(Color.WHITE);
+        graphics2D.fillRect(0, 0, WIDTH, HEIGHT);
+
+        graphics2D.drawImage(img1, 50, 50, 1330, (HEIGHT / 2) - 70, null);
+        graphics2D.drawImage(img2, 50, HEIGHT - (HEIGHT / 2) + 20, 1330, (HEIGHT / 2) - 70, null);
+        graphics2D.drawImage(right, 1380 + 60, 50, 430, HEIGHT - 100, null);
+
+        graphics2D.dispose();
+        return destImage;
+    }
+
+    /**
+     * 合并五个照片
+     * 50
+     * -----------------------------------------------------------------------
+     * -             w:645                  w:645                W:430       -
+     * -     -------------------      -------------------      ---------     -
+     * - 50  -      img1 h:470 -  40  -      img2       -      -       -     -
+     * -     -------------------      -------------------      -       -     -
+     * -              40                                   60  - right -     -50
+     * -     -------------------      -------------------      -       -     -
+     * -     -      img3       -      -      img4       -      - h:980 -     -
+     * -     -------------------      -------------------      ---------     -
+     * -                                                                     -
+     * -----------------------------------------------------------------------
+     * 50
+     *
+     * @param img1  待合并的第一张图
+     * @param img2  带合并的第二张图
+     * @param img3  带合并的第三张图
+     * @param img4  带合并的第四张图
+     * @param right 带合并的右图
+     * @return 返回合并后的BufferedImage对象
+     */
+    private static BufferedImage fiveMergeImage(BufferedImage img1,
+                                                BufferedImage img2,
+                                                BufferedImage img3,
+                                                BufferedImage img4,
+                                                BufferedImage right) {
+        Graphics2D graphics2D;
+        BufferedImage destImage;
+        destImage = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+        graphics2D = destImage.createGraphics();
+        graphics2D.setColor(Color.WHITE);
+        graphics2D.fillRect(0, 0, WIDTH, HEIGHT);
+
+        graphics2D.drawImage(img1, 50, 50,
+                645, (HEIGHT / 2) - 70, null);
+        graphics2D.drawImage(img2, 645 + 50 + 40, 50,
+                645, (HEIGHT / 2) - 70, null);
+
+        graphics2D.drawImage(img3, 50, 50 + 470 + 40,
+                645, (HEIGHT / 2) - 70, null);
+        graphics2D.drawImage(img4, 645 + 50 + 40, 50 + 470 + 40,
+                645, (HEIGHT / 2) - 70, null);
+
+        graphics2D.drawImage(right, 1380 + 60, 50, 430, HEIGHT - 100, null);
+
+        graphics2D.dispose();
+        return destImage;
     }
 
 }

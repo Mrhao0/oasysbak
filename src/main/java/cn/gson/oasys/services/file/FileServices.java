@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
+import cn.gson.oasys.model.dao.user.UserDao;
+import cn.gson.oasys.model.entity.file.DirManagement;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,6 +58,8 @@ public class FileServices {
 	private AttachService AttachService;
 	@Autowired
 	private FileTransactionalHandlerService fileTransactionalHandlerService;
+	@Autowired
+	UserDao udao;
 
 
 	@Value("${file.root.path}")
@@ -706,5 +710,36 @@ public class FileServices {
 
 	public FileList findone(Long fileid) {
 		 return fldao.findOne(fileid);
+	}
+
+	public List<FileList> findListByType(Long id) {
+		return null;
+	}
+
+	public FileList createTempDir(Long pathid, Long userid) {
+		User user = udao.findOne(userid);
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM");
+		File root = new File(this.rootPath, simpleDateFormat.format(new Date()));
+		File savepath = new File(root, user.getUserName());
+
+		FilePath nowpath = fpdao.findOne(pathid);
+		FileList filelist = new FileList();
+		filelist.setFileName("临时图片合成路径");
+		filelist.setFilePath(savepath.getAbsolutePath().replace("\\", "/").replace(this.rootPath, ""));
+		filelist.setUploadTime(new Date());
+		filelist.setFpath(nowpath);
+		filelist.setContentType("");
+		filelist.setFileShuffix("temp");
+		filelist.setUser(user);
+		FileList save = fldao.save(filelist);
+		savepath = new File(savepath, String.valueOf(save.getFileId()));
+		if (!savepath.exists()) {
+			savepath.mkdirs();
+		}
+		return save;
+	}
+
+	public File getReadyPath(FileList tempDir) {
+		return new File(this.rootPath, tempDir.getFilePath());
 	}
 }

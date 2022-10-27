@@ -38,8 +38,12 @@ public class DirManagementService {
 	public Page<DirManagement> findAll(Pageable pa) {
 		 return dirManagementDao.findAll(pa);
 	}
-
+	public List<DirManagement> findAll() {
+		return dirManagementDao.findAll();
+	}
 	public DirManagement findOne(Long id) {
 		return dirManagementDao.findOne(id);
 	}
+
+
 }

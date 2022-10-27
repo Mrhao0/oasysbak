@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import cn.gson.oasys.model.entity.file.FileList;
 import cn.gson.oasys.model.entity.file.FilePath;
 import cn.gson.oasys.model.entity.user.User;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface FileListdao extends PagingAndSortingRepository<FileList, Long>{
@@ -55,4 +56,8 @@ public interface FileListdao extends PagingAndSortingRepository<FileList, Long>{
 	@Query("select l from FileList l where l.user.userId=?1 and l.fileShuffix='pdf' ")
 	List<FileList> findfile(Long userid);
 
+	@Modifying
+	@Transactional
+	@Query("update FileList set fileName=?1 where filePath = ?2")
+	void updateFileNameByFilePath(String filename,String filePath);
 }

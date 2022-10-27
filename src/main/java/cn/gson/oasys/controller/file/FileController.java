@@ -5,11 +5,14 @@ import cn.gson.oasys.common.formValid.ResultVO;
 import cn.gson.oasys.mappers.FileMapper;
 import cn.gson.oasys.model.dao.filedao.FileListdao;
 import cn.gson.oasys.model.dao.filedao.FilePathdao;
+import cn.gson.oasys.model.dao.user.DeptDao;
 import cn.gson.oasys.model.dao.user.UserDao;
 import cn.gson.oasys.model.entity.file.FileList;
 import cn.gson.oasys.model.entity.file.FilePath;
 import cn.gson.oasys.model.entity.file.FileSplit;
+import cn.gson.oasys.model.entity.user.Dept;
 import cn.gson.oasys.model.entity.user.User;
+import cn.gson.oasys.services.file.DirManagementService;
 import cn.gson.oasys.services.file.FileServices;
 import cn.gson.oasys.services.file.FileTransactionalHandlerService;
 import cn.gson.oasys.services.inform.InformService;
@@ -49,6 +52,10 @@ public class FileController {
 	@Autowired
 	private FileMapper fileMapper;
 
+	@Autowired
+	private DeptDao deptDao;
+	@Autowired
+	private DirManagementService dirManagementService;
 	/**
 	 * 第一次进入
 	 * 
@@ -71,7 +78,7 @@ public class FileController {
 			filepath1.setPathUserId(user.getUserId());
 			filepath = fpdao.save(filepath1);
 		}
-		
+		model.addAttribute("dirs", dirManagementService.findAll());
 		model.addAttribute("nowpath", filepath);
 		model.addAttribute("paths", fs.findpathByparent(filepath.getId()));
 		model.addAttribute("files", fs.findfileBypath(filepath));
@@ -100,6 +107,8 @@ public class FileController {
 		List<FilePath> allparentpaths = new ArrayList<>();
 		fs.findAllParent(filepath, allparentpaths);
 		Collections.reverse(allparentpaths);
+
+
 
 		model.addAttribute("allparentpaths", allparentpaths);
 		model.addAttribute("nowpath", filepath);
@@ -164,13 +173,20 @@ public class FileController {
 		model.addAttribute("pathid", pathid);
 		return "forward:/filetest";
 	}
+
 	/**
 	 * @description 图纸合成
 	 * @date 2022-10-26 18:30
 	 */
 	@RequestMapping("mergeblueprint")
 	public String tomergeblueprint(@SessionAttribute("userId")Long userid,Model model) {
-		
+		Iterable<Dept> all = deptDao.findAll();
+
+		User user = udao.findOne(userid);
+
+		FilePath filepath = fpdao.findByPathName(user.getUserName());
+		model.addAttribute("deptlist",all);
+		model.addAttribute("pathid",filepath.getId());
 		return "file/mergeblueprint";
 	}
 
@@ -292,11 +308,7 @@ public class FileController {
 	@RequestMapping("addthepath2")
 	public String addthepath2(String id,Model model){
 		Map<String,String> thepathmap2=new HashMap<>();
-		thepathmap2.put("id","2");
-		thepathmap2.put("name","陕西省-西安市-周至县-招商银行");
-		thepathmap2.put("path","D:\\陕西省\\西安市\\周至县\\招商银行");
-		thepathmap2.put("remark","招商银行图纸库");
-		thepathmap2.put("checktemplate","1");
+
 		model.addAttribute("pathMap", thepathmap2);
 		return "file/addthepath2";
 	}

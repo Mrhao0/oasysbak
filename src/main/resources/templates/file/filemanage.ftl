@@ -172,7 +172,17 @@ li.activee>a {
 					</div>
 					<div class="box-body no-padding" style="height: 50px">
 
-						<div style="margin-top: 30px;margin-left: 40px"> 文件目录:<input type="text" style="margin-left: 10px;width: 250px" class="filcatalog"></div>
+						<div style="margin-top: 30px;margin-left: 40px">
+							<label>
+								<span id="ctl00_cphMain_Label1">文件目录:</span>
+							</label>
+<#--							文件目录:<input type="text" style="margin-left: 10px;width: 250px" class="filcatalog">-->
+							<select class="deptselect" style="margin-left: 10px;width: 250px">
+								<#list dirs as dir>
+									<option value="${dir.id}">${dir.name}</option>
+								</#list>
+							</select>
+						</div>
 					</div>
 					<div class="box-footer" style="text-align:right;">
 						<input class="userrootpath" type="hidden" name="userrootpath" value="${userrootpath.id}"/>

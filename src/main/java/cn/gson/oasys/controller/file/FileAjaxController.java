@@ -1,13 +1,19 @@
 package cn.gson.oasys.controller.file;
 
-import java.util.List;
+import java.io.File;
+import java.util.*;
+import java.util.stream.Collectors;
 
+import cn.gson.oasys.common.PdfUtils;
+import cn.gson.oasys.common.formValid.BindingResultVOUtil;
+import cn.gson.oasys.common.formValid.ResultVO;
 import cn.gson.oasys.services.file.FileTransactionalHandlerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import cn.gson.oasys.model.dao.filedao.FileListdao;
@@ -332,4 +338,53 @@ public class FileAjaxController {
 		return "forward:/filetypeload";
 		
 	}
+
+
+	@RequestMapping("mergedImages")
+	@ResponseBody
+	public ResultVO mergedImages(
+			@RequestParam("materialIds")String[] materialIds,
+			@RequestParam("type")int type,
+			@RequestParam("page")int page,
+			@SessionAttribute("userId") Long userid,
+			@RequestParam("pathid") Long pathid,
+			Long fileListId) {
+
+		FileList tempDir;
+		if(fileListId==null){
+			tempDir = fs.createTempDir(pathid, userid);
+		}else{
+			tempDir = fs.findone(fileListId);
+		}
+		File readyPath = fs.getReadyPath(tempDir);
+		File temp = new File(readyPath, String.valueOf(tempDir.getFileId()));
+
+
+
+//		File file = PdfUtils.CompositeImage(
+//				Arrays.stream(imagesPath).map(File::new).collect(Collectors.toList()),
+//				temp,
+//				type,
+//				page
+//		);
+		Map<String,String> dataMap=new HashMap<>();
+		dataMap.put("fileListId",String.valueOf(tempDir.getFileId()));
+		return BindingResultVOUtil.success(dataMap);
+	}
+
+
+	@RequestMapping("mergedPDF")
+	@ResponseBody
+	public String mergedPDF(
+			@RequestParam("imagePath")String imagePath,
+			@RequestParam("pdfName")String pdfName){
+
+		File file = PdfUtils.mergeImageTOPdf(imagePath, imagePath, pdfName);
+		if (Objects.nonNull(file)){
+			fldao.updateFileNameByFilePath(pdfName,imagePath);
+		}
+
+		return file.getPath();
+	}
+
 }
