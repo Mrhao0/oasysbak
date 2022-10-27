@@ -216,12 +216,13 @@
                     <div class="table-responsive" style="margin-top: 20px">
                         <select id="sele">
                             <option selected="selected" disabled="disabled"  style='display: none' value=''>选择模板</option>
-                            <option>模板一</option>
-                            <option>模板二</option>
-                            <option>模板三</option>
+                            <option value="1">模板一</option>
+                            <option value="2">模板二</option>
+                            <option value="3">模板三</option>
                         </select>
                         <button id="nexts" type="button">下一页</button>
                         <button id="finish" type="button">完成</button>
+                        <p id="pageNoYes" class="pages">1</p>
                     </div>
                     <div class="bigbox1">
                         <div id="1b" class="box1_left">
@@ -373,9 +374,7 @@
 
                 </div>
 
-                <div class="foot">
-                    <p class="pages">1</p>
-                </div>
+
 
             </div>
             <div class="blacks">
@@ -394,8 +393,9 @@
                     <button type="button" class="sure">确定</button>
                 </div>
             </div>
-
         </div>
+        <p id="dirId" hidden></p>
+        <p id="materialIds" hidden></p>
     </div>
 
 <script >
@@ -406,17 +406,18 @@
         $("#sele").on('click',(e) => {
             e.preventDefault();
             var options= $("#sele").val()
-            if(options=="模板一"){
+            console.log(options);
+            if(options==1){
                 $('.bigbox1').css('display','block')
                 $('.bigbox2').css('display','none')
                 $('.bigbox3').css('display','none')
                 $('.bigbox4').css('display','none')
-            }else if (options=="模板二"){
+            }else if (options==2){
                 $('.bigbox1').css('display','none')
                 $('.bigbox2').css('display','block')
                 $('.bigbox3').css('display','none')
                 $('.bigbox4').css('display','none')
-            }else if (options=="模板三"){
+            }else if (options==3){
                 $('.bigbox1').css('display','none')
                 $('.bigbox2').css('display','none')
                 $('.bigbox3').css('display','block')
@@ -428,12 +429,36 @@
 
         //下一页  按钮
         $('#nexts').on('click',function (e){
-            e.preventDefault();
-            var pan = Number($('.pages').html())
-            pan++
-            $('.pages').html(pan)
+            // e.preventDefault();
+            var pan = Number($("#pageNoYes").html())
+            var dirId = Number($("#dirId").html())
+            var type =$("#sele").val();
+            var materialIds= $("#materialIds").html();
+            if(dirId==""){
+                dirId=null;
+            }
+            var data={
+                "page":pan,
+                "dirId":dirId,
+                "type":type,
+                "materialIds":materialIds
+            }
+            $.ajax({
+                url: "mergedImages",
+                type: "post",
+                dataType: "JSON",
+                data:data,
+                success(res) {
+                    console.log(res)
+                },
+                error(res){
+                    console.log('error')
+                }
+            })
 
-            $('.box1_right').css('background','white')
+            pan++
+            $("#pageNoYes").html(pan)
+            // $('.box1_right').css('background','white')
         })
 
 
@@ -482,9 +507,14 @@
         })
     }
     function img(id){
-        console.log("3212");
         var sourceval = $("#"+id+"rs").val();
-        console.log(sourceval);
+        var materialIds= $("#materialIds").html();
+        if(materialIds!=""){
+            materialIds=materialIds+","+sourceval;
+        }else{
+            materialIds=sourceval;
+        }
+        $("#materialIds").html(materialIds);
         $("#"+id+"b").css("background","url(imgshow?fileid="+sourceval+")")
     }
 </script>

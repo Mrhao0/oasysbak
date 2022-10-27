@@ -344,7 +344,7 @@ public class FileAjaxController {
 
 	@RequestMapping("mergedImages")
 	@ResponseBody
-	public ResultVO mergedImages(@SessionAttribute("userId") Long userid,Long dirId,Integer type,Integer page,String[] materialIds) {
+	public ResultVO mergedImages(@SessionAttribute("userId") Long userid,Long dirId,Integer type,Integer page,String materialIds) {
 		User user = udao.findOne(userid);
 		FilePath filepath = fpdao.findByPathName(user.getUserName());
 		FileList tempDir;
@@ -356,7 +356,8 @@ public class FileAjaxController {
 		File readyPath = fs.getFile(tempDir.getFilePath());
 		File temp = new File(readyPath, String.valueOf(tempDir.getFileId()));
 		List<File> flies=new ArrayList<>();
-		for(String fileListId:materialIds){
+		String[] materialIdsArr = materialIds.split(",");
+		for(String fileListId:materialIdsArr){
 			FileList findone = fs.findone(Long.valueOf(fileListId));
 			File file = fs.getFile(findone.getFilePath());
 			flies.add(file);
@@ -364,6 +365,7 @@ public class FileAjaxController {
 		File file = PdfUtils.CompositeImage(flies, temp, type, page);
 		Map<String,String> dataMap=new HashMap<>();
 		dataMap.put("fileListId",String.valueOf(tempDir.getFileId()));
+		dataMap.put("dirId",tempDir.getFileId()+"");
 		return BindingResultVOUtil.success(dataMap);
 	}
 
