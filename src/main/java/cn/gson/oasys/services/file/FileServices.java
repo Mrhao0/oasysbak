@@ -745,6 +745,9 @@ public class FileServices {
 		Map<Long,List<FileList>> map=new HashMap<>();
 		while (iterator.hasNext()){
 			FileList fileList = iterator.next();
+			if(fileList.getId_dir_management()==null){
+				continue;
+			}
 			List<FileList> fileLists = map.get(fileList.getId_dir_management().getId());
 			if(fileLists==null){
 				fileLists=new ArrayList<>();

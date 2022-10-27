@@ -226,9 +226,8 @@
                     <div class="bigbox1">
                         <div id="1" class="box1_left">
                             <select class="source" >
-                                <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
                                 <#list materialLib as item>
-                                    <option>素材一</option>
+                                    <option>${item.name}</option>
                                 </#list>
 
                             </select>
@@ -296,8 +295,6 @@
                             <div id="1" class="left2">
                                 <select class="source">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
-                                    <option>素材一</option>
-                                    <option>素材二</option>
                                 </select>
 
                                 <select class="imgs">
