@@ -344,13 +344,7 @@ public class FileAjaxController {
 
 	@RequestMapping("mergedImages")
 	@ResponseBody
-	public ResultVO mergedImages(Long id) {
-
-		String[] materialIds={"196","197","198","199","192"};
-		Long userid=1L;
-		Long dirId=193L;
-		Integer type=3;
-		Integer page=3;
+	public ResultVO mergedImages(@SessionAttribute("userId") Long userid,Long dirId,Integer type,Integer page,String[] materialIds) {
 		User user = udao.findOne(userid);
 		FilePath filepath = fpdao.findByPathName(user.getUserName());
 		FileList tempDir;
@@ -373,15 +367,9 @@ public class FileAjaxController {
 		return BindingResultVOUtil.success(dataMap);
 	}
 
-
-//	@RequestParam("imagePath")String imagePath,
-//	@RequestParam("pdfName")String pdfName
 	@RequestMapping("mergedPDF")
 	@ResponseBody
-	public String mergedPDF(){
-		Long fileListId=193L;
-		Long dirId=15L;
-		String pdfName="测试";
+	public String mergedPDF(Long fileListId,Long dirId,String pdfName){
 		FileList findone = fs.findone(fileListId);
 		DirManagement one = dirManagementService.findOne(dirId);
 		String imagePath = fs.getFile(findone.getFilePath()) + "/" + findone.getFileId();

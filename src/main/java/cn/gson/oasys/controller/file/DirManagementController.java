@@ -5,6 +5,7 @@ import cn.gson.oasys.common.formValid.BindingResultVOUtil;
 import cn.gson.oasys.common.formValid.ResultVO;
 import cn.gson.oasys.model.entity.file.DirManagement;
 import cn.gson.oasys.services.file.DirManagementService;
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -61,6 +62,13 @@ public class DirManagementController {
 		model.addAttribute("pathMap", dirManagement);
 		return "file/addthepath";
 	}
+	@RequestMapping("getSubmitPath")
+	@ResponseBody
+	public String getSubmitPath(){
+		List<DirManagement> dirManagementByType = dirManagementService.findDirManagementByType(1);
+		return JSON.toJSONString(dirManagementByType);
+	}
+
 	/**
 	 * @description 添加或修改
 	 * @date 2022-10-25 16:00
