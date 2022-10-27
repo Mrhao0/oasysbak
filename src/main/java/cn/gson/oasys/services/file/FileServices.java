@@ -9,11 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import cn.gson.oasys.model.dao.user.UserDao;
@@ -741,5 +737,21 @@ public class FileServices {
 
 	public File getReadyPath(FileList tempDir) {
 		return new File(this.rootPath, tempDir.getFilePath());
+	}
+
+	public Map<Long,List<FileList>> getMapWithDir() {
+		Iterable<FileList> all = fldao.findAll();
+		Iterator<FileList> iterator = all.iterator();
+		Map<Long,List<FileList>> map=new HashMap<>();
+		while (iterator.hasNext()){
+			FileList fileList = iterator.next();
+			List<FileList> fileLists = map.get(fileList.getId_dir_management().getId());
+			if(fileLists==null){
+				fileLists=new ArrayList<>();
+			}
+			fileLists.add(fileList);
+			map.put(fileList.getId_dir_management().getId(),fileLists);
+		}
+		return map;
 	}
 }

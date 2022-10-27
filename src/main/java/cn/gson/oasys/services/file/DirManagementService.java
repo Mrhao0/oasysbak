@@ -34,7 +34,9 @@ public class DirManagementService {
 
 		return dirManagementDao.findByType(type,pa);
 	}
-
+	public List<DirManagement> findDirManagementByType(Integer type) {
+		return dirManagementDao.findByType(type);
+	}
 	public Page<DirManagement> findAll(Pageable pa) {
 		 return dirManagementDao.findAll(pa);
 	}

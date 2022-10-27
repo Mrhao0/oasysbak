@@ -7,6 +7,7 @@ import cn.gson.oasys.model.dao.filedao.FileListdao;
 import cn.gson.oasys.model.dao.filedao.FilePathdao;
 import cn.gson.oasys.model.dao.user.DeptDao;
 import cn.gson.oasys.model.dao.user.UserDao;
+import cn.gson.oasys.model.entity.file.DirManagement;
 import cn.gson.oasys.model.entity.file.FileList;
 import cn.gson.oasys.model.entity.file.FilePath;
 import cn.gson.oasys.model.entity.file.FileSplit;
@@ -180,13 +181,14 @@ public class FileController {
 	 */
 	@RequestMapping("mergeblueprint")
 	public String tomergeblueprint(@SessionAttribute("userId")Long userid,Model model) {
-		Iterable<Dept> all = deptDao.findAll();
-
+		List<DirManagement> dirManagementByType = dirManagementService.findDirManagementByType(1);
 		User user = udao.findOne(userid);
 
 		FilePath filepath = fpdao.findByPathName(user.getUserName());
-		model.addAttribute("deptlist",all);
+		Map<Long, List<FileList>> mapWithDir = fs.getMapWithDir();
+		model.addAttribute("materialLib",dirManagementByType);
 		model.addAttribute("pathid",filepath.getId());
+		model.addAttribute("FileMapWithDir",mapWithDir);
 		return "file/mergeblueprint";
 	}
 
