@@ -2,6 +2,7 @@ package cn.gson.oasys.model.dao.filedao;
 
 import java.util.List;
 
+import cn.gson.oasys.model.entity.file.DirManagement;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -60,4 +61,7 @@ public interface FileListdao extends PagingAndSortingRepository<FileList, Long>{
 	@Transactional
 	@Query("update FileList set fileName=?1 where filePath = ?2")
 	void updateFileNameByFilePath(String filename,String filePath);
+
+	@Query("from FileList f where f.id_dir_management=?1")
+	List<FileList> findByDirId(DirManagement one);
 }

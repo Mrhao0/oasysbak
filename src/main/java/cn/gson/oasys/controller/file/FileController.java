@@ -185,11 +185,17 @@ public class FileController {
 		User user = udao.findOne(userid);
 
 		FilePath filepath = fpdao.findByPathName(user.getUserName());
-		Map<Long, List<FileList>> mapWithDir = fs.getMapWithDir();
+
 		model.addAttribute("materialLib",dirManagementByType);
 		model.addAttribute("pathid",filepath.getId());
-		model.addAttribute("FileMapWithDir",mapWithDir);
 		return "file/mergeblueprint";
+	}
+
+	@RequestMapping("getMaterialList")
+	@ResponseBody
+	public String getMaterialList(Long id,Model model) {
+		List<FileList> fileLists = fs.getMaterialListById(id);
+		return JSON.toJSONString(fileLists);
 	}
 
 	/**

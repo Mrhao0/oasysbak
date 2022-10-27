@@ -55,8 +55,9 @@ public class FileServices {
 	@Autowired
 	private FileTransactionalHandlerService fileTransactionalHandlerService;
 	@Autowired
-	UserDao udao;
-
+	private UserDao udao;
+	@Autowired
+	private DirManagementService dirManagementService;
 
 	@Value("${file.root.path}")
 	private String rootPath;
@@ -756,5 +757,10 @@ public class FileServices {
 			map.put(fileList.getId_dir_management().getId(),fileLists);
 		}
 		return map;
+	}
+
+	public List<FileList> getMaterialListById(Long id) {
+		DirManagement one = dirManagementService.findOne(id);
+		return fldao.findByDirId(one);
 	}
 }
