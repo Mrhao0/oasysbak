@@ -103,7 +103,7 @@
            color: white;
            border: none;
            border-radius: 5px;
-           display: none;
+
        }
 
        #finish{
@@ -114,30 +114,22 @@
            color: white;
            border: none;
            border-radius: 5px;
-           display: none;
+
        }
 
        #sele{
            float: left;
-           margin-left:10px;
+           margin-left:43px;
            height: 25px;
            width: 100px;
            border-radius: 5px;
            margin-top: 3px;
-           display: none;
+
        }
 
-       #satrt{
-           float: left;
-           padding:6px 16px;
-           background: #337ab7;
-           color: white;
-           border: none;
-           border-radius: 5px;
-           margin-left: 35px;
-       }
 
-       #source, #imgs{
+
+       .source, .imgs{
            margin: 20px;
            float: left;
            height: 25px;
@@ -145,16 +137,16 @@
            border-radius: 5px;
 
        }
-       #imgs{
+       .imgs{
            margin: 20px 0px;
        }
 
 
-        .box1_right   #source{
+        .box1_right   .source{
             width: 92px;
             margin: 10px;
         }
-        .box1_right   #imgs{
+        .box1_right   .imgs{
             width: 92px;
             margin: 10px;
         }
@@ -164,7 +156,7 @@
             /*height: 673px;*/
             height: 0px;
             background: black;
-            opacity: 0.8;
+            opacity: 0.9;
             position: absolute;
             top: 0px;
             left: 0;
@@ -195,7 +187,7 @@
             margin-top: 22px;
         }
 
-        .names{
+        .nams{
             margin-left: 16px;
         }
 
@@ -222,7 +214,6 @@
                 <!--盒子身体-->
                 <div class="box-body no-padding">
                     <div class="table-responsive" style="margin-top: 20px">
-                        <button type="button" id="satrt">开始合成</button>
                         <select id="sele">
                             <option selected="selected" disabled="disabled"  style='display: none' value=''>选择模板</option>
                             <option>模板一</option>
@@ -233,25 +224,29 @@
                         <button id="finish" type="button">完成</button>
                     </div>
                     <div class="bigbox1">
-                        <div class="box1_left">
-                            <select id="source">
+                        <div id="1" class="box1_left">
+                            <select class="source" >
                                 <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
-                                <option>素材一</option>
+                                <#list materialLib as item>
+                                    <option>素材一</option>
+                                </#list>
 
                             </select>
 
-                            <select id="imgs">
+                            <select class="imgs">
                                 <option selected="selected" disabled="disabled"  style='display: none' value=''>选择图片</option>
-
+<#--                                <#list FileMapWithDir as item>-->
+<#--                                    <option>素材一</option>-->
+<#--                                </#list>-->
                             </select>
                         </div>
-                        <div class="box1_right">
-                            <select id="source">
+                        <div id="2" class="box1_right">
+                            <select class="source">
                                 <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
 
                             </select>
 
-                            <select id="imgs">
+                            <select class="imgs">
                                 <option selected="selected" disabled="disabled"  style='display: none' value=''>选择图片</option>
 
                             </select>
@@ -260,36 +255,36 @@
                     </div>
                     <div class="bigbox2">
                         <div class="box1_left">
-                            <div class="left1">
-                                <select id="source">
+                            <div id="1" class="left1">
+                                <select class="source">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
 
                                 </select>
 
-                                <select id="imgs">
+                                <select class="imgs">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择图片</option>
 
                                 </select>
                             </div>
-                            <div class="left1">
-                                <select id="source">
+                            <div id="2" class="left1">
+                                <select class="source">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
 
                                 </select>
 
-                                <select id="imgs">
+                                <select class="imgs">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择图片</option>
 
                                 </select>
                             </div>
                         </div>
-                        <div class="box1_right">
-                            <select id="source">
+                        <div id="3" class="box1_right">
+                            <select class="source">
                                 <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
 
                             </select>
 
-                            <select id="imgs">
+                            <select class="imgs">
                                 <option selected="selected" disabled="disabled"  style='display: none' value=''>选择图片</option>
 
                             </select>
@@ -298,59 +293,60 @@
                     </div>
                     <div class="bigbox3">
                         <div class="box1_left">
-                            <div class="left2">
-                                <select id="source">
+                            <div id="1" class="left2">
+                                <select class="source">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
-
+                                    <option>素材一</option>
+                                    <option>素材二</option>
                                 </select>
 
-                                <select id="imgs">
+                                <select class="imgs">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择图片</option>
 
                                 </select>
                             </div>
-                            <div class="left2">
-                                <select id="source">
+                            <div id="2" class="left2">
+                                <select class="source">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
 
                                 </select>
 
-                                <select id="imgs">
+                                <select class="imgs">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择图片</option>
 
                                 </select>
                             </div>
-                            <div class="left2">
-                                <select id="source">
+                            <div id="3" class="left2">
+                                <select class="source">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
 
                                 </select>
 
-                                <select id="imgs">
+                                <select class="imgs">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择图片</option>
 
                                 </select>
                             </div>
-                            <div class="left2">
-                                <select id="source">
+                            <div id="4" class="left2">
+                                <select class="source">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
 
                                 </select>
 
-                                <select id="imgs">
+                                <select class="imgs">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择图片</option>
 
                                 </select>
                             </div>
 
                         </div>
-                        <div class="box1_right">
-                            <select id="source">
+                        <div id="5" class="box1_right">
+                            <select class="source">
                                 <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
 
                             </select>
 
-                            <select id="imgs">
+                            <select class="imgs">
                                 <option selected="selected" disabled="disabled"  style='display: none' value=''>选择图片</option>
 
                             </select>
@@ -369,7 +365,7 @@
             <div class="blacks">
                 <div class="whites">
                     <div style="margin-left: 27px;margin-top: 22px">
-                        名字:<input type="text" placeholder="请输入文件名字"class="names">
+                        名字:<input type="text" placeholder="请输入文件名字"class="nams">
                     </div>
                     <div style="margin-top: 20px">
                         提交目录: <select id="catalogue">
@@ -388,62 +384,63 @@
         </div>
     </div>
 
-<script>
-<#-- 选择模板 下拉框  -->
-    $("#sele").on('click',(e) => {
-        e.preventDefault();
-        var options= $("#sele").val()
-        if(options=="模板一"){
-            $('.bigbox1').css('display','block')
-            $('.bigbox2').css('display','none')
-            $('.bigbox3').css('display','none')
-            $('.bigbox4').css('display','none')
-        }else if (options=="模板二"){
-            $('.bigbox1').css('display','none')
-            $('.bigbox2').css('display','block')
-            $('.bigbox3').css('display','none')
-            $('.bigbox4').css('display','none')
-        }else if (options=="模板三"){
-            $('.bigbox1').css('display','none')
-            $('.bigbox2').css('display','none')
-            $('.bigbox3').css('display','block')
-            $('.bigbox4').css('display','none')
-        }
+<script >
+    $(function (){
+
+        var arr = []
+        <#-- 选择模板 下拉框  -->
+        $("#sele").on('click',(e) => {
+            e.preventDefault();
+            var options= $("#sele").val()
+            if(options=="模板一"){
+                $('.bigbox1').css('display','block')
+                $('.bigbox2').css('display','none')
+                $('.bigbox3').css('display','none')
+                $('.bigbox4').css('display','none')
+            }else if (options=="模板二"){
+                $('.bigbox1').css('display','none')
+                $('.bigbox2').css('display','block')
+                $('.bigbox3').css('display','none')
+                $('.bigbox4').css('display','none')
+            }else if (options=="模板三"){
+                $('.bigbox1').css('display','none')
+                $('.bigbox2').css('display','none')
+                $('.bigbox3').css('display','block')
+                $('.bigbox4').css('display','none')
+            }
+        })
+
+
+
+        //下一页  按钮
+        $('#nexts').on('click',function (e){
+            e.preventDefault();
+            var pan = Number($('.pages').html())
+            pan++
+            $('.pages').html(pan)
+        })
+
+
+        //完成   按钮
+        $('#finish').on('click',function (e){
+            $('.blacks').css('height','673px')
+            $('.whites').css('display','block')
+            $('.nams').val('')
+
+        })
+
+      //确定  按钮
+        $('.sure').click(function (){
+            var nam = $('.nams').val()
+            var cata = $('#catalogue').val()
+            console.log(nam,cata)
+            $('.blacks').css('height','0px')
+            $('.whites').css('display','none')
+        })
+
+        $('.imgs').click(function (){
+           var pare = $(this).parent()[0]
+            console.log(pare)
+        })
     })
-
-    //开始合成 按钮
-    $('#satrt').on('click',function (){
-        $('#sele').css('display','block')
-        $('#nexts').css('display','block')
-        $('#finish').css('display','block')
-
-    })
-
-    //下一页  按钮
-    $('#nexts').on('click',function (e){
-        e.preventDefault();
-       var pan = Number($('.pages').html())
-        pan++
-        $('.pages').html(pan)
-    })
-
-
-    //完成   按钮
-$('#finish').on('click',function (e){
-    $('.blacks').css('height','673px')
-    $('.whites').css('display','block')
-})
-
-//确定  按钮
-$('.sure').on('click',function (){
-    var nam = $('.names').val()
-    var cata = $('#catalogue').val()
-    console.log(nam,cata)
-    $('.blacks').css('height','0px')
-    $('.whites').css('display','none')
-})
-
-$(()=>{
-    $('.names').val('')
-})
 </script>
