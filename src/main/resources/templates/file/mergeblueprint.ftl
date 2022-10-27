@@ -436,6 +436,9 @@
             $('.pages').html(pan)
 
             $('.box1_right').css('background','white')
+            $('.box1_left').css('background','white')
+            $('.left1').css('background','white')
+            $('.left2').css('background','white')
         })
 
 
