@@ -225,7 +225,7 @@
                     </div>
                     <div class="bigbox1">
                         <div id="1" class="box1_left">
-                            <select class="source" >
+                            <select class="source" onchange="{console.log($(this).val())}">
                                 <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
                                 <#list materialLib as item>
                                     <option value="${item.id}">${item.name}</option>
@@ -235,15 +235,15 @@
 
                             <select class="imgs">
                                 <option selected="selected" disabled="disabled"  style='display: none' value=''>选择图片</option>
-<#--                                <#list FileMapWithDir as item>-->
-<#--                                   -->
-<#--                                </#list>-->
 
                             </select>
                         </div>
                         <div id="2" class="box1_right">
                             <select class="source">
                                 <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
+                                <#list materialLib as item>
+                                    <option value="${item.id}">${item.name}</option>
+                                </#list>
 
                             </select>
 
@@ -259,7 +259,9 @@
                             <div id="1" class="left1">
                                 <select class="source">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
-
+                                    <#list materialLib as item>
+                                        <option value="${item.id}">${item.name}</option>
+                                    </#list>
                                 </select>
 
                                 <select class="imgs">
@@ -270,7 +272,9 @@
                             <div id="2" class="left1">
                                 <select class="source">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
-
+                                    <#list materialLib as item>
+                                        <option value="${item.id}">${item.name}</option>
+                                    </#list>
                                 </select>
 
                                 <select class="imgs">
@@ -282,7 +286,9 @@
                         <div id="3" class="box1_right">
                             <select class="source">
                                 <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
-
+                                <#list materialLib as item>
+                                    <option value="${item.id}">${item.name}</option>
+                                </#list>
                             </select>
 
                             <select class="imgs">
@@ -297,8 +303,9 @@
                             <div id="1" class="left2">
                                 <select class="source">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
-                                    <option>素材一</option>
-                                    <option>素材二</option>
+                                    <#list materialLib as item>
+                                        <option value="${item.id}">${item.name}</option>
+                                    </#list>
                                 </select>
 
                                 <select class="imgs">
@@ -309,7 +316,9 @@
                             <div id="2" class="left2">
                                 <select class="source">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
-
+                                    <#list materialLib as item>
+                                        <option value="${item.id}">${item.name}</option>
+                                    </#list>
                                 </select>
 
                                 <select class="imgs">
@@ -320,7 +329,9 @@
                             <div id="3" class="left2">
                                 <select class="source">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
-
+                                    <#list materialLib as item>
+                                        <option value="${item.id}">${item.name}</option>
+                                    </#list>
                                 </select>
 
                                 <select class="imgs">
@@ -331,7 +342,9 @@
                             <div id="4" class="left2">
                                 <select class="source">
                                     <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
-
+                                    <#list materialLib as item>
+                                        <option value="${item.id}">${item.name}</option>
+                                    </#list>
                                 </select>
 
                                 <select class="imgs">
@@ -344,7 +357,9 @@
                         <div id="5" class="box1_right">
                             <select class="source">
                                 <option selected="selected" disabled="disabled"  style='display: none' value=''>选择素材库</option>
-
+                                <#list materialLib as item>
+                                    <option value="${item.id}">${item.name}</option>
+                                </#list>
                             </select>
 
                             <select class="imgs">
@@ -370,7 +385,7 @@
                     </div>
                     <div style="margin-top: 20px">
                         提交目录: <select id="catalogue">
-                            <option>目录</option>
+                            <option selected="selected" disabled="disabled"  style='display: none' value=''>目录</option>
                             <option>目录1</option>
                             <option>目录2</option>
 
@@ -419,6 +434,8 @@
             var pan = Number($('.pages').html())
             pan++
             $('.pages').html(pan)
+
+            $('.box1_right').css('background','white')
         })
 
 
@@ -435,17 +452,35 @@
             var nam = $('.nams').val()
             var cata = $('#catalogue').val()
             console.log(nam,cata)
-            $('.blacks').css('height','0px')
-            $('.whites').css('display','none')
+            if(nam!=''&&cata!=null){
+                $('.blacks').css('height','0px')
+                $('.whites').css('display','none')
+            }else {
+                alert('请填写')
+            }
+
         })
 
         //素材下拉列表
-        $('.source').click(function (){
-            var inp = $(this).val();
-            console.log(inp)
-           $.post('getMaterialList',{"id":inp},function (data){
-               console.log(data)
-           },"json")
+        $('.source').change(function (){
+            var sourceval = $(this).val();
+            var im = $(this).next()[0]
+            $.ajax({
+                url: "getMaterialList",
+                type: "post",
+                dataType: "JSON",
+                data:{'id':sourceval},
+                success(res) {
+                    // console.log(im.option())
+                    // im.option().append("<option>1111</option>")
+                    var opt = $('.imgs option:eq(0)').append("<option>1111</option>")
+                    opt.val(res[0].fileId)
+                    opt.html(res[0].fileName)
+                },
+                error(res){
+                    console.log('error')
+                }
+            })
         })
 
         $('.imgs').click(function (){
