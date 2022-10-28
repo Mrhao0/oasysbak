@@ -683,7 +683,8 @@ public class FileServices {
 
 
 	public void updateSubmitpathById(Long fileid, Long id_submitpath) {
-		fldao.updateSubmitpathById(fileid, id_submitpath);
+		DirManagement one = dirManagementService.findOne(id_submitpath);
+		fldao.updateSubmitpathById(fileid, one);
 	}
 
 	/**

@@ -439,7 +439,7 @@
         $('#nexts').on('click',function (e){
             // e.preventDefault();
             var pan = Number($("#pageNoYes").html())
-            var dirId = Number($("#dirId").html())
+            var dirId = Number($("#fileListId").html())
             var type =$("#sele").val();
             var materialIds= $("#materialIds").html();
             if(dirId==""){
@@ -466,12 +466,14 @@
             })
             pan++
             $("#pageNoYes").html(pan)
+            $("#materialIds").html("");
             // $('.box1_right').css('background','white')
         })
 
 
         //完成   按钮
         $('#finish').on('click',function (e){
+
             $.ajax({
                 url:"getSubmitPath",
                 type:'post',
@@ -494,6 +496,7 @@
 
             //确定  按钮
         $('.sure').click(function (){
+            var fileListId = Number($("#fileListId").html())
             var nam = $('.nams').val()
             var cata = $('#catalogue').val()
             console.log(nam,cata)
@@ -502,7 +505,7 @@
                     url:"mergedPDF",
                     type:'post',
                     dataType:"json",
-                    data:{"fileListId":'',"dirId":cata,"pdfName":nam},
+                    data:{"fileListId":fileListId,"dirId":cata,"pdfName":nam},
                     success(res) {
                      alert('合成成功')
                     },
@@ -536,6 +539,7 @@
             dataType: "JSON",
             data:{'id':sourceval},
             success(res) {
+                $("#"+id+"rs").html("<option selected='selected' disabled='disabled'  style='display: none' value=''>选择图片</option>")
                 console.log(res)
                 var html="";
                 for(var i=0;i<res.length;i++){

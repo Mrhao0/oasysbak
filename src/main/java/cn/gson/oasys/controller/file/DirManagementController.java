@@ -34,13 +34,13 @@ public class DirManagementController {
 	 */
 	@RequestMapping("thepath")
 	public String toThepath(@RequestParam(value="page",defaultValue="0") int page, Model model,
-	                        @RequestParam(value="size",defaultValue="10") int size,@RequestParam(value="size",defaultValue="100")Integer type){
+	                        @RequestParam(value="size",defaultValue="10") int size,Integer selectType){
 		Sort sort = new Sort(Sort.Direction.DESC, "id");
 		Pageable pa=new PageRequest(page, size,sort);
 
 		Page<DirManagement> all;
-		if(type!=null){
-			all=dirManagementService.findDirManagementByType(type,pa);
+		if(selectType!=null){
+			all=dirManagementService.findDirManagementByType(selectType,pa);
 		}else{
 			all = dirManagementService.findAll(pa);
 		}
@@ -65,7 +65,7 @@ public class DirManagementController {
 	@RequestMapping("getSubmitPath")
 	@ResponseBody
 	public String getSubmitPath(){
-		List<DirManagement> dirManagementByType = dirManagementService.findDirManagementByType(1);
+		List<DirManagement> dirManagementByType = dirManagementService.findDirManagementByType(0);
 		return JSON.toJSONString(dirManagementByType);
 	}
 

@@ -74,6 +74,7 @@
                                     <span id="ctl00_cphMain_Label1">类别</span>
                                 </label>
                                 <select class="deptselect form-control" name="type">
+                                    <option selected="selected" disabled="disabled"  style='display: none' value=''>选择库类型</option>
                                         <option value="0">图纸库</option>
                                         <option value="1">素材库</option>
                                 </select>

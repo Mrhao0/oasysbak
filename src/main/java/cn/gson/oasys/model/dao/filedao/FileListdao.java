@@ -44,7 +44,7 @@ public interface FileListdao extends PagingAndSortingRepository<FileList, Long>{
 
 	@Query("update FileList fa set fa.id_dir_management=?2 where fa.fileId=?1")
 	@Modifying
-	void updateSubmitpathById(Long fileid, Long submitpath);
+	void updateSubmitpathById(Long fileid, DirManagement submitpath);
 
 	@Query("update FileSplit s set s.deleteflag=1 where s.splitid=?1")
 	@Modifying
