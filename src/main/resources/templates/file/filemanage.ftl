@@ -44,6 +44,35 @@ li.activee>a {
 	border: none;
 	color: #9e9e9e;
 }
+.masking {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	background: rgba(150, 150, 150, 0.8);
+	display: none;
+	top: 0;
+	left: 0;
+}
+
+.layer {
+	position: relative;
+	width: 80%;
+	height: 80%;
+	background:white;
+	left: 5%;
+	top: 5%;
+}
+
+.close {
+	position: absolute;
+	right: 15px;
+	top: 15px;
+}
+
+#alinkisok {
+	margin-top: 30px;
+}
+
 .menu{
 	position: fixed;
     left:0;
@@ -85,6 +114,42 @@ li.activee>a {
 }
 .pathtextarea .btn-default:hover{
 	background-color: #fff !important;
+}
+.all {
+	display: flex;
+	width: 100%;
+	height: 70%;
+}
+
+.left {
+	width: 55%;
+	height: 80%;
+	margin-left: 15px;
+	margin-top: 50px;
+}
+
+.right {
+	margin-top: 50px;
+	position: relative;
+	width: 45%;
+	height: 80%;
+	padding: 10px;
+
+}
+
+img {
+	width: 100%;
+	height: 100%
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+.next {
+	position: fixed;
+	bottom: 240px;
+	right: 80px;
 }
 
 </style>
@@ -203,6 +268,49 @@ li.activee>a {
 			</div>
 		</div>
 	</div>
+	<div class="masking"><!--遮罩-->
+		<div class="layer"><!--弹窗-->
+			<a class="close">关闭</a>
+			<div class="all">
+				<div class="left">
+					<#--                <iframe src="imgshow?fileid=${fileid}"></iframe>-->
+					<img id="img" src="imgshow?fileid=189">
+				</div>
+				<div class="right">
+
+					<table class="table table-hover table-responsive">
+						<tbody class="result_body" id="main_body">
+						<tr id="clone">
+							<td class="itemNo">部门列表</td>
+							<td>
+								<select name="itemType" class="form-control" id="texts">
+									<option value="1">请选择</option>
+									<option value="2">数值</option>
+									<option value="3">合格</option>
+								</select>
+							</td>
+							<td><input class="form-control" autocomplete="off" placeholder="检查点" id="texts"></td>
+							<td>
+								<div class="btn-group" role="group" aria-label="...">
+									<button type="button" class="btn btn-default btn-success glyphicon glyphicon-plus"
+											style="word-break:break-all; word-wrap:break-word; white-space:inherit"
+											onclick="addRow(this)"></button>
+									<button type="button" class="btn btn-default btn-danger glyphicon glyphicon-trash"
+											style="word-break:break-all; word-wrap:break-word; white-space:inherit"
+											onclick="removeRow(this)"></button>
+								</div>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+					<div class="next">
+						<button onclick="nextPage()" class="btn btn-primary" style="font-size: 13px">下一页</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </body>
 <#if message??>
 	<script type="text/javascript">
@@ -252,6 +360,52 @@ li.activee>a {
 			});
 			
 		});
-		
-	</script>
+
+		function addRow(item) {
+			var curRow = $(item).closest('tr');
+			var cloneRow = $('#clone').clone();
+			curRow.after(cloneRow);
+			curRow.next().find(":input").val('');
+			// console.log( $('#texts').val())
+			// console.log($('#texts').val())
+			// $("#texts").find('option:selected').text();
+
+			<#--    var result=$('#texts').val();-->
+			<#--        $.ajax({-->
+			<#--            url: "/refuse",-->
+			<#--            data: {"noticesListId":${noticesListId} , "fileid":${fileid},"remark":is},-->
+			<#--            type: "GET",-->
+			<#--            success: function (result) {-->
+			<#--                alert("下一页")-->
+			<#--            }-->
+			<#--        })-->
+		}
+
+
+		// 点击删除
+		function removeRow(item) {
+			if (getRowLength() <= 1) {
+				toastr.warning('至少保留一行数据！');
+				return;
+			} else {
+				$(item).closest("tr").remove();
+				formatIndex();
+			}
+		}
+
+
+		// 防止删空
+		function getRowLength() {
+			// 统计当前表格行数，防止删空
+			return $("#main_body").find("tr").length;
+		}
+
+		function nextPage() {
+			var res = $('#myput').val();
+			$('#myput').val(res * 1 + 1)
+			$('#img').attr('src', "imgshow?fileid=190")
+		}
+
+
+</script>
 </html>

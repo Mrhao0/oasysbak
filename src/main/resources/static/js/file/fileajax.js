@@ -273,4 +273,9 @@ $('#sure').on('click', function () {
     } else {
         alert('不能为空！！')
     }
+    $('.masking').fadeIn()
 })
+$('.close').click(function (event) {
+    event.preventDefault;
+    $('.masking').hide();
+});

@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import cn.gson.oasys.model.entity.role.Role;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -76,7 +77,7 @@ import cn.gson.oasys.services.process.ProcessService;
 @Controller
 @RequestMapping("/")
 public class ProcedureController {
-	
+
 	@Autowired
 	private UserDao udao;
 	@Autowired
@@ -115,7 +116,7 @@ public class ProcedureController {
 	private ResignDao rsdao;
 	@Autowired
 	private AttendceDao adao;
-	
+
 	@Value("${attachment.roopath}")
 	private String rootpath;
 
@@ -133,10 +134,12 @@ public class ProcedureController {
 	//新增页面
 	@RequestMapping("xinxeng")
 	public String index(){
-		
+
 		return "process/procedure";
 	}
-	
+
+
+
 	//费用报销表单
 	@RequestMapping("burse")
 	public String bursement(Model model, @SessionAttribute("userId") Long userId,HttpServletRequest request,
@@ -148,7 +151,7 @@ public class ProcedureController {
 		List<Subject> second=sudao.findByParentId(1L);
 		List<Subject> sublist=sudao.findByParentIdNot(1L);
 		proservice.index6(model, userId, page, size);
-		
+
 		model.addAttribute("second", second);
 		model.addAttribute("sublist", sublist);
 		model.addAttribute("uplist", uplist);
@@ -157,8 +160,8 @@ public class ProcedureController {
 	/**
 	 * 费用表单接收
 	 * @return
-	 * @throws IOException 
-	 * @throws IllegalStateException 
+	 * @throws IOException
+	 * @throws IllegalStateException
 	 */
 	@RequestMapping("apply")
 	public String apply(@RequestParam("filePath")MultipartFile filePath,HttpServletRequest req,@Valid Bursement bu,BindingResult br,
@@ -171,12 +174,12 @@ public class ProcedureController {
 		Long roleid=lu.getRole().getRoleId();//申请人角色id
 		Long fatherid=lu.getFatherId();//申请人父id
 		Long userid=reuser.getUserId();//审核人userid
-		
+
 		String val=req.getParameter("val");
-		
+
 		if(roleid>=3L && Objects.equals(fatherid, userid)){
-			
-		
+
+
 		List<DetailsBurse> mm=bu.getDetails();
 		for (DetailsBurse detailsBurse : mm) {
 			allinvoice+=detailsBurse.getInvoices();
@@ -191,7 +194,7 @@ public class ProcedureController {
 		ProcessList pro=bu.getProId();
 		proservice.index5(pro, val, lu, filePath,reuser.getUserName());
 		budao.save(bu);
-		
+
 		//存审核表
 		proservice.index7(reuser, pro);
 		}else{
@@ -210,7 +213,7 @@ public class ProcedureController {
 		Pageable pa=new PageRequest(page, size);
 		Page<ProcessList> pagelist=prodao.findByuserId(userId,pa);
 		List<ProcessList> prolist=pagelist.getContent();
-		
+
 		Iterable<SystemStatusList>  statusname=sdao.findByStatusModel("aoa_process_list");
 		Iterable<SystemTypeList> typename=tydao.findByTypeModel("aoa_process_list");
 		model.addAttribute("typename", typename);
@@ -255,9 +258,30 @@ public class ProcedureController {
 		model.addAttribute("prolist", prolist);
 		model.addAttribute("statusname", statusname);
 		model.addAttribute("url", "shenser");
-		
+
 		return "process/managetable";
 	}
+
+
+	//新增两个页面
+	@RequestMapping("releaseRecord")
+	public String releaseRecord(Model model, @SessionAttribute("userId") Long userId,HttpServletRequest req){
+//		Long proid=Long.parseLong(req.getParameter("id"));//出差申请的id
+//		ProcessList prolist=prodao.findbyuseridandtitle(userId, proid);//找这个用户的出差申请
+//		proservice.index6(model, userId, page, size);
+//		model.addAttribute("prolist", prolist);
+		return "process/releaseRecord";
+	}
+
+	@RequestMapping("approvalProcess")
+	public String approvalProcess(Model model, @SessionAttribute("userId") Long userId,HttpServletRequest req){
+//		Long proid=Long.parseLong(req.getParameter("id"));//出差申请的id
+//		ProcessList prolist=prodao.findbyuseridandtitle(userId, proid);//找这个用户的出差申请
+//		proservice.index6(model, userId, page, size);
+//		model.addAttribute("prolist", prolist);
+		return "process/approvalProcess";
+	}
+
 	/**
 	 * 流程审核
 	 * @return
@@ -272,7 +296,7 @@ public class ProcedureController {
 		model.addAttribute("page", pagelist);
 		model.addAttribute("prolist", prolist);
 		model.addAttribute("url", "serch");
-		
+
 		return "process/auditing";
 	}
 	/**
@@ -284,7 +308,7 @@ public class ProcedureController {
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size){
 		User user=udao.findOne(userId);
-		
+
 		String val=null;
 		if(!StringUtil.isEmpty(req.getParameter("val"))){
 			val=req.getParameter("val");
@@ -294,11 +318,11 @@ public class ProcedureController {
 		model.addAttribute("page", pagelist);
 		model.addAttribute("prolist", prolist);
 		model.addAttribute("url", "serch");
-		
+
 		return "process/audtable";
 	}
-	
-	
+
+
 	/**
 	 * 查看详细
 	 * @return
@@ -311,11 +335,11 @@ public class ProcedureController {
 		Long proid=Long.parseLong(id);
 		String typename=req.getParameter("typename");//类型名称
 		String name=null;
-		
+
 		Map<String, Object> map=new HashMap<>();
 		ProcessList process=prodao.findOne(proid);//查看该条申请
 		Boolean flag=process.getUserId().getUserId().equals(userId);//判断是申请人还是审核人
-		
+
 		if(!flag){
 			name="审核";
 		}else{
@@ -343,7 +367,7 @@ public class ProcedureController {
 				Double	staymoney=0.0;
 				Double	tramoney=0.0;
 				EvectionMoney emoney=emdao.findByProId(process);
-				
+
 				String money=ProcessService.numbertocn(emoney.getMoney());
 				List<Stay> staylist=sadao.findByEvemoney(emoney);
 				for (Stay stay : staylist) {
@@ -391,9 +415,9 @@ public class ProcedureController {
 				model.addAttribute("map", map);
 				return "process/resserch";
 			}
-		
-		
-		
+
+
+
 		return "process/serch";
 	}
 	/**
@@ -405,18 +429,18 @@ public class ProcedureController {
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size){
 		User u=udao.findOne(userId);
-		
+
 		//流程id
 		Long id=Long.parseLong(req.getParameter("id"));
 		ProcessList process=prodao.findOne(id);
-		
+
 		Reviewed re=redao.findByProIdAndUserId(process.getProcessId(), u);//查找审核表
-		
+
 		String typename=process.getTypeNmae().trim();
 		if(("费用报销").equals(typename)){
 			Bursement bu=budao.findByProId(process);
 			model.addAttribute("bu", bu);
-			
+
 		}else if(("出差费用").equals(typename)){
 			EvectionMoney emoney=emdao.findByProId(process);
 			model.addAttribute("bu", emoney);
@@ -426,7 +450,7 @@ public class ProcedureController {
 		}
 		proservice.user(page, size, model);
 		List<Map<String, Object>> list=proservice.index4(process);
-		
+
 		model.addAttribute("statusid", process.getStatusId());
 		model.addAttribute("process", process);
 		model.addAttribute("revie", list);
@@ -435,9 +459,9 @@ public class ProcedureController {
 		model.addAttribute("ustatusid", re.getStatusId());
 		model.addAttribute("positionid",u.getPosition().getId());
 		model.addAttribute("typename", typename);
-		
+
 		return "process/audetail";
-		
+
 	}
 	/**
 	 * 审核确定的页面
@@ -449,9 +473,9 @@ public class ProcedureController {
 		String name=null;
 		String typename=req.getParameter("type");
 		Long proid=Long.parseLong(req.getParameter("proId"));
-		
+
 		ProcessList pro=prodao.findOne(proid);//找到该条流程
-		
+
 		User shen=udao.findOne(pro.getUserId().getUserId());//申请人
 		if(!StringUtil.isEmpty(req.getParameter("liuzhuan"))){
 			name=req.getParameter("liuzhuan");
@@ -475,9 +499,9 @@ public class ProcedureController {
 						return "common/proce";
 					}
 				}
-				
+
 			}else if(("费用报销").equals(typename)||("出差费用").equals(typename)){
-				
+
 				if(u2.getPosition().getId().equals(5L)){
 					proservice.save(proid, u, reviewed, pro, u2);
 				}else{
@@ -516,11 +540,11 @@ public class ProcedureController {
 				adao.save(attend);
 			}
 			}
-			
-			
+
+
 		}
-		
-		
+
+
 		if(("费用报销").equals(typename)){
 			Bursement  bu=budao.findByProId(pro);
 			if(shen.getFatherId().equals(u.getUserId())){
@@ -584,10 +608,10 @@ public class ProcedureController {
 				rgdao.save(over);
 			}
 		}else if(("离职申请").equals(typename)){
-			
+
 			Resign over=rsdao.findByProId(pro);
 			if(shen.getFatherId().equals(u.getUserId())){
-				
+
 				over.setManagerAdvice(reviewed.getAdvice());
 				rsdao.save(over);
 			}
@@ -600,9 +624,9 @@ public class ProcedureController {
 			}
 		}
 		return "redirect:/audit";
-		
+
 	}
-	
+
 	//出差费用
 	@RequestMapping("evemoney")
 	public String evemoney(Model model, @SessionAttribute("userId") Long userId,HttpServletRequest req,
@@ -640,7 +664,7 @@ public class ProcedureController {
 							User u=udao.findByUserName(traffic.getUsername());
 							traffic.setUser(u);
 							traffic.setEvection(eve);
-							
+
 						}
 						List<Stay> mm=eve.getStay();
 						for (Stay stay : mm) {
@@ -649,7 +673,7 @@ public class ProcedureController {
 							stay.setUser(u);
 							stay.setEvemoney(eve);
 						}
-						
+
 						eve.setMoney(allmoney);
 						//set主表
 						ProcessList pro=eve.getProId();
@@ -661,9 +685,9 @@ public class ProcedureController {
 					}else{
 						return "common/proce";
 					}
-			
+
 				return "redirect:/flowmanage";
-		
+
 	}
 	//出差申请
 	@RequestMapping("evection")
@@ -684,8 +708,8 @@ public class ProcedureController {
 	 * @param page
 	 * @param size
 	 * @return
-	 * @throws IOException 
-	 * @throws IllegalStateException 
+	 * @throws IOException
+	 * @throws IllegalStateException
 	 */
 	@RequestMapping("evec")
 	public String evec(@RequestParam("filePath")MultipartFile filePath,HttpServletRequest req,@Valid Evection eve,BindingResult br,
@@ -706,7 +730,7 @@ public class ProcedureController {
 		}else{
 			return "common/proce";
 		}
-		
+
 		return "redirect:/xinxeng";
 	}
 	//加班申请
@@ -748,9 +772,9 @@ public class ProcedureController {
 			}else{
 				return "common/proce";
 			}
-			
+
 			return "redirect:/xinxeng";
-			
+
 		}
 	//请假申请
 	@RequestMapping("holiday")
@@ -809,7 +833,7 @@ public class ProcedureController {
 		}else{
 			return "common/proce";
 		}
-		
+
 		return "redirect:/xinxeng";
 	}
 	//转正申请
@@ -840,7 +864,7 @@ public class ProcedureController {
 			String val=req.getParameter("val");
 			if(roleid>=3L && Objects.equals(fatherid, userid)){
 				if(lu.getRole().getRoleId()==6 ||lu.getRole().getRoleId()==7){
-					
+
 					//set主表
 					ProcessList pro=eve.getProId();
 					proservice.index8(pro, val, lu,shen.getUserName());
@@ -854,9 +878,9 @@ public class ProcedureController {
 			}else{
 				return "common/proce";
 			}
-			
+
 			return "redirect:/xinxeng";
-			
+
 		}
 	//离职申请
 	@RequestMapping("resign")
@@ -895,11 +919,11 @@ public class ProcedureController {
 			}else{
 				return "common/proce";
 			}
-			
+
 			return "redirect:/xinxeng";
-			
+
 		}
-		
+
 		/**
 		 * 删除
 		 */
@@ -915,9 +939,9 @@ public class ProcedureController {
 				return "common/proce";
 			}
 			return "redirect:/audit";
-			
+
 		}
-		
+
 		/**
 		 * 下载文件
 		 * @param response
@@ -946,9 +970,9 @@ public class ProcedureController {
 				throws IOException {
 
 			String startpath = new String(URLDecoder.decode(request.getRequestURI(), "utf-8"));
-			
+
 			String path = startpath.replace("/show", "");
-			
+
 			File f = new File(rootpath, path);
 			System.out.println(f.getAbsolutePath());
 			ServletOutputStream sos = response.getOutputStream();
