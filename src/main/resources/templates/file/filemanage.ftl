@@ -59,8 +59,12 @@ li.activee>a {
 	width: 80%;
 	height: 80%;
 	background:white;
-	left: 5%;
+	left: 10%;
 	top: 5%;
+}
+
+.layer input[type="checkbox"] {
+	display: block;
 }
 
 .close {
@@ -148,8 +152,8 @@ a:hover {
 
 .next {
 	position: fixed;
-	bottom: 240px;
-	right: 80px;
+	bottom: 172px;
+	right: 182px;
 }
 
 </style>
@@ -241,9 +245,9 @@ a:hover {
 							<label>
 								<span id="ctl00_cphMain_Label1">文件目录:</span>
 							</label>
-<#--							文件目录:<input type="text" style="margin-left: 10px;width: 250px" class="filcatalog">-->
-							<select id="deptselectDirSelect" class="deptselect" style="margin-left: 10px;width: 250px">
-								<option selected="selected" value=''>选择库</option>
+
+							<select id="deptselectDirSelect" class="deptselect" style="margin-left: 10px;width: 250px;height: 35px">
+								<option  selected="selected" disabled="disabled"  style='display: none' value=''>选择库</option>
 								<#list dirs as dir>
 									<option value="${dir.id}">${dir.name}</option>
 								</#list>
@@ -273,38 +277,30 @@ a:hover {
 			<a class="close">关闭</a>
 			<div class="all">
 				<div class="left">
-					<#--                <iframe src="imgshow?fileid=${fileid}"></iframe>-->
 					<img id="img" src="imgshow?fileid=189">
 				</div>
 				<div class="right">
-
 					<table class="table table-hover table-responsive">
 						<tbody class="result_body" id="main_body">
+
+<#--						<#list list as this>-->
 						<tr id="clone">
-							<td class="itemNo">部门列表</td>
-							<td>
-								<select name="itemType" class="form-control" id="texts">
-									<option value="1">请选择</option>
-									<option value="2">数值</option>
-									<option value="3">合格</option>
-								</select>
-							</td>
-							<td><input class="form-control" autocomplete="off" placeholder="检查点" id="texts"></td>
+                          <td><input type="checkbox" name="" value="" style="width: 20px;height: 23px" ></td>
+							<td style="line-height: 34px;">检查点</td>
 							<td>
 								<div class="btn-group" role="group" aria-label="...">
-									<button type="button" class="btn btn-default btn-success glyphicon glyphicon-plus"
-											style="word-break:break-all; word-wrap:break-word; white-space:inherit"
-											onclick="addRow(this)"></button>
 									<button type="button" class="btn btn-default btn-danger glyphicon glyphicon-trash"
 											style="word-break:break-all; word-wrap:break-word; white-space:inherit"
 											onclick="removeRow(this)"></button>
 								</div>
 							</td>
 						</tr>
+
+<#--						</#list>-->
 						</tbody>
 					</table>
 					<div class="next">
-						<button onclick="nextPage()" class="btn btn-primary" style="font-size: 13px">下一页</button>
+						<button onclick="nextPage()" class="btn btn-primary" style="font-size: 13px">确定</button>
 					</div>
 				</div>
 			</div>

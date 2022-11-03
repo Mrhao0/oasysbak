@@ -67,16 +67,16 @@
 				</h3>
 			</#if>
 		</#if>
-		<div class="box-tools">
-			<div class="input-group" style="width: 150px;">
-				<input type="text" class="form-control input-sm findfileandpath"
-					placeholder="查找..." />
-				<div class="input-group-btn">
-					<a class="btn btn-sm btn-default btn-change findfileandpathgo"><span
-						class="glyphicon glyphicon-search"></span></a>
-				</div>
-			</div>
-		</div>
+<#--		<div class="box-tools">-->
+<#--			<div class="input-group" style="width: 150px;">-->
+<#--				<input type="text" class="form-control input-sm findfileandpath"-->
+<#--					placeholder="查找..." />-->
+<#--				<div class="input-group-btn">-->
+<#--					<a class="btn btn-sm btn-default btn-change findfileandpathgo"><span-->
+<#--						class="glyphicon glyphicon-search"></span></a>-->
+<#--				</div>-->
+<#--			</div>-->
+<#--		</div>-->
 	</div>
 	<!--盒子身体-->
 	<div class="box-body no-padding">

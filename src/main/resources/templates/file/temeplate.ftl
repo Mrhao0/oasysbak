@@ -45,6 +45,7 @@
         .commen {
             cursor: pointer;
         }
+
         .yes {
             background-color: #5BC0DE;
             color: #fff3f3;
@@ -60,6 +61,9 @@
             color: #fff3f3
         }
 
+        #green {
+            color: green
+        }
     </style>
     <div class="row" style="padding-top: 10px;">
         <div class="col-md-2">
@@ -120,10 +124,10 @@
                                     <td>
                                         <#if item.checktemplate=="0">
                                         <a href="addthepath2?id=${item.id}" class="label xiugai">
-                                            <span class="glyphicon glyphicon-edit"></span> 修改</a><#else>
-                                        <a href="addthepath2" class="label xiugai" style="padding: 5px;">
-                                            <span class="glyphicon glyphicon-edit"></span> 新增
-                                        </a>
+                                                <span class="glyphicon glyphicon-edit"></span> 修改</a><#else>
+                                            <a href="addthepath2" class="label xinzeng" style="padding: 5px;">
+                                                <span class="glyphicon glyphicon-edit"></span> 新增
+                                            </a>
                                         </#if>
                                         <a href="deshan?id=${item.id}" onclick="{return confirm('删除该记录将不能恢复，确定删除吗？');};"
                                            class="label shanchu">

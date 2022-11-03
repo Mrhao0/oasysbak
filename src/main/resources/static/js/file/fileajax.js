@@ -227,7 +227,7 @@ $(".submits ").on("click", function () {
 
 //	验证是否是pdf格式
 // 	if(nametext.substr(-3)==="pdf" && str===true){
-	console.log("123123");
+    console.log("123123");
     //弹出框显示
     $("#thismodal").modal("toggle");
     $('#thismodal .modal-body').css('display', 'block');
@@ -273,7 +273,14 @@ $('#sure').on('click', function () {
     } else {
         alert('不能为空！！')
     }
-    $('.masking').fadeIn()
+
+    var vals = $('.deptselect').val()
+    console.log(vals)
+    if(vals!=null){
+        $('.masking').fadeIn()
+    }else {
+        alert('请选择！')
+    }
 })
 $('.close').click(function (event) {
     event.preventDefault;
